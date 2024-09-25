@@ -9,11 +9,9 @@ $SumaSecundaria = 0;
 $contador = 0;
 for ($i = 0; $i < 4; $i++){
     $sumaPrincipal = $sumaPrincipal + $matriz[$i][$i];
-}
-
-for ($i = 0; $i < 4; $i++){
     $SumaSecundaria = $SumaSecundaria + $matriz[$i][3-$i];
 }
+
 echo $sumaPrincipal;
 echo "</br>";
 echo $SumaSecundaria;
