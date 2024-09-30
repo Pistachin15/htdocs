@@ -7,9 +7,27 @@ doble de una hora normal cuando no exceden de 8; si las horas extras exceden de
 8 se pagan las primeras 8 al doble de lo que se pagan las horas normales y el resto
 al triple.
 */
+$HorasTrabajadas = 0;
+$DineroHora = 20;
 
+$DineroTotal = 0;
 
+if($HorasTrabajadas > 40){
 
+   $HorasExtra = $HorasTrabajadas - 40;
 
+   if($HorasExtra > 8 ){
 
+    $HorasExtra2 = $HorasExtra - 8;
+
+    $HorasExtra = 8;
+
+   }
+}
+
+$HorasTrabajadas = $HorasTrabajadas - $HorasExtra - $HorasExtra2;
+
+$DineroTotal = $HorasTrabajadas * $DineroHora + $HorasExtra * (2 * $DineroHora) + $HorasExtra2 * (3 * $DineroHora);
+
+echo "La suma total de dinero a cobrar es de $DineroTotal" ;
 ?>
