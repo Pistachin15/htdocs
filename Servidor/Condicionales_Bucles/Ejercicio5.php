@@ -8,11 +8,11 @@ misma La solución de la ecuación de segundo grado depende del signo de b2-4ac:
  si es positivo, hay dos soluciones: (-b+sqrt(b2-4ac))/(2a) y (-bsqrt(b2-4ac))/(2a)
 */
 
-$a = 0;
-$b = 0;
-$c = 0;
+$a = 1;
+$b = 5;
+$c = 1;
 
-$discriminante = ($b * $b) - (4 * a * c);
+$discriminante = ($b * $b) - (4 * $a * $c);
 
 if($discriminante < 0){
     

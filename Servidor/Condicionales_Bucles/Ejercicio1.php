@@ -4,8 +4,8 @@ cálculo: si son iguales que los multiplique, si el primero es mayor que el segu
 que los reste y si no que los sume. Mostrar el resultado en pantalla.
 */
 
-$num1 = 9;
-$num2 = 10;
+$num1 = 10;
+$num2 = 5;
 $resultado = 0;
 
 if ($num1 == $num2 ){
