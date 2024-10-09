@@ -11,7 +11,6 @@ for ($i = 0; $i < 3; $i++){
     for ($j = 0; $j < 5; $j++){
         $MatrizAleatoria[$i][$j] = rand(1, 100);
         echo $MatrizAleatoria[$i][$j]. " ";
-;
 
     }
 } 
