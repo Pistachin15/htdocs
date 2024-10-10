@@ -14,6 +14,12 @@ decir, donde está situado el puntero actualmente.
 $deportes = array("futbol", "baloncesto", "natacion", "tenis");
 
 for($i = 0; $i < count($deportes); $i++){
-    echo "Valor $i: $deportes[$i]";
+    echo "Valor $i: $deportes[$i]<br>";
 }
+echo "El total de valores del array deportes es de ". count($deportes). "<br>";
+
+echo "El primer valor del array es ".reset($deportes)."<br>";
+echo "El siguiente valor del array es ".next($deportes)."<br>";
+echo "El ultimo valor del array es ".end($deportes)."<br>";
+echo "El valor anterior es ".prev($deportes)."<br>";
 ?>
