@@ -73,8 +73,5 @@ class Camion extends Cuatro_ruedas{
     function aniadir_remolque($longitud_remolque){}
 }
 
-//getter y setters
 
-
-//Clase constructor
 ?>
