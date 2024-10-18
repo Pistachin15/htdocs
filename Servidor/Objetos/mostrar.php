@@ -1,7 +1,7 @@
 <?php
 include 'Ejercicio4.php';
 $miVehiculo = new Vehiculo("negro", 1500);
-$SegundoVehiculo = new Coche("verde", 1400);
+$SegundoVehiculo = new Coche("verde", 1400, 0);
 echo "Vehiculo<br>";
 echo "---------------<br>";
 echo $miVehiculo;

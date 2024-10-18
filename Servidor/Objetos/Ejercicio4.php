@@ -84,8 +84,7 @@ class Coche extends Cuatro_ruedas{
     //Constructores
 
     public function __construct($color, $peso, $numero_cadenas_nieve){
-        $this->setColor($color);
-        $this->setpeso($peso);
+        parent::__construct($color, $peso);
         $this->numero_cadenas_nieve = $numero_cadenas_nieve;
     }
 
