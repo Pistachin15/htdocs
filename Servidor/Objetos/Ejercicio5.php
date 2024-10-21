@@ -1,18 +1,15 @@
 <?php
 abstract class Vehiculo {
-    // Atributos
     private $color;
     private $peso;
 
-    // Constructor
     public function __construct($color, $peso) {
         $this->color = $color;
         $this->peso = $peso;
     }
 
-    // Getters y Setters
-    public function setPeso($peso_persona) {
-        $this->peso = $peso_persona;
+    public function setPeso($peso) {
+        $this->peso = $peso;
     }
 
     public function getPeso() {
@@ -27,14 +24,12 @@ abstract class Vehiculo {
         return $this->color;
     }
 
-    // Métodos
     public function circula() {
         echo "<br>El vehículo circula<br>";
     }
 
     abstract public function aniadir_persona($peso_persona);
 
-    // Método estático para mostrar atributos
     public static function ver_atributo($objeto) {
         echo "Color: " . $objeto->getColor() . "<br>";
         echo "Peso: " . $objeto->getPeso() . " kg<br>";
@@ -61,15 +56,14 @@ abstract class Vehiculo {
     }
 }
 
-
-
-//Clase Cuatro_ruedas
-
 class Cuatro_ruedas extends Vehiculo {
-    // Atributos
     private $numero_puertas;
 
-    // Getters y Setters
+    public function __construct($color, $peso, $numero_puertas) {
+        parent::__construct($color, $peso);
+        $this->numero_puertas = $numero_puertas;
+    }
+
     public function setNumPuertas($numero_puertas) {
         $this->numero_puertas = $numero_puertas;
     }
@@ -78,7 +72,6 @@ class Cuatro_ruedas extends Vehiculo {
         return $this->numero_puertas;
     }
 
-    // Métodos
     public function repintar($color) {
         $this->setColor($color);
     }
@@ -88,23 +81,14 @@ class Cuatro_ruedas extends Vehiculo {
     }
 }
 
-
-
-
-//Clase Coche
-
 class Coche extends Cuatro_ruedas {
-    // Atributos
     private $numero_cadenas_nieve;
 
-    // Constructor
     public function __construct($color, $peso, $numero_cadenas_nieve, $numero_puertas) {
-        parent::__construct($color, $peso);
+        parent::__construct($color, $peso, $numero_puertas);
         $this->numero_cadenas_nieve = $numero_cadenas_nieve;
-        $this->setNumPuertas($numero_puertas);
     }
 
-    // Getters y Setters
     public function setNumeroCadenas($numero_cadenas_nieve) {
         $this->numero_cadenas_nieve = $numero_cadenas_nieve;
     }
@@ -113,7 +97,6 @@ class Coche extends Cuatro_ruedas {
         return $this->numero_cadenas_nieve;
     }
 
-    // Métodos
     public function aniadir_persona($peso_persona) {
         parent::aniadir_persona($peso_persona);
     }
@@ -123,14 +106,13 @@ class Coche extends Cuatro_ruedas {
     }
 }
 
-
-//Clase Dos_ruedas
-
 class Dos_ruedas extends Vehiculo {
-    // Atributos
     private $cilindrada;
 
-    // Getter y Setter
+    public function __construct($color, $peso) {
+        parent::__construct($color, $peso);
+    }
+
     public function setCilindrada($cilindrada) {
         $this->cilindrada = $cilindrada;
     }
@@ -139,10 +121,8 @@ class Dos_ruedas extends Vehiculo {
         return $this->cilindrada;
     }
 
-    // Métodos
     public function poner_gasolina($litros) {
-        $pesoDosRuedas = $this->getPeso();
-        $this->setPeso($pesoDosRuedas + $litros);
+        $this->setPeso($this->getPeso() + $litros);
     }
 
     public function aniadir_persona($peso_persona) {
@@ -150,20 +130,14 @@ class Dos_ruedas extends Vehiculo {
     }
 }
 
-
-//Clase Camion
-
 class Camion extends Cuatro_ruedas {
-    // Atributos
     private $longitud;
 
-    // Constructor
     public function __construct($color, $peso, $longitud) {
-        parent::__construct($color, $peso);
+        parent::__construct($color, $peso, 2); // Asumiendo 2 puertas por defecto
         $this->longitud = $longitud;
     }
 
-    // Getters y Setters
     public function setLongitud($longitud) {
         $this->longitud = $longitud;
     }
@@ -172,17 +146,12 @@ class Camion extends Cuatro_ruedas {
         return $this->longitud;
     }
 
-    // Métodos
     public function aniadir_remolque($longitud_remolque) {
-        $LongitudTotal = $this->getLongitud();
-        $this->setLongitud($LongitudTotal + $longitud_remolque);
+        $this->setLongitud($this->getLongitud() + $longitud_remolque);
     }
 
     public function __toString() {
         return parent::__toString() . ", Longitud: $this->longitud";
     }
 }
-
-
-
 ?>
