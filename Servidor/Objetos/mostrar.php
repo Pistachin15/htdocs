@@ -1,42 +1,38 @@
 <?php
-include 'Ejercicio5.php';
+include 'Ejercicio5.php'; 
 
-// Crear un objeto Dos_ruedas
-$Moto = new Dos_ruedas("Rojo", 150); // Cambiando a rojo
-$Moto->aniadir_persona(70); // Añadiendo una persona de 70 kg
-echo "Peso total de la moto después de añadir una persona: " . $Moto->getPeso() . " kg<br>";
+$Moto = new Dos_ruedas("Rojo", 150); 
+$Moto->aniadir_persona(70); 
+echo "Peso total de la moto después de añadir una persona: " . $Moto->getPeso() . " kg" . Vehiculo::SALTO_DE_LINEA;
 
-// Cambiar color y añadir cilindrada
-$Moto->setColor("Verde");
-$Moto->setCilindrada(1000); // Añadiendo cilindrada
+$Moto->setColor("Verde"); 
+$Moto->setCilindrada(1000); 
 
-// Mostrar atributos de la moto
 echo "<br>Atributos de la moto:<br>";
 Vehiculo::ver_atributo($Moto);
 
-// Crear un objeto Camion
-$Camion = new Camion("Blanco", 6000, 10); // Color blanco y longitud 10
-$Camion->aniadir_persona(84); // Añadiendo una persona de 84 kg
-$Camion->repintar("Azul"); // Cambiando color a azul
+$Camion = new Camion("Blanco", 6000, 10); 
+$Camion->aniadir_persona(84); 
+$Camion->repintar("Azul"); 
 
-// Mostrar atributos del camión
 echo "<br>Atributos del camión:<br>";
 Vehiculo::ver_atributo($Camion);
 
-// Crear un objeto Coche
-$SegundoVehiculo = new Coche("Verde", 1400, 0, 4); // Añadiendo 4 puertas
-$SegundoVehiculo->aniadir_persona(65);
-$SegundoVehiculo->aniadir_persona(65);
-echo "<br>Atributos del coche:<br>";
-echo $SegundoVehiculo; // Aquí se imprime el toString del coche
-$SegundoVehiculo->repintar("Rojo"); // Repintar a rojo
-$SegundoVehiculo->setNumeroCadenas(2); // Añadiendo cadenas de nieve
 
-// Mostrar todos los atributos del coche
-echo "<br>Atributos del coche:<br>";
+$SegundoVehiculo = new Coche("Verde", 1400, 0, 4); 
+$SegundoVehiculo->aniadir_persona(65); 
+$SegundoVehiculo->aniadir_persona(65); 
+
+echo "<br>Atributos del coche antes de repintar:<br>";
 Vehiculo::ver_atributo($SegundoVehiculo);
 
-// Mostrar la información del camión
+$SegundoVehiculo->repintar("Rojo");
+
+$SegundoVehiculo->setNumeroCadenas(2);
+
+echo "<br>Atributos del coche después de los cambios:<br>";
+Vehiculo::ver_atributo($SegundoVehiculo);
+
 echo "<br>Atributos del camión después de las modificaciones:<br>";
-echo $Camion; // Aquí se imprime el toString del camión
+Vehiculo::ver_atributo($Camion);
 ?>
