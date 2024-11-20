@@ -37,3 +37,4 @@ if(isset($_POST['boton'])){
 
 ?>
         <input type="submit" value="Enviar" name=boton>
+
