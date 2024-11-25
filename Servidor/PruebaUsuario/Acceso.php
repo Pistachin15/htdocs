@@ -13,6 +13,8 @@
             <label for="contrasenia">Contraseña</label>
             <input type="text" id="contrasenia" name="contra" required><br>
             <input type="submit" value="Enviar" name=boton>
+            <input type="submit" value="Registrarse" name=boton>
+            
         </form>
     </article>
 </body>
