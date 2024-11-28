@@ -23,16 +23,26 @@ $contra = "yolanda";
 $rol = "jugador";  // Se añade el rol correctamente
 
 // Sentencia preparada para prevenir inyección SQL
-$stmt = $conn->prepare("INSERT INTO usuarios (usu, contra, rol) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $nombre, $contra, $rol);  // "sss" indica que son 3 cadenas de texto
+//$stmt = $conn->prepare("INSERT INTO usuarios (usu, contra, rol) VALUES (?, ?, ?)");
+//$stmt->bind_param("sss", $nombre, $contra, $rol);  // "sss" indica que son 3 cadenas de texto
+
+$delete = $conn->prepare("DELETE FROM usuarios WHERE usu ='yolanda'");
 
 // Ejecutar la sentencia y verificar si fue exitosa
-if ($stmt->execute()) {
+/*if ($stmt->execute()) {
     echo "Nuevo usuario insertado exitosamente.";
 } else {
     echo "Error al insertar usuario: " . $stmt->error;
 }
+*/
+if ($delete->execute()) {
+    echo " usuario borrado exitosamente.";
+} else {
+    echo "Error al borrar usuario: " . $stmt->error;
+}
 
-$stmt->close();  // Cerrar la sentencia
+/*$stmt->close();  // Cerrar la sentencia
 $conn->close();  // Cerrar la conexión
+*/
+
 ?>
