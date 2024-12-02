@@ -1,6 +1,6 @@
 <?php
 require_once 'login.php';
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 if ($conn->connect_error) die("Fatal Error"); 
 
 $nombre = $_POST['username'];

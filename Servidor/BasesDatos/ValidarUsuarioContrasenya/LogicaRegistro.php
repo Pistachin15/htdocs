@@ -1,6 +1,6 @@
 <?php
 require_once 'login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -20,7 +20,7 @@ if (!empty($nombre) && !empty($contra) && !empty($contraConfirm)) {
 
         if ($result && $result->num_rows > 0) {
             // Si el usuario ya existe
-            echo "El usuario '$nombre' ya está registrado.";
+            echo "El usuario $nombre ya está registrado.";
         } else {
             // Registrar el nuevo usuario
             $insert = "INSERT INTO usuarios (usu, contra, rol) VALUES ('$nombre', '$contra', '$rol')";
