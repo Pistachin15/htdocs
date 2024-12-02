@@ -1,6 +1,6 @@
 <?php
 require_once 'login.php';
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Fatal Error"); 
 
 $nombre = $_POST['username'];
@@ -29,6 +29,6 @@ if (!empty($nombre) && !empty($contra)) {
 $conn->close();
 ?>
 
-<form action="Formulario.php" method="post" class="mi-formulario">
+<form action="Formulario.html" method="post" class="mi-formulario">
     <button type="submit" name="register">Volver a iniciar sesión</button>
 </form>
