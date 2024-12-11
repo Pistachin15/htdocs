@@ -1,78 +1,96 @@
 <?php
 session_start();
-$nombreUsu = $_SESSION['nombreUsu'];
+$nombreUsu = $_SESSION['nombreUsu'] ?? 'Invitado';
 echo "<h1>Bienvenid@, $nombreUsu</h1>";
-$arrayFinal = $_SESSION["arrayFinal"];
-$mostrarCartas = [1,1,2,2,3,3];
-shuffle($mostrarCartas);
 
-for ($i = 0; $i < 6; $i++){
-    $CartasBocaAbajo [$i] = 'boca_abajo.jpg';
-    var_dump($CartasBocaAbajo);
-    if(isset($_POST["boton'$i'"])){
-        $_SESSION['contador'] ++;
-        
-            $CartasBocaAbajo[$i] = $MostrarCartas[$i];
-            
-            for ($i = 0; $i < 6; $i++){
-                switch($CartasBocaAbajo[$i]){
-                    case 'boca_abajo.jpg':
-                        echo "<img src='img/copas_abajo.jpg'>";  
-                        break;
-                    case 1:
-                        echo "<img src='img/copas_02.jpg'>";
-                        break;
-                    case 2:
-                        echo "<img src='img/copas_03.jpg'>";
-                        break;
-                    case 3:
-                        echo "<img src='img/copas_05.jpg'>";
-                }
-    
-            }
-            
+$bocaAbajo = 'boca_abajo.jpg';
 
+// Inicializar las cartas si no están ya en la sesión
+if (!isset($_SESSION['cartas'])) {
+    $cartas = [2, 2, 3, 3, 5, 5];
+    shuffle($cartas);
+    $_SESSION['cartas'] = $cartas; // Guardar el array de cartas en la sesión
+}
+
+// Inicializar el contador de clics si no existe
+if (!isset($_SESSION['contadorClics'])) {
+    $_SESSION['contadorClics'] = 0;
+}
+
+// Recuperar las cartas desde la sesión
+$cartas = $_SESSION['cartas'];
+
+// Almacenar el índice de la carta levantada y aumentar el contador
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boton'])) {
+    $_SESSION['cartaLevantada'] = $_POST['boton'];
+    $_SESSION['contadorClics']++; // Incrementar el contador de clics
+} else {
+    $_SESSION['cartaLevantada'] = null;
+}
+
+// Comprobar si se introdujo una pareja correcta
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['num1']) && isset($_POST['num2'])) {
+    $num1 = (int)$_POST['num1'];
+    $num2 = (int)$_POST['num2'];
+
+    // Verificar si los dos índices son una pareja correcta
+    if ($num1 >= 0 && $num1 < 6 && $num2 >= 0 && $num2 < 6 && $cartas[$num1] === $cartas[$num2] && $num1 !== $num2) {
+        header('Location: ganar.php');
+        exit;
+    } else {
+        echo "<p style='color:red;'>La pareja no es correcta o los índices son inválidos.</p>";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Estilo para las imágenes */
-        .cartas {
-            display: inline-block; 
-            margin-right: 10px;
-            transform: rotate(90deg);
+        img {
+            padding: 10px;
         }
     </style>
+    <title>Juego de Cartas</title>
 </head>
 <body>
-    <article>
-        <form action="#" method="post" class="mi-formulario">
+    <form method="post" action="">
         <?php
-            for ($i = 0; $i < 6; $i++){
-                $j=$i+1;
-                echo "<input type='submit' value='Levantar carta $j' name=boton$i>";
-            }
+        echo "<label for='cartasLevantadas'>Cartas Levantadas:</label><br>";
+        for ($i = 0; $i < 6; $i++) {
+            echo "<button type='submit' name='boton' value='$i'>Botón $i</button> ";
+        }
         ?>
-            <br><br>
-            <h1>Pareja:</h1>
-            <input type="text" value="Pareja1" name=Pareja1>
-            <input type="text" value="Pareja2" name=Pareja2>
-            <input type="submit" value="Comprobar" name=Comprobar>
-        </form>
-        <br><br>
-    </article>
-    </body>
+    </form>
+    <br>
+
+    <form method="post" action="">
+        <label for="num1">Primer número:</label>
+        <input type="number" id="num1" name="num1" min="0" max="5" required>
+
+        <label for="num2">Segundo número:</label>
+        <input type="number" id="num2" name="num2" min="0" max="5" required>
+
+        <button type="submit">Comprobar</button>
+    </form>
+    <br>
+
+    <?php
+    // Mostrar el contador de clics
+    echo "<p>Contador de clics: {$_SESSION['contadorClics']}</p>";
+
+    // Mostrar las cartas
+    for ($i = 0; $i < 6; $i++) {
+        if (isset($_SESSION['cartaLevantada']) && $_SESSION['cartaLevantada'] == $i) {
+            // Mostrar la carta seleccionada
+            echo "<img src='img/copas_0{$cartas[$i]}.jpg'>";
+        } else {
+            // Mostrar la carta boca abajo
+            echo "<img src='img/$bocaAbajo'>";
+        }
+    }
+    ?>
+</body>
 </html>
-        <?php
-        for($i = 0; $i < 6; $i++){
-            
-            echo "<img class='cartas' width='200px' src='img/{$CartasBocaAbajo[$i]}'>";
-            $_SESSION["arrayFinal"] = $CartasBocaAbajo[$i]; 
-        }    
-        ?>

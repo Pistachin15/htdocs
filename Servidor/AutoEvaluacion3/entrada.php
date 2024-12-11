@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_POST['login'])) {
-$conn = new mysqli('localhost', 'root', '', 'cartas', 3307);
+$conn = new mysqli('localhost', 'root', '', 'cartas');
 if ($conn->connect_error) die("Fatal Error"); 
 
 $nombre = $_POST['username'];
