@@ -1,6 +1,6 @@
 <?php
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307 );
 
 if ($conn->connect_error) die("Fatal Error");
 // Obtener datos del formulario
@@ -10,7 +10,7 @@ $fecha_nacimiento = $_POST['fecha_nacimiento'];
 $nombreUsuario = $_POST['username'];
 $contra = $_POST['password'];
 $contraConfirm = $_POST['confirm_password'];
-
+$hashContra = password_hash($contra, PASSWORD_DEFAULT);
 // Verificar que los campos no estén vacíos
 if (!empty($nombre) && !empty($apellidos) && !empty($fecha_nacimiento) && !empty($nombreUsuario) && !empty($contra) && !empty($contraConfirm)) {
     // Verificar que las contraseñas coincidan
@@ -24,7 +24,7 @@ if (!empty($nombre) && !empty($apellidos) && !empty($fecha_nacimiento) && !empty
             echo "El usuario $nombreUsuario ya está registrado.";
         } else {
             // Registrar el nuevo usuario
-            $insert = "INSERT INTO usuario (nombre, apellidos, fecha_nacimiento, usuario, contra) VALUES ('$nombre', '$apellidos', '$fecha_nacimiento', '$nombreUsuario', '$contra')";
+            $insert = "INSERT INTO usuario (nombre, apellidos, fecha_nacimiento, usuario, contra) VALUES ('$nombre', '$apellidos', '$fecha_nacimiento', '$nombreUsuario', '$hashContra')";
             if ($conn->query($insert)) {
                 echo "Registro exitoso. Bienvenido, $nombreUsuario.";
             } else {
