@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once '../login/login.php';
+require_once '../login.php';
 
 // Conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 if ($conn->connect_error) die("Error en la conexión.");
 
 // Recoger los datos del formulario
@@ -15,10 +15,10 @@ $result = $conn->query($query);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $contraHash = $row['contra'];
-    var_dump($contraHash);
     // Comparar la contraseña ingresada con el hash
     if (password_verify($contra, $contraHash)) {
-        echo "Bienvenido, $nombre";
+        $_SESSION['nombreUsu'] = $nombre;
+        header('Location:../Inicio/menuControl.php');
     } else {
         echo "Usuario o contraseña incorrectos.";
     }

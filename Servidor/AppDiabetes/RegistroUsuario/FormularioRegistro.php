@@ -14,15 +14,6 @@
 
         <!-- Formulario de Registro -->
         <form action="LogicaRegistro.php" method="post">
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="apellidos" class="form-label">Apellidos:</label>
-                <input type="text" class="form-control" name="apellidos" id="apellidos" required>
-            </div>
 
             <div class="mb-3">
                 <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento:</label>
