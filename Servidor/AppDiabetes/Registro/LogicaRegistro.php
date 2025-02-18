@@ -1,6 +1,6 @@
 <?php
-require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307 );
+require_once '../login/login.php'; // Archivo con credenciales de conexión a la base de datos
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 // Obtener datos del formulario
