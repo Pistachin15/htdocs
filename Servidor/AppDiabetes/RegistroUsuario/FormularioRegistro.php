@@ -28,13 +28,16 @@ if (isset($_POST['nombre']) && isset($_POST['apellidos']) &&  isset($_POST['fech
             if ($result && $result->num_rows > 0) {
     
                 // Si el usuario ya existe
-                echo "El usuario $nombreUsuario ya está registrado.";
+                $mensajeError = '<div class="alert alert-warning text-center mt-3" role="alert">
+                El usuario <strong>' . htmlspecialchars($nombreUsuario) . '</strong> ya está registrado.
+             </div>';
             } else {
     
                 // Registrar el nuevo usuario
     
                 $insert = "INSERT INTO usuario (nombre, apellidos, fecha_nacimiento, usuario, contra) VALUES ('$nombre', '$apellidos', '$fecha_nacimiento', '$nombreUsuario', '$hashContra')";
                 if ($conn->query($insert)) {
+                    $_SESSION['nombreUsu'] = $nombreUsuario; //Esto lo usaremos para luego insertar y demás al usuario correcto
                     header ('Location: FormularioRegistro.php');
                 } else {
                     echo "Error al registrar el usuario: " . $conn->error;
@@ -53,10 +56,6 @@ $conn->close();
 
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -69,9 +68,10 @@ $conn->close();
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
 
     <div class="bg-white p-4 rounded shadow-sm w-100" style="max-width: 400px;">
+        <?php if (!empty($mensajeError)) echo $mensajeError; ?>
         <h2 class="text-center mb-4">Formulario de Registro</h2>
         <!-- Formulario de Registro -->
-        <form action="#" method="post">
+        <form action="FormularioRegistro.php" method="post">
             <div class="mb-3">
                 <!-- Pedimos nombre -->
                 <label for="nombre" class="form-label">Nombre:</label>  

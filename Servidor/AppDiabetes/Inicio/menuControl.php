@@ -9,7 +9,7 @@ if (!isset($_SESSION['nombreUsu'])) {
 $nombreUsu = $_SESSION['nombreUsu'];
 
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -26,6 +26,7 @@ if ($conn->connect_error) die("Fatal Error");
 <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-4 rounded shadow text-center">
         <h5 class="fw-bold text-danger"><?php echo 'Bienvenid@ '.$nombreUsu ?></h5>
+        <a href="../InsertRegistro/InsertarControlGlucosa.php" class="btn btn-secondary w-100 mb-3">Insertar Control de Glucosa</a>
         <a href="../InsertRegistro/InsertarDatos.php" class="btn btn-secondary w-100 mb-3">Insertar Datos</a>
         <a href="pagina2.html" class="btn btn-secondary w-100 mb-3">Modificar Datos</a>
         <a href="pagina3.html" class="btn btn-secondary w-100 mb-3">Borrar Datos</a>

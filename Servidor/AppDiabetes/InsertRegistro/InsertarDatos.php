@@ -2,19 +2,32 @@
 session_start();
 require_once '../login.php';
 
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$nombreUsu = $_SESSION['nombreUsu'];
+
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Error en la conexión.");
 
-$sql = "SELECT id_usu FROM usuario WHERE nombre = '$'";
+$consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
+$resultado = $conn->query($consultaId);  //Se ejecuta la consulta
+$fila = $resultado->fetch_assoc(); //Extrae la primera fila devuelta por la consulta en forma de array asociativo
+$idUsuario = $fila['id_usu'];  //Almacenamos en la variable idUsuario el id dentro de id_usu
+
 
 if (isset($_POST['tipoComida']) && isset($_POST['glucosaAntes']) && isset($_POST['glucosaDespues']) && isset($_POST['racionesComida']) && isset($_POST['insulina'])) {
     $tipoComida = $_POST['tipoComida'];
     $glucosaAntes = $_POST['glucosaAntes'];
     $glucosaDespues = $_POST['glucosaDespues'];
-    $raciones = $_POST['racionesComida']; // Usé 'racionesComida' ya que en el formulario es el nombre del campo
+    $raciones = $_POST['racionesComida']; 
     $insulina = $_POST['insulina'];
     $fecha = date("Y-m-d");
 
+    $insertarComida ="INSERT into comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) VALUES ('$tipoComida', '$glucosaAntes', '$glucosaDespues', '$raciones', '$insulina', '$fecha', $idUsuario)";
+
+    if ($conn->query($insertarComida) === TRUE) {
+        echo "Datos insertados correctamente.";
+    } else {
+        echo "Error al insertar los datos: " . $conn->error;
+    }
 }
 
 if (isset($_POST['condicion'])) {
@@ -30,6 +43,8 @@ if (isset($_POST['condicion'])) {
         $hora = $_POST['hora'];
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -62,10 +77,10 @@ if (isset($_POST['condicion'])) {
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
-    <div class="bg-white p-5 rounded shadow w-75">
+    <div class="bg-white p-5 rounded shadow w-25">
         <h3 class="text-center mb-4">Registro de Glucosa y Comida</h3>
 
-        <form action="#" method="POST">
+        <form action="InsertarDatos.php" method="post">
             <!-- Selección de comida -->
             <div class="mb-3">
                 <label for="tipoComida" class="form-label">Selecciona el tipo de comida</label>
@@ -147,7 +162,7 @@ if (isset($_POST['condicion'])) {
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
             <div class="d-flex justify-content-center">
-            <a href="../Inicio/menuControl.php" class="btn btn-secondary">Volver</a>
+            <a href="../Inicio/menuControl.php" class="btn btn-secondary mt-2">Volver</a>
             </div>
 
         </form>
