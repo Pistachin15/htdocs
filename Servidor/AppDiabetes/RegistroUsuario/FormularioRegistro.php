@@ -1,3 +1,62 @@
+<?php
+session_start();
+require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
+$conn = new mysqli($hn, $un, $pw, $db);
+
+if ($conn->connect_error) die("Fatal Error");
+
+if (isset($_POST['nombre']) && isset($_POST['apellidos']) &&  isset($_POST['fecha_nacimiento']) &&  isset($_POST['username']) && isset($_POST['password']) && isset($_POST['confirm_password'])){
+   
+    $nombre = $_POST['nombre']; 
+    $apellidos = $_POST['apellidos']; 
+    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    $nombreUsuario = $_POST['username'];
+    $contra = $_POST['password'];
+    $contraConfirm = $_POST['confirm_password'];
+    $hashContra = password_hash($contra, PASSWORD_DEFAULT);
+
+    if (!empty($nombre) && !empty($apellidos) && !empty($fecha_nacimiento) && !empty($nombreUsuario) && !empty($contra) && !empty($contraConfirm)) {
+
+        // Verificar que las contraseñas coincidan
+        if ($contra === $contraConfirm) {
+    
+            // Comprobar si el usuario ya existe
+            $consulta = "SELECT usuario FROM usuario WHERE usuario = '$nombreUsuario'";
+    
+            $result = $conn->query($consulta);
+    
+            if ($result && $result->num_rows > 0) {
+    
+                // Si el usuario ya existe
+                echo "El usuario $nombreUsuario ya está registrado.";
+            } else {
+    
+                // Registrar el nuevo usuario
+    
+                $insert = "INSERT INTO usuario (nombre, apellidos, fecha_nacimiento, usuario, contra) VALUES ('$nombre', '$apellidos', '$fecha_nacimiento', '$nombreUsuario', '$hashContra')";
+                if ($conn->query($insert)) {
+                    header ('Location: FormularioRegistro.php');
+                } else {
+                    echo "Error al registrar el usuario: " . $conn->error;
+                }
+            }
+        } else {
+            echo "Las contraseñas no coinciden.";
+        }
+    } else {
+        echo "Por favor, completa todos los campos.";
+    }
+
+}
+$conn->close();
+
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,26 +70,40 @@
 
     <div class="bg-white p-4 rounded shadow-sm w-100" style="max-width: 400px;">
         <h2 class="text-center mb-4">Formulario de Registro</h2>
-
         <!-- Formulario de Registro -->
-        <form action="LogicaRegistro.php" method="post">
+        <form action="#" method="post">
+            <div class="mb-3">
+                <!-- Pedimos nombre -->
+                <label for="nombre" class="form-label">Nombre:</label>  
+                <input type="text" class="form-control" name="nombre" id="nombre" required>
+            </div>
 
             <div class="mb-3">
+                <!-- Pedimos apellidos -->
+                <label for="apellidos" class="form-label">Apellidos:</label>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" required>
+            </div>
+
+            <div class="mb-3">
+                <!-- Pedimos fecha de nacimiento -->
                 <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento:</label>
                 <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
             </div>
 
             <div class="mb-3">
+                <!-- Pedimos nombre de usuario -->
                 <label for="username" class="form-label">Usuario:</label>
                 <input type="text" class="form-control" name="username" id="username" required>
             </div>
 
             <div class="mb-3">
+                <!-- Pedimos contraseña -->
                 <label for="password" class="form-label">Contraseña:</label>
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
 
             <div class="mb-3">
+                <!-- Pedimos confirmacion de contraseña -->
                 <label for="confirm_password" class="form-label">Confirmar Contraseña:</label>
                 <input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
             </div>
