@@ -29,29 +29,10 @@ if (isset($_POST['Enviar'])) {
         </div>';
 
     } else {
-
         $insertarComida = "INSERT INTO comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
                            VALUES ('$tipoComida', '$glucosaAntes', '$glucosaDespues', '$raciones', '$insulina', '$fecha', $idUsuario)";
 
         if ($conn->query($insertarComida) === TRUE) {
-
-            if ($_POST['condicion'] == 'hiperglucemia') {
-                $correccion = $_POST['correccion'];
-                $glucosaHiper = $_POST['glucosahiper'];
-                $horaHiper = $_POST['horahiper'];
-                $insertarHiper = "INSERT INTO hiperglucemia (glucosa, hora, id_usu, fecha, correccion, tipo_comida) 
-                                  VALUES ('$glucosaHiper', '$horaHiper', $idUsuario, '$fecha', '$correccion', '$tipoComida')";
-                $conn->query($insertarHiper);
-            }
-
-            elseif ($_POST['condicion'] == 'hipoglucemia') {
-                $glucosaHipo = $_POST['glucosahipo'];
-                $horaHipo = $_POST['horahipo'];
-                $insertarHipo = "INSERT INTO hipoglucemia (glucosa, hora, id_usu, fecha, tipo_comida) 
-                                 VALUES ('$glucosaHipo', '$horaHipo', $idUsuario, '$fecha', '$tipoComida')";
-                $conn->query($insertarHipo);
-
-            }
 
             
             $insercionCompletada = '<div class="alert alert-warning text-center mt-3" role="alert">
@@ -62,9 +43,9 @@ if (isset($_POST['Enviar'])) {
         }
     }
 }
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -73,35 +54,6 @@ if (isset($_POST['Enviar'])) {
     <title>Formulario de Registro de Glucosa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="script.js" defer></script>
-    <script>
-function mostrarFormularioCondicion() {
-    var condicion = document.querySelector('input[name="condicion"]:checked').value;
-
-    // Ocultamos ambos formularios por defecto
-    document.getElementById("formularioHipo").style.display = "none";
-    document.getElementById("formularioHiper").style.display = "none";
-
-    // Desmarcamos todos los campos como requeridos
-    document.getElementById("glucosahipo").required = false;
-    document.getElementById("horahipo").required = false;
-    document.getElementById("glucosahiper").required = false;
-    document.getElementById("correccion").required = false;
-    document.getElementById("horahiper").required = false;
-
-    // Mostramos y marcamos los campos como requeridos según la condición seleccionada
-    if (condicion === "hipoglucemia") {
-        document.getElementById("formularioHipo").style.display = "block";
-        document.getElementById("glucosahipo").required = true;
-        document.getElementById("horahipo").required = true;
-    } else if (condicion === "hiperglucemia") {
-        document.getElementById("formularioHiper").style.display = "block";
-        document.getElementById("glucosahiper").required = true;
-        document.getElementById("correccion").required = true;
-        document.getElementById("horahiper").required = true;
-    }
-}
-
-    </script>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
@@ -147,54 +99,48 @@ function mostrarFormularioCondicion() {
                 <input type="number" id="insulina" name="insulina" class="form-control" required>
             </div>
 
-            <!-- Botones para elegir hipoglucemia o hiperglucemia -->
+            <!-- Desplegable para elegir hipoglucemia o hiperglucemia -->
             <div class="mb-3">
-                <label for="condicion" class="form-label">Condición</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="hipoglucemia" name="condicion" value="hipoglucemia" onclick="mostrarFormularioCondicion()">
-                    <label class="form-check-label" for="hipoglucemia">Hipoglucemia</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="hiperglucemia" name="condicion" value="hiperglucemia" onclick="mostrarFormularioCondicion()">
-                    <label class="form-check-label" for="hiperglucemia">Hiperglucemia</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="ninguna" name="condicion" value="ninguna" onclick="mostrarFormularioCondicion()">
-                    <label class="form-check-label" for="ninguna">Ninguna</label>
-                </div>
+                <label for="condicion" class="form-label">Condición</label>
+                <select id="condicion" name="condicion" class="form-select" onchange="mostrarFormularioCondicion()">
+                    <option value="">Seleccionar condición...</option>
+                    <option value="hipoglucemia">Hipoglucemia</option>
+                    <option value="hiperglucemia">Hiperglucemia</option>
+                    <option value="ninguna">Ninguna</option>
+                </select>
             </div>
 
-            <!-- Formulario adicional para Hiperglucemia -->
+            <!-- Formulario adicional para Hipoglucemia -->
             <div id="formularioHiper" style="display: none;">
                 <div class="mb-3">
-                    <label for="glucosahiper" class="form-label">Glucosa</label>
-                    <input type="number" id="glucosahiper" name="glucosahiper" class="form-control">
+                    <label for="glucosahipo" class="form-label">Glucosa</label>
+                    <input type="number" id="glucosahipo" name="glucosahipo" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="correccion" class="form-label">Correción</label>
-                    <input type="number" id="correccion" name="correccion" class="form-control">
+                    <label for="glucosahipo" class="form-label">Correción</label>
+                    <input type="number" id="correcion" name="correcion" class="form-control" required>
                 </div>
                 <div class="mb-3">               
-                    <label for="hora">Selecciona la hora (formato 24 horas):</label>
-                    <input type="time" id="horahiper" name="horahiper">
+                <label for="hora">Selecciona la hora (formato 24 horas):</label>
+                <input type="time" id="hora" name="hora">
                 </div>
             </div>
 
             <!-- Formulario adicional para Hipoglucemia -->
             <div id="formularioHipo" style="display: none;">
                 <div class="mb-3">
-                    <label for="glucosahipo" class="form-label">Glucosa</label>
-                    <input type="number" id="glucosahipo" name="glucosahipo" class="form-control">
+                    <label for="glucosahiper" class="form-label">Glucosa</label>
+                    <input type="number" id="glucosahiper" name="glucosahiper" class="form-control">
                 </div>
                 <div class="mb-3">               
-                    <label for="hora">Selecciona la hora (formato 24 horas):</label>
-                    <input type="time" id="horahipo" name="horahipo">
+                <label for="hora">Selecciona la hora (formato 24 horas):</label>
+                <input type="time" id="horahipo" name="hora" >
                 </div>
             </div>
 
             <!-- Botón para enviar el formulario -->
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" id="Enviar" name="Enviar">Enviar</button>
+                <button type="submit" class="btn btn-primary" name="Enviar">Enviar</button>
             </div>
             <div class="d-flex justify-content-center">
             <a href="../Inicio/menuControl.php" class="btn btn-secondary mt-2">Volver</a>
@@ -205,4 +151,3 @@ function mostrarFormularioCondicion() {
 
 </body>
 </html>
-

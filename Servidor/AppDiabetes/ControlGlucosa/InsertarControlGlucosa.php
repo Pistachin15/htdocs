@@ -1,40 +1,48 @@
 <?php
 session_start();
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
 
 
 
-if(isset($_POST['Enviar'])){
+if(isset($_POST['Enviar'])) {
 
     $nombreUsu = $_SESSION['nombreUsu'];
+    
+    // Obtener el id del usuario
     $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
-    $resultado = $conn->query($consultaId);  //Se ejecuta la consulta
-    $fila = $resultado->fetch_assoc(); //Extrae la primera fila devuelta por la consulta en forma de array asociativo
-    $idUsuario = $fila['id_usu'];  //Almacenamos en la variable idUsuario el id dentro de id_usu
+    $resultado = $conn->query($consultaId);
+    $fila = $resultado->fetch_assoc();
+    $idUsuario = $fila['id_usu'];  
+
     $fecha = date("Y-m-d");
     $lenta = $_POST['InsulinaLenta'];
     $actividad = $_POST['Actividad'];
 
+    // Verificar si ya existe un registro para el usuario en la fecha actual
+    $consultaVerificar = "SELECT COUNT(*) as total FROM control_glucosa WHERE fecha = '$fecha' AND id_usu = '$idUsuario'";
+    $resultadoVerificar = $conn->query($consultaVerificar);
+    $filaVerificar = $resultadoVerificar->fetch_assoc();
 
-    $insertControlGlucosa = "INSERT into control_glucosa (fecha, deporte, lenta, id_usu) VALUES ('$fecha', '$actividad', '$lenta', '$idUsuario')";
+    if ($filaVerificar['total'] == 0) {
+        // Si no hay registros, insertar los datos
+        $insertControlGlucosa = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) VALUES ('$fecha', '$actividad', '$lenta', '$idUsuario')";
 
-    if ($conn->query($insertControlGlucosa) === TRUE) {
-        $insercionCompletada = '<div class="alert alert-warning text-center mt-3" role="alert">
-        Datos registrados correctamente.
-     </div>';
-        
+        if ($conn->query($insertControlGlucosa) === TRUE) {
+            $insercionCompletada = '<div class="alert alert-warning text-center mt-3" role="alert">
+            Datos registrados correctamente.
+            </div>';
+        }
     } else {
+        // Si ya hay un registro, mostrar un mensaje de error
         $mensajeError = '<div class="alert alert-warning text-center mt-3" role="alert">
         Ya insertaste el control de hoy.
-     </div>';
+        </div>';
     }
 }
-
-
 
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -32,13 +32,13 @@ if (isset($_POST['nombre']) && isset($_POST['apellidos']) &&  isset($_POST['fech
                 El usuario <strong>' . htmlspecialchars($nombreUsuario) . '</strong> ya está registrado.
              </div>';
             } else {
-    
                 // Registrar el nuevo usuario
-    
                 $insert = "INSERT INTO usuario (nombre, apellidos, fecha_nacimiento, usuario, contra) VALUES ('$nombre', '$apellidos', '$fecha_nacimiento', '$nombreUsuario', '$hashContra')";
                 if ($conn->query($insert)) {
+
                     $_SESSION['nombreUsu'] = $nombreUsuario; //Esto lo usaremos para luego insertar y demás al usuario correcto
                     header ('Location: FormularioRegistro.php');
+
                 } else {
                     echo "Error al registrar el usuario: " . $conn->error;
                 }
