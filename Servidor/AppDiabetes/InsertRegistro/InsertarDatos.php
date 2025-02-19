@@ -4,7 +4,7 @@ require_once '../login.php';
 
 $nombreUsu = $_SESSION['nombreUsu'];
 
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 if ($conn->connect_error) die("Error en la conexión.");
 
 $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
@@ -13,7 +13,7 @@ $fila = $resultado->fetch_assoc(); //Extrae la primera fila devuelta por la cons
 $idUsuario = $fila['id_usu'];  //Almacenamos en la variable idUsuario el id dentro de id_usu
 
 
-if (isset($_POST['tipoComida']) && isset($_POST['glucosaAntes']) && isset($_POST['glucosaDespues']) && isset($_POST['racionesComida']) && isset($_POST['insulina'])) {
+if (isset($_POST['Enviar'])) {
     $tipoComida = $_POST['tipoComida'];
     $glucosaAntes = $_POST['glucosaAntes'];
     $glucosaDespues = $_POST['glucosaDespues'];
@@ -159,7 +159,7 @@ if (isset($_POST['condicion'])) {
 
             <!-- Botón para enviar el formulario -->
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary" name="Enviar">Enviar</button>
             </div>
             <div class="d-flex justify-content-center">
             <a href="../Inicio/menuControl.php" class="btn btn-secondary mt-2">Volver</a>
