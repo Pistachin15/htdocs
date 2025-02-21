@@ -3,7 +3,7 @@ session_start();
 require_once '../login.php';
 
 // Conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 if ($conn->connect_error) die("Error en la conexión.");
 
 // Recoger los datos del formulario

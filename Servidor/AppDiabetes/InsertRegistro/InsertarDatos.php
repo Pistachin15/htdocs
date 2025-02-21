@@ -4,7 +4,7 @@ require_once '../login.php';
 
 $nombreUsu = $_SESSION['nombreUsu'];
 
-$conn = new mysqli($hn, $un, $pw, $db) ;
+$conn = new mysqli($hn, $un, $pw, $db, 3307) ;
 if ($conn->connect_error) die("Error en la conexión.");
 
 $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
@@ -33,7 +33,14 @@ if (isset($_POST['Enviar'])) {
         $insertarComida = "INSERT INTO comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
                            VALUES ('$tipoComida', '$glucosaAntes', '$glucosaDespues', '$raciones', '$insulina', '$fecha', $idUsuario)";
 
-        if ($conn->query($insertarComida) === TRUE) {
+
+        $verificarComida = "SELECT COUNT(*) as total FROM control_glucosa WHERE fecha = '$fecha' AND id_usu = '$idUsuario' ";
+        $resultadoVerificarComida = $conn->query($verificarComida);
+        $filaVerificarComida = $resultadoVerificarComida->fetch_assoc();
+
+                           
+
+        if ($conn->query($insertarComida) === TRUE && $filaVerificarComida['total'] != 0) {
 
             if ($_POST['condicion'] == 'hiperglucemia') {
                 $correccion = $_POST['correccion'];
@@ -58,7 +65,9 @@ if (isset($_POST['Enviar'])) {
             Datos registrados correctamente.
             </div>';
         } else {
-            echo "Error al insertar los datos: " . $conn->error;
+            $sinControlGlucosa = '<div class="alert alert-warning text-center mt-3" role="alert">
+            Inserta antes un control de glucosa.
+            </div>';
         }
     }
 }
@@ -109,6 +118,7 @@ function mostrarFormularioCondicion() {
         <h3 class="text-center mb-4">Registro de Glucosa y Comida</h3>
         <?php if (!empty($insercionCompletada)) echo $insercionCompletada; ?>
         <?php if (!empty($mensajeError)) echo $mensajeError; ?>
+        <?php if (!empty($sinControlGlucosa)) echo $sinControlGlucosa; ?>
         <form action="InsertarDatos.php" method="post">
             <!-- Selección de comida -->
             <div class="mb-3">

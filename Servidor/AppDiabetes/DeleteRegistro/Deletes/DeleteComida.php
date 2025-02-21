@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, 3307);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -42,7 +42,7 @@ if(isset($_POST['Enviar'])) {
     } else {
         // Si ya hay un registro, mostrar un mensaje de error
         $mensajeError = '<div class="alert alert-warning text-center mt-3" role="alert">
-        No hay datos que borrar.
+        No ha sido posible el borrado.
         </div>';
     }
     
