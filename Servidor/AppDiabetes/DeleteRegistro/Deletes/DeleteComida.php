@@ -9,10 +9,6 @@ if(isset($_POST['Enviar'])) {
 
     $fechaRecogida = $_POST['fecha_control'];
     $tipoComida = $_POST['tipoComida'];
-    $glucosaAntes = $_POST['glucosaAntes'];
-    $glucosaDespues = $_POST['glucosaDespues'];
-    $raciones = $_POST['racionesComida']; 
-    $insulina = $_POST['insulina'];
     
     // Obtener el id del usuario
     $nombreUsu = $_SESSION['nombreUsu'];
@@ -23,48 +19,57 @@ if(isset($_POST['Enviar'])) {
 
 
     // Verificar si ya existe un registro para el usuario en la fecha actual
-    $consultaVerificar = "SELECT COUNT(*) as total FROM comida WHERE fecha = '$fechaRecogida' AND id_usu = '$idUsuario'";
+    $consultaVerificar = "SELECT COUNT(*) as total FROM comida WHERE fecha = '$fechaRecogida' AND id_usu = '$idUsuario' AND tipo_comida = '$tipoComida'";
     $resultadoVerificar = $conn->query($consultaVerificar);
     $filaVerificar = $resultadoVerificar->fetch_assoc();
 
-    if ($filaVerificar['total'] != 0) {
-        // Si hay registros, actualiza los datos
-        $actualizarComida = "UPDATE comida SET gl_1h = '$glucosaAntes', gl_2h = '$glucosaDespues', raciones = '$raciones', insulina = '$insulina' WHERE id_usu = '$idUsuario' AND fecha = '$fechaRecogida' AND tipo_comida = '$tipoComida'";
+    
 
-        if ($conn->query($actualizarComida) === TRUE) {
-            $actualizarCompletada = '<div class="alert alert-warning text-center mt-3" role="alert">
-            Datos actualizados correctamente.
+    //Verificar si ya existe una hipoglucemia para esa comida
+    $verificarComida = "SELECT COUNT(*) as total FROM control_glucosa WHERE fecha = '$fechaRecogida' AND id_usu = '$idUsuario' ";
+    $resultadoVerificarComida = $conn->query($verificarComida);
+    $filaVerificarComida = $resultadoVerificarComida->fetch_assoc();
+
+    if ($filaVerificar['total'] != 0 && $filaVerificarComida['total'] != 0) {
+        // Si hay registros, borra los datos
+        $borradoComida = "DELETE FROM comida WHERE fecha = '$fechaRecogida' AND tipo_comida = '$tipoComida'";
+
+        if ($conn->query($borradoComida) === TRUE) {
+            $borradoCompletado = '<div class="alert alert-warning text-center mt-3" role="alert">
+            Datos borrados correctamente.
             </div>';
         }
     } else {
         // Si ya hay un registro, mostrar un mensaje de error
         $mensajeError = '<div class="alert alert-warning text-center mt-3" role="alert">
-        No hay datos que actualizar.
+        No hay datos que borrar.
         </div>';
     }
     
 }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizado de Comida</title>
+    <title>Borrado de Comida</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
     <div class="bg-white p-5 rounded shadow w-25">
-        <h3 class="text-center mb-4">Actualizacion de Comida</h3>
-        <?php if (!empty($actualizarCompletada)) echo $actualizarCompletada; ?>
+        <h3 class="text-center mb-4">Borrado de Comida</h3>
+        <?php if (!empty($borradoCompletado)) echo $borradoCompletado; ?>
         <?php if (!empty($mensajeError)) echo $mensajeError; ?>
-        <form action="UpdateComida.php" method="post">
+        <form action="DeleteComida.php" method="post">
             <!-- Seleccion de fecha -->
             <div class="mb-3">
-                    <label for="fecha">Fecha a modificar datos</label>
-                    <input type="date" id="fecha_control" name="fecha_control" required>
+                <label for="fecha">Fecha a modificar datos</label>
+                <input type="date" id="fecha_control" name="fecha_control" required>
             </div>
             <!-- Selección de comida -->
             <div class="mb-3">
@@ -79,36 +84,12 @@ if(isset($_POST['Enviar'])) {
                 </select>
             </div>
 
-            <!-- Glucosa 1 hora antes -->
-            <div class="mb-3">
-                <label for="glucosaAntes" class="form-label">Glucosa 1 hora antes de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" required>
-            </div>
-
-            <!-- Glucosa 2 horas después -->
-            <div class="mb-3">
-                <label for="glucosaDespues" class="form-label">Glucosa 2 horas después de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" required>
-            </div>
-
-            <!-- Raciones de comida -->
-            <div class="mb-3">
-                <label for="racionesComida" class="form-label">Raciones de comida que comiste</label>
-                <input type="number" id="racionesComida" name="racionesComida" class="form-control" required>
-            </div>
-
-            <!-- Insulina suministrada -->
-            <div class="mb-3">
-                <label for="insulina" class="form-label">Insulina suministrada (U)</label>
-                <input type="number" id="insulina" name="insulina" class="form-control" required>
-            </div>
-
             <!-- Botón para enviar el formulario -->
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary" id="Enviar" name="Enviar">Actualizar</button>
+                <button type="submit" class="btn btn-primary" id="Enviar" name="Enviar">Borrar</button>
             </div>
             <div class="d-flex justify-content-center">
-            <a href="../MenuUpdate.html" class="btn btn-secondary mt-2">Volver</a>
+            <a href="../MenuDelete.html" class="btn btn-secondary mt-2">Volver</a>
             </div>
 
         </form>
@@ -116,4 +97,3 @@ if(isset($_POST['Enviar'])) {
 
 </body>
 </html>
-
