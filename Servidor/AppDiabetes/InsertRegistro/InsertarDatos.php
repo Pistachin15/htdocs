@@ -4,7 +4,7 @@ require_once '../login.php';
 
 $nombreUsu = $_SESSION['nombreUsu'];
 
-$conn = new mysqli($hn, $un, $pw, $db, 3307) ;
+$conn = new mysqli($hn, $un, $pw, $db, $conn) ;
 if ($conn->connect_error) die("Error en la conexión.");
 
 $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";

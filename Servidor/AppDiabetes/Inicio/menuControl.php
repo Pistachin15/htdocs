@@ -9,7 +9,7 @@ if (!isset($_SESSION['nombreUsu'])) {
 $nombreUsu = $_SESSION['nombreUsu'];
 
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db, $conn);
 
 if ($conn->connect_error) die("Fatal Error");
 

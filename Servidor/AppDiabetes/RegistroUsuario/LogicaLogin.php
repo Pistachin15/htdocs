@@ -3,7 +3,7 @@ session_start();
 require_once '../login.php';
 
 // Conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
+$conn = new mysqli($hn, $un, $pw, $db, $conn);
 if ($conn->connect_error) die("Error en la conexión.");
 
 // Recoger los datos del formulario
@@ -18,6 +18,15 @@ if ($result->num_rows > 0) {
     // Comparar la contraseña ingresada con el hash
     if (password_verify($contra, $contraHash)) {
         $_SESSION['nombreUsu'] = $nombre;
+        
+        $nombreUsu = $_SESSION['nombreUsu'];
+        $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'"; //Consulta para recoger el id del usuario
+        $resultado = $conn->query($consultaId); //Ejecutamos la consulta y lo almacenamos en una variable
+        $fila = $resultado->fetch_assoc(); //Adelanto 1 posicion del array (-1 a 0) y almaceno lam fila en la variable
+        $idUsuario = $fila['id_usu']; //Almacenamos el id de la columan id_usu en una variable 
+
+        $_SESSION['id_usu'] = $idUsuario;
+
         header('Location:../Inicio/menuControl.php');
     } else {
         echo "Usuario o contraseña incorrectos.";

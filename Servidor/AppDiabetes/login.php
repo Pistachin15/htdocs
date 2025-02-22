@@ -3,4 +3,5 @@
  $db = 'diabetesdb';
  $un = 'root';
  $pw = '';
+ $conn = 3306;
 ?>

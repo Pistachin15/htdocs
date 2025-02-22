@@ -1,11 +1,19 @@
 <?php
 session_start();
 require_once 'login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, 3307);
 
+// Verificar si el usuario está logeado
+if (!isset($_SESSION['id_usu'])) {
+    die("Acceso denegado. Inicia sesión primero.");
+}
+
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Fatal Error");
 
-// Consultar datos agrupados por día y tipo de comida
+// Obtener el id del usuario logeado
+$id_usu = $_SESSION['id_usu'];
+
+// Consulta SQL filtrada por el usuario logeado
 $sql = "SELECT c.fecha, c.deporte, c.lenta, cm.tipo_comida, cm.gl_1h, cm.gl_2h, cm.raciones, cm.insulina,
                hipo.glucosa AS hipo_glucosa, hipo.hora AS hipo_hora, 
                hiper.glucosa AS hiper_glucosa, hiper.hora AS hiper_hora, hiper.correccion AS hiper_correccion
@@ -13,8 +21,14 @@ $sql = "SELECT c.fecha, c.deporte, c.lenta, cm.tipo_comida, cm.gl_1h, cm.gl_2h, 
         LEFT JOIN COMIDA cm ON c.fecha = cm.fecha AND c.id_usu = cm.id_usu
         LEFT JOIN HIPOGLUCEMIA hipo ON cm.fecha = hipo.fecha AND cm.tipo_comida = hipo.tipo_comida AND cm.id_usu = hipo.id_usu
         LEFT JOIN HIPERGLUCEMIA hiper ON cm.fecha = hiper.fecha AND cm.tipo_comida = hiper.tipo_comida AND cm.id_usu = hiper.id_usu
+        WHERE c.id_usu = ?
         ORDER BY c.fecha ASC";
-$result = $conn->query($sql);
+
+// Preparar la consulta
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_usu);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Estructurar los datos por día y tipo de comida
 $data = [];
@@ -28,41 +42,27 @@ while ($row = $result->fetch_assoc()) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Historial de Datos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
-        .container-fluid {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .table-responsive {
-            flex: 1;
-            overflow-y: auto;
-        }
-    </style>
 </head>
-<body>
-    <div class="container-fluid p-4">
+<body class="d-flex flex-column vh-100">
+
+    <div class="container-fluid p-4 d-flex flex-column flex-grow-1">
         <h2 class="text-center mb-4">Historial de Datos</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped w-100 h-100">
-                <thead class="table-dark">
+
+        <div class="table-responsive flex-grow-1">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark text-center">
                     <tr>
-                        <th rowspan="2" class="text-center align-middle">Día</th>
-                        <th rowspan="2" class="text-center align-middle">Deporte</th>
-                        <th rowspan="2" class="text-center align-middle">Insulina Lenta</th>
+                        <th rowspan="2" class="align-middle">Día</th>
+                        <th rowspan="2" class="align-middle">Deporte</th>
+                        <th rowspan="2" class="align-middle">Insulina Lenta</th>
                         <?php foreach ($tipo_comidas as $tipo): ?>
-                            <th colspan="9" class="text-center"> <?= $tipo ?> </th>
+                            <th colspan="9"><?= htmlspecialchars($tipo) ?></th>
                         <?php endforeach; ?>
                     </tr>
                     <tr>
@@ -82,27 +82,36 @@ while ($row = $result->fetch_assoc()) {
                 <tbody>
                     <?php foreach ($data as $fecha => $rows): ?>
                         <tr>
-                            <td><?= $fecha ?></td>
-                            <td><?= $rows[array_key_first($rows)]["deporte"] ?? '' ?></td>
-                            <td><?= $rows[array_key_first($rows)]["lenta"] ?? '' ?></td>
+                            <td><?= htmlspecialchars($fecha) ?></td>
+                            <td><?= htmlspecialchars($rows[array_key_first($rows)]["deporte"] ?? '') ?></td>
+                            <td><?= htmlspecialchars($rows[array_key_first($rows)]["lenta"] ?? '') ?></td>
                             <?php foreach ($tipo_comidas as $tipo): ?>
-                                <td><?= $rows[$tipo]["gl_1h"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["gl_2h"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["raciones"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["insulina"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["hipo_glucosa"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["hipo_hora"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["hiper_glucosa"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["hiper_hora"] ?? '' ?></td>
-                                <td><?= $rows[$tipo]["hiper_correccion"] ?? '' ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["gl_1h"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["gl_2h"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["raciones"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["insulina"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["hipo_glucosa"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["hipo_hora"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["hiper_glucosa"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["hiper_hora"] ?? '') ?></td>
+                                <td><?= htmlspecialchars($rows[$tipo]["hiper_correccion"] ?? '') ?></td>
                             <?php endforeach; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
+
+        <div class="text-center mt-3">
+            <a href="Inicio/menuControl.php" class="btn btn-secondary">Volver</a>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php $conn->close(); ?>
+
+<?php 
+$stmt->close();
+$conn->close();
+?>
