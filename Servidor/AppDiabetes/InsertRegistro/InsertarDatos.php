@@ -40,7 +40,7 @@ if (isset($_POST['Enviar'])) {
 
                            
 
-        if ($conn->query($insertarComida) === TRUE && $filaVerificarComida['total'] != 0) {
+        if ($filaVerificarComida['total'] != 0 && $conn->query($insertarComida) === TRUE) {
 
             if ($_POST['condicion'] == 'hiperglucemia') {
                 $correccion = $_POST['correccion'];

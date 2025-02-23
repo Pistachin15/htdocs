@@ -31,7 +31,8 @@ if ($conn->connect_error) die("Fatal Error");
         <a href="../UpdateRegistro/MenuUpdate.html" class="btn btn-secondary w-100 mb-3">Modificar Datos</a>
         <a href="../DeleteRegistro/MenuDelete.html" class="btn btn-secondary w-100 mb-3">Borrar Datos</a>
         <a href="../MostrarTablaDatos.php" class="btn btn-secondary w-100 mb-3">Ver Datos</a>
-        <a href="pagina5.html" class="btn btn-secondary w-100 mb-3">Ver Estadísticas</a>
+        <a href="../DatosEstadisticos.php" class="btn btn-secondary w-100 mb-3">Ver Estadísticas</a>
+        <a href="../RegistroUsuario/Formulario.html" class="btn btn-secondary w-100 mb-3">Salir</a>
     </div>
 </body>
 </html>
