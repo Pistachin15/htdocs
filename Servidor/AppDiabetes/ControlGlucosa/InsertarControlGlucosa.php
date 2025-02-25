@@ -58,28 +58,61 @@ if(isset($_POST['Enviar'])) {
 <body>
     <div class="container mt-5 w-25">
         <div class="card p-4 shadow-sm">
-             <?php if (!empty($insercionCompletada)) echo $insercionCompletada; ?>
-             <?php if (!empty($mensajeError)) echo $mensajeError; ?>
+            <?php if (!empty($insercionCompletada)) echo $insercionCompletada; ?>
+            <?php if (!empty($mensajeError)) echo $mensajeError; ?>
             <h2 class="mb-4">Control de Glucosa</h2>
-            <form action="InsertarControlGlucosa.php" method="post">
+            <form id="glucoseForm" action="InsertarControlGlucosa.php" method="post">
                 <div class="mb-3">
-                    <label for="Insulina lenta" class="form-label">Insulina lenta</label>
-                    <input type="text" class="form-control" id="InsulinaLenta" name="InsulinaLenta"  placeholder="Cantidad administrada de insulina lenta" required>
+                    <label for="InsulinaLenta" class="form-label">Insulina lenta</label>
+                    <input type="number" class="form-control" id="InsulinaLenta" name="InsulinaLenta" placeholder="Cantidad administrada de insulina lenta" min="1" max="70" required>
+                    <div class="invalid-feedback">Debe ser un número entre 1 y 70.</div>
                 </div>
                 <div class="mb-3">
                     <label for="Actividad" class="form-label">Actividad</label>
-                    <input type="text" class="form-control" id="Actividad" name="Actividad" placeholder="Deporte" required>
+                    <input type="number" class="form-control" id="Actividad" name="Actividad" placeholder="Nivel de actividad (1-5)" min="1" max="5" required>
+                    <div class="invalid-feedback">Debe ser un número entre 1 y 5.</div>
                 </div>
                 <div class="d-flex justify-content-center">
-                <button type="submit" name="Enviar" class="btn btn-primary">Enviar</button>
+                    <button type="submit" name="Enviar" class="btn btn-primary">Enviar</button>
                 </div>
-
                 <div class="d-flex justify-content-center">
                     <a href="../Inicio/menuControl.php" class="btn btn-secondary mt-2">Volver</a>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById("glucoseForm").addEventListener("submit", function(event) {
+            let isValid = true;
+
+            // Validación Insulina Lenta
+            let insulina = document.getElementById("InsulinaLenta");
+            let insulinaValue = parseInt(insulina.value);
+            if (isNaN(insulinaValue) || insulinaValue < 1 || insulinaValue > 70) {
+                insulina.classList.add("is-invalid");
+                isValid = false;
+            } else {
+                insulina.classList.remove("is-invalid");
+            }
+
+            // Validación Actividad
+            let actividad = document.getElementById("Actividad");
+            let actividadValue = parseInt(actividad.value);
+            if (isNaN(actividadValue) || actividadValue < 1 || actividadValue > 5) {
+                actividad.classList.add("is-invalid");
+                isValid = false;
+            } else {
+                actividad.classList.remove("is-invalid");
+            }
+
+            // Si hay errores, prevenir envío
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

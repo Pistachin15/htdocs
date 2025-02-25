@@ -111,6 +111,21 @@ function mostrarFormularioCondicion() {
 }
 
     </script>
+     <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const camposNumericos = document.querySelectorAll('input[type="number"]');
+        
+        camposNumericos.forEach(campo => {
+            campo.setAttribute("min", "0"); // Previene valores negativos en HTML
+            campo.addEventListener("input", function () {
+                if (this.value < 0) {
+                    this.value = "";
+                    alert("No se permiten valores negativos.");
+                }
+            });
+        });
+    });
+    </script>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
