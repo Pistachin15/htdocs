@@ -4,7 +4,7 @@ require_once '../login.php';
 
 $nombreUsu = $_SESSION['nombreUsu'];
 
-$conn = new mysqli($hn, $un, $pw, $db, $conn) ;
+$conn = new mysqli($hn, $un, $pw, $db, $conn);
 if ($conn->connect_error) die("Error en la conexión.");
 
 $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
@@ -81,51 +81,6 @@ if (isset($_POST['Enviar'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registro de Glucosa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="script.js" defer></script>
-    <script>
-function mostrarFormularioCondicion() {
-    var condicion = document.querySelector('input[name="condicion"]:checked').value;
-
-    // Ocultamos ambos formularios por defecto
-    document.getElementById("formularioHipo").style.display = "none";
-    document.getElementById("formularioHiper").style.display = "none";
-
-    // Desmarcamos todos los campos como requeridos
-    document.getElementById("glucosahipo").required = false;
-    document.getElementById("horahipo").required = false;
-    document.getElementById("glucosahiper").required = false;
-    document.getElementById("correccion").required = false;
-    document.getElementById("horahiper").required = false;
-
-    // Mostramos y marcamos los campos como requeridos según la condición seleccionada
-    if (condicion === "hipoglucemia") {
-        document.getElementById("formularioHipo").style.display = "block";
-        document.getElementById("glucosahipo").required = true;
-        document.getElementById("horahipo").required = true;
-    } else if (condicion === "hiperglucemia") {
-        document.getElementById("formularioHiper").style.display = "block";
-        document.getElementById("glucosahiper").required = true;
-        document.getElementById("correccion").required = true;
-        document.getElementById("horahiper").required = true;
-    }
-}
-
-    </script>
-     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const camposNumericos = document.querySelectorAll('input[type="number"]');
-        
-        camposNumericos.forEach(campo => {
-            campo.setAttribute("min", "0"); // Previene valores negativos en HTML
-            campo.addEventListener("input", function () {
-                if (this.value < 0) {
-                    this.value = "";
-                    alert("No se permiten valores negativos.");
-                }
-            });
-        });
-    });
-    </script>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
@@ -134,8 +89,8 @@ function mostrarFormularioCondicion() {
         <?php if (!empty($insercionCompletada)) echo $insercionCompletada; ?>
         <?php if (!empty($mensajeError)) echo $mensajeError; ?>
         <?php if (!empty($sinControlGlucosa)) echo $sinControlGlucosa; ?>
-        <form action="InsertarDatos.php" method="post">
-            <!-- Selección de comida -->
+        <form action="InsertarDatos.php" method="post" onsubmit="return validarFormulario()">
+        <!-- Selección de comida -->
             <div class="mb-3">
                 <label for="tipoComida" class="form-label">Selecciona el tipo de comida</label>
                 <select id="tipoComida" name="tipoComida" class="form-select" required>
@@ -179,14 +134,14 @@ function mostrarFormularioCondicion() {
                     <input class="form-check-input" type="radio" id="hipoglucemia" name="condicion" value="hipoglucemia" onclick="mostrarFormularioCondicion()">
                     <label class="form-check-label" for="hipoglucemia">Hipoglucemia</label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="hiperglucemia" name="condicion" value="hiperglucemia" onclick="mostrarFormularioCondicion()">
-                    <label class="form-check-label" for="hiperglucemia">Hiperglucemia</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="ninguna" name="condicion" value="ninguna" onclick="mostrarFormularioCondicion()">
-                    <label class="form-check-label" for="ninguna">Ninguna</label>
-                </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="hiperglucemia" name="condicion" value="hiperglucemia" onclick="mostrarFormularioCondicion()">
+                <label class="form-check-label" for="hiperglucemia">Hiperglucemia</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="ninguna" name="condicion" value="ninguna" onclick="mostrarFormularioCondicion()">
+            <label class="form-check-label" for="ninguna">Ninguna</label>
+            </div>
             </div>
 
             <!-- Formulario adicional para Hiperglucemia -->
@@ -227,6 +182,59 @@ function mostrarFormularioCondicion() {
 
         </form>
     </div>
+    <script>
+function mostrarFormularioCondicion() {
+    var condicion = document.querySelector('input[name="condicion"]:checked').value;
+
+    document.getElementById("formularioHipo").style.display = "none";
+    document.getElementById("formularioHiper").style.display = "none";
+
+    document.getElementById("glucosahipo").required = false;
+    document.getElementById("horahipo").required = false;
+    document.getElementById("glucosahiper").required = false;
+    document.getElementById("correccion").required = false;
+    document.getElementById("horahiper").required = false;
+
+    if (condicion === "hipoglucemia") {
+        document.getElementById("formularioHipo").style.display = "block";
+        document.getElementById("glucosahipo").required = true;
+        document.getElementById("horahipo").required = true;
+    } else if (condicion === "hiperglucemia") {
+        document.getElementById("formularioHiper").style.display = "block";
+        document.getElementById("glucosahiper").required = true;
+        document.getElementById("correccion").required = true;
+        document.getElementById("horahiper").required = true;
+    }
+}
+
+    </script>
+     <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const camposNumericos = document.querySelectorAll('input[type="number"]');
+        
+        camposNumericos.forEach(campo => {
+            campo.setAttribute("min", "0"); 
+            campo.addEventListener("input", function () {
+                if (this.value < 0) {
+                    this.value = "";
+                    alert("No se permiten valores negativos.");
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+function validarFormulario() {
+    // Verificar si al menos un radio button está seleccionado
+    if (!document.querySelector('input[name="condicion"]:checked')) {
+        alert("Por favor, selecciona una opción de condición (Hipoglucemia, Hiperglucemia o Ninguna).");
+        return false; // Evita que el formulario se envíe
+    }
+    // Si todo está bien, el formulario se puede enviar
+    return true;
+}
+</script>
+
 
 </body>
 </html>

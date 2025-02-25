@@ -7,7 +7,7 @@ if (!isset($_SESSION['id_usu'])) {
     die("Acceso denegado. Inicia sesión primero.");
 }
 
-$conn = new mysqli($hn, $un, $pw, $db);
+$conn = new mysqli($hn, $un, $pw, $db, $conn);
 if ($conn->connect_error) die("Fatal Error");
 
 // Obtener el id del usuario logeado

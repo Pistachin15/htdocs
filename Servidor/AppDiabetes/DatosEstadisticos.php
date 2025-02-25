@@ -1,12 +1,9 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "DiabetesDB";
+require_once 'login.php';
 
 // Conectar a la base de datos
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($hn, $un, $pw, $db, $conn);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -87,6 +84,7 @@ $conn->close();
             },
             options: {
                 responsive: true,
+                animation: false,  // Desactivar animación
                 scales: {
                     y: {
                         beginAtZero: true
@@ -106,7 +104,8 @@ $conn->close();
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                animation: false,  // Desactivar animación
             }
         });
     </script>
