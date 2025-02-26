@@ -3,5 +3,5 @@
  $db = 'diabetesdb';
  $un = 'root';
  $pw = '';
- $conn = 3307;
+ $conn = 3306;
 ?>
