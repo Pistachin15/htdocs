@@ -41,4 +41,10 @@ Route::get('home', function () {
     return view('home', array('nombre' => 'Pedro'));
 });
 
+Route::get('pagina1', function () {
+    echo "Estas en la pagina 1";
+});
+
+
+
 
