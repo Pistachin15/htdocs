@@ -1,5 +1,5 @@
 <?php
-require_once('login.php');
+require_once('conexion.php');
 
 function autenticarUsuario($login, $clave) {
     global $conn;

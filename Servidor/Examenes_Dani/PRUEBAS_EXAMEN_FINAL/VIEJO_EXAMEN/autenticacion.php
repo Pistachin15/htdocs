@@ -1,6 +1,6 @@
 <?php
-require_once('login.php');
-
+require_once('conexion.php');
+session_start();
 function autenticarUsuario($login, $clave) {
     global $conn;
 
@@ -17,6 +17,8 @@ function autenticarUsuario($login, $clave) {
     // Verificar si se encontró un usuario
     if ($result->num_rows === 1) {
         // Usuario autenticado
+        $result->data_seek(0); 
+        $_SESSION['nom'] = htmlspecialchars($result->fetch_assoc()['nombre']);
         return true;
     } else {
         // Usuario no autenticado

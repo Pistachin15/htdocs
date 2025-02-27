@@ -1,6 +1,6 @@
 <?php
-session_start(); 
-session_destroy(); //en el caso de que quieras destruir la sesion
+ //session_start(); 
+ // session_destroy(); //en el caso de que quieras destruir la sesion
 session_start(); // Inicia una nueva sesión vacía
 
 $usuario = $_SESSION['login'] ?? 'Invitado';
@@ -14,12 +14,12 @@ if (!isset($_SESSION['ordenCartas'])) {
     shuffle($cartas);  // Baraja solo la primera vez
     $_SESSION['ordenCartas'] = $cartas;
 }
-
-print_r($cartas);
+//Esto es solo para imprimir el $_SESSION['cartas'] y comprobar que de verdad se mezclaron las cartas
+print_r($_SESSION['ordenCartas']);
 
 // Inicializar contador solo si no existe
 if (!isset($_SESSION['contador'])) {
-    $_SESSION['contador'] = 0;
+    $_SESSION['contador'] = 0; 
 }
 
 // Si se presiona un botón de levantar carta
@@ -31,8 +31,24 @@ if (isset($_POST['botonCarta'])) {
     // Modificar solo la carta en la posición seleccionada
     $indiceSeleccionado = $valorBoton - 1; // Convertir botón a índice de array
 
-    if (isset($parejasCartas[$indiceSeleccionado])) { 
-        $parejasCartas[$indiceSeleccionado] = $cartas[$indiceSeleccionado]; 
+    if (isset($parejasCartas[$indiceSeleccionado])) {  //Si existe el boton que clicamos de levantar carta, procedera con la condición
+        $parejasCartas[$indiceSeleccionado] = $_SESSION['ordenCartas'][$indiceSeleccionado]; //Pedimos que lo cambie por el de $_SESSION['ordenCartas'], ya que $cartas nunca cambia
+    }
+}
+
+if(isset($_POST['Comprobar'])){
+    $num1 = $_POST['num1'];
+    $num2 = $_POST['num2'];
+    $_SESSION['Posicion1'] = $num1;
+    $_SESSION['Posicion2'] = $num2;
+
+    if($_SESSION['ordenCartas'][$num1 - 1] == $_SESSION['ordenCartas'][$num2 - 1]){
+        $_SESSION['resultado'] = true;
+        header('Location: resultado.php');
+    }
+    else{
+        $_SESSION['resultado'] = false;
+        header('Location: resultado.php');
     }
 }
 
@@ -80,7 +96,7 @@ echo "<h1>Cartas Levantadas: $contador</h1>";
         <label for="num2">Número 2:</label>
         <input type="text" id="num2" name="num2" required>
 
-        <input type="submit" value="Comprobar" name="boton">
+        <input type="submit" value="Comprobar" name="Comprobar">
     </form>
 </article>
 
