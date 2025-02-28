@@ -3,7 +3,7 @@ session_start();
 require_once '../login.php';
 
 // Conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Error en la conexión.");
 
 // Recoger los datos del formulario
@@ -40,6 +40,6 @@ $conn->close();
 ?>
 
 <!-- Formulario para volver a intentar -->
-<form action="Formulario.html" method="post">
+<form action="../index.php" method="post">
     <button type="submit">Volver a iniciar sesión</button>
 </form>

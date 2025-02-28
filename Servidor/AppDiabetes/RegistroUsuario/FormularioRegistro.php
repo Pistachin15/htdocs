@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -115,7 +115,7 @@ $conn->close();
         <hr class="my-3">
 
         <!-- Botón para volver al login -->
-        <form action="Formulario.html" method="post">
+        <form action="../index.php" method="post">
             <button type="submit" class="btn btn-secondary w-100">Volver a Iniciar Sesión</button>
         </form>
     </div>

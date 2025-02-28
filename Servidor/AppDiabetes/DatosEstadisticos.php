@@ -3,7 +3,7 @@ session_start();
 require_once 'login.php';
 
 // Conectar a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -24,7 +24,7 @@ $glucosa = $result_glucosa->fetch_assoc();
 
 // Consulta para frecuencia de hiperglucemia por usuario
 $sql_hiper = "SELECT COUNT(*) AS total_hiperglucemias 
-FROM HIPERGLUCEMIA WHERE id_usu = '$id_usu'";
+FROM hiperglucemia WHERE id_usu = '$id_usu'";
 $result_hiper = $conn->query($sql_hiper);
 $hiperglucemia = $result_hiper->fetch_assoc();
 
