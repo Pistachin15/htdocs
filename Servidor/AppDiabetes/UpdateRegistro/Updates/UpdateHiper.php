@@ -84,13 +84,13 @@ if(isset($_POST['Enviar'])) {
             <!-- Nivel de glucosa -->
             <div class="mb-3">
                 <label for="glucosahiper" class="form-label">Nivel de glucosa (mg/dL)</label>
-                <input type="number" id="glucosahiper" name="glucosahiper" class="form-control" min="0" max="600" required>
+                <input type="number" id="glucosahiper" name="glucosahiper" class="form-control" min="180" max="600" required>
             </div>
 
             <!-- Corrección de insulina -->
             <div class="mb-3">
                 <label for="correccion" class="form-label">Corrección de insulina (U)</label>
-                <input type="number" id="correccion" name="correccion" class="form-control" min="0" max="20" step="0.5" required>
+                <input type="number" id="correccion" name="correccion" class="form-control" min="1" max="50" step="0.5" required>
             </div>
 
             <!-- Hora de la medición -->

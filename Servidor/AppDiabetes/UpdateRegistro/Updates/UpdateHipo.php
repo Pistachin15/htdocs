@@ -84,7 +84,7 @@ if(isset($_POST['Enviar'])) {
             <!-- Nivel de glucosa -->
             <div class="mb-3">
                 <label for="glucosahipo" class="form-label">Nivel de glucosa (mg/dL)</label>
-                <input type="number" id="glucosahipo" name="glucosahipo" class="form-control" min="0" max="100" required>
+                <input type="number" id="glucosahipo" name="glucosahipo" class="form-control" min="55" max="100" required>
             </div>
 
             <!-- Hora de la medición -->

@@ -84,19 +84,19 @@ if(isset($_POST['Enviar'])) {
             <!-- Glucosa 1 hora antes -->
             <div class="mb-3">
                 <label for="glucosaAntes" class="form-label">Glucosa 1 hora antes de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" min="70" max="180" required>
+                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" min="70" max="150" required>
             </div>
 
             <!-- Glucosa 2 horas después -->
             <div class="mb-3">
                 <label for="glucosaDespues" class="form-label">Glucosa 2 horas después de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" min="70" max="250" required>
+                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" min="90" max="180" required>
             </div>
 
             <!-- Raciones de comida -->
             <div class="mb-3">
                 <label for="racionesComida" class="form-label">Raciones de comida que comiste</label>
-                <input type="number" id="racionesComida" name="racionesComida" class="form-control" min="0.5" max="10" step="0.5" required>
+                <input type="number" id="racionesComida" name="racionesComida" class="form-control" min="0.5" max="20" step="0.5" required>
             </div>
 
             <!-- Insulina suministrada -->

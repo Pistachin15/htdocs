@@ -68,13 +68,13 @@ if(isset($_POST['Enviar'])) {
                 <!-- Insulina lenta -->
                 <div class="mb-3">
                     <label for="InsulinaLenta" class="form-label">Insulina lenta (U)</label>
-                    <input type="number" class="form-control" id="InsulinaLenta" name="InsulinaLenta" min="0" max="50" step="0.5" placeholder="Cantidad administrada de insulina lenta" required>
+                    <input type="number" class="form-control" id="InsulinaLenta" name="InsulinaLenta" min="0" max="70" step="0.5" placeholder="Cantidad administrada de insulina lenta" required>
                 </div>
 
                 <!-- Actividad física -->
                 <div class="mb-3">
                     <label for="Actividad" class="form-label">Actividad física</label>
-                    <input type="text" class="form-control" id="Actividad" name="Actividad" placeholder="Ejemplo: correr, natación, yoga" required>
+                    <input type="text" class="form-control" id="Actividad" name="Actividad" min="1" max="5" placeholder="1-5" required>
                 </div>
 
                 <!-- Botón de envío -->
