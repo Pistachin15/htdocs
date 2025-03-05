@@ -7,7 +7,7 @@ if (!isset($_SESSION['id_usu'])) {
     die("Acceso denegado. Inicia sesión primero.");
 }
 
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Fatal Error");
 
 // Obtener el id del usuario logeado
@@ -17,10 +17,10 @@ $id_usu = $_SESSION['id_usu'];
 $sql = "SELECT c.fecha, c.deporte, c.lenta, cm.tipo_comida, cm.gl_1h, cm.gl_2h, cm.raciones, cm.insulina,
                hipo.glucosa AS hipo_glucosa, hipo.hora AS hipo_hora, 
                hiper.glucosa AS hiper_glucosa, hiper.hora AS hiper_hora, hiper.correccion AS hiper_correccion
-        FROM CONTROL_GLUCOSA c
-        LEFT JOIN COMIDA cm ON c.fecha = cm.fecha AND c.id_usu = cm.id_usu
-        LEFT JOIN HIPOGLUCEMIA hipo ON cm.fecha = hipo.fecha AND cm.tipo_comida = hipo.tipo_comida AND cm.id_usu = hipo.id_usu
-        LEFT JOIN HIPERGLUCEMIA hiper ON cm.fecha = hiper.fecha AND cm.tipo_comida = hiper.tipo_comida AND cm.id_usu = hiper.id_usu
+        FROM control_glucosa c
+        LEFT JOIN comida cm ON c.fecha = cm.fecha AND c.id_usu = cm.id_usu
+        LEFT JOIN hipoglucemia hipo ON cm.fecha = hipo.fecha AND cm.tipo_comida = hipo.tipo_comida AND cm.id_usu = hipo.id_usu
+        LEFT JOIN hiperglucemia hiper ON cm.fecha = hiper.fecha AND cm.tipo_comida = hiper.tipo_comida AND cm.id_usu = hiper.id_usu
         WHERE c.id_usu = ?
         ORDER BY c.fecha ASC";
 

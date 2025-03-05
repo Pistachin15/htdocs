@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -51,21 +51,23 @@ if(isset($_POST['Enviar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizado de Comida</title>
+    <title>Actualización de Comida</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
     <div class="bg-white p-5 rounded shadow w-25">
-        <h3 class="text-center mb-4">Actualizacion de Comida</h3>
+        <h3 class="text-center mb-4">Actualización de Comida</h3>
         <?php if (!empty($actualizarCompletada)) echo $actualizarCompletada; ?>
         <?php if (!empty($mensajeError)) echo $mensajeError; ?>
         <form action="UpdateComida.php" method="post">
-            <!-- Seleccion de fecha -->
+            
+            <!-- Selección de fecha -->
             <div class="mb-3">
-                    <label for="fecha">Fecha a modificar datos</label>
-                    <input type="date" id="fecha_control" name="fecha_control" required>
+                <label for="fecha_control">Fecha a modificar datos</label>
+                <input type="date" id="fecha_control" name="fecha_control" class="form-control" required>
             </div>
+
             <!-- Selección de comida -->
             <div class="mb-3">
                 <label for="tipoComida" class="form-label">Selecciona el tipo de comida a modificar</label>
@@ -82,25 +84,25 @@ if(isset($_POST['Enviar'])) {
             <!-- Glucosa 1 hora antes -->
             <div class="mb-3">
                 <label for="glucosaAntes" class="form-label">Glucosa 1 hora antes de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" required>
+                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" min="70" max="150" required>
             </div>
 
             <!-- Glucosa 2 horas después -->
             <div class="mb-3">
                 <label for="glucosaDespues" class="form-label">Glucosa 2 horas después de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" required>
+                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" min="90" max="180" required>
             </div>
 
             <!-- Raciones de comida -->
             <div class="mb-3">
                 <label for="racionesComida" class="form-label">Raciones de comida que comiste</label>
-                <input type="number" id="racionesComida" name="racionesComida" class="form-control" required>
+                <input type="number" id="racionesComida" name="racionesComida" class="form-control" min="0.5" max="20" step="0.5" required>
             </div>
 
             <!-- Insulina suministrada -->
             <div class="mb-3">
                 <label for="insulina" class="form-label">Insulina suministrada (U)</label>
-                <input type="number" id="insulina" name="insulina" class="form-control" required>
+                <input type="number" id="insulina" name="insulina" class="form-control" min="0" max="50" step="0.5" required>
             </div>
 
             <!-- Botón para enviar el formulario -->
@@ -108,7 +110,7 @@ if(isset($_POST['Enviar'])) {
                 <button type="submit" class="btn btn-primary" id="Enviar" name="Enviar">Actualizar</button>
             </div>
             <div class="d-flex justify-content-center">
-            <a href="../MenuUpdate.html" class="btn btn-secondary mt-2">Volver</a>
+                <a href="../MenuUpdate.html" class="btn btn-secondary mt-2">Volver</a>
             </div>
 
         </form>
@@ -116,4 +118,3 @@ if(isset($_POST['Enviar'])) {
 
 </body>
 </html>
-

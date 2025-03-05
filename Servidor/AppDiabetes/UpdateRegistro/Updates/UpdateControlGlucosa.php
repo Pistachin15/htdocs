@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../login.php'; // Archivo con credenciales de conexión a la base de datos
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
 
@@ -48,30 +48,38 @@ if(isset($_POST['Enviar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizado de Control de Glucosa</title>
+    <title>Actualización de Control de Glucosa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5 w-25">
         <div class="card p-4 shadow-sm">
-            <h2 class="mb-4">Actualizacion del Control de Glucosa</h2>
+            <h2 class="mb-4">Actualización del Control de Glucosa</h2>
             <?php if (!empty($actualizarCompletada)) echo $actualizarCompletada; ?>
             <?php if (!empty($mensajeError)) echo $mensajeError; ?>
             <form action="UpdateControlGlucosa.php" method="post">
-                 <div class="mb-3">
-                    <label for="fecha">Fecha a modificar datos</label>
-                    <input type="date" id="fecha_control" name="fecha_control" required>
-                </div>
+                
+                <!-- Selección de fecha -->
                 <div class="mb-3">
-                    <label for="Insulina lenta" class="form-label">Insulina lenta</label>
-                    <input type="text" class="form-control" id="InsulinaLenta" name="InsulinaLenta"  placeholder="Cantidad administrada de insulina lenta" required>
+                    <label for="fecha_control">Fecha a modificar datos</label>
+                    <input type="date" id="fecha_control" name="fecha_control" class="form-control" required>
                 </div>
+
+                <!-- Insulina lenta -->
                 <div class="mb-3">
-                    <label for="Actividad" class="form-label">Actividad</label>
-                    <input type="text" class="form-control" id="Actividad" name="Actividad" placeholder="Deporte" required>
+                    <label for="InsulinaLenta" class="form-label">Insulina lenta (U)</label>
+                    <input type="number" class="form-control" id="InsulinaLenta" name="InsulinaLenta" min="0" max="70" step="0.5" placeholder="Cantidad administrada de insulina lenta" required>
                 </div>
+
+                <!-- Actividad física -->
+                <div class="mb-3">
+                    <label for="Actividad" class="form-label">Actividad física</label>
+                    <input type="text" class="form-control" id="Actividad" name="Actividad" min="1" max="5" placeholder="1-5" required>
+                </div>
+
+                <!-- Botón de envío -->
                 <div class="d-flex justify-content-center">
-                <button type="submit" name="Enviar" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" name="Enviar" class="btn btn-primary">Actualizar</button>
                 </div>
 
                 <div class="d-flex justify-content-center">

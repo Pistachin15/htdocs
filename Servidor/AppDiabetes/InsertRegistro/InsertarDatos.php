@@ -4,7 +4,7 @@ require_once '../login.php';
 
 $nombreUsu = $_SESSION['nombreUsu'];
 
-$conn = new mysqli($hn, $un, $pw, $db, $conn);
+$conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die("Error en la conexión.");
 
 $consultaId = "SELECT id_usu FROM usuario WHERE usuario = '$nombreUsu'";
@@ -106,25 +106,25 @@ if (isset($_POST['Enviar'])) {
             <!-- Glucosa 1 hora antes -->
             <div class="mb-3">
                 <label for="glucosaAntes" class="form-label">Glucosa 1 hora antes de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" required>
+                <input type="number" id="glucosaAntes" name="glucosaAntes" class="form-control" min="70" max="150" required>
             </div>
 
             <!-- Glucosa 2 horas después -->
             <div class="mb-3">
                 <label for="glucosaDespues" class="form-label">Glucosa 2 horas después de alimentarse (mg/dL)</label>
-                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" required>
+                <input type="number" id="glucosaDespues" name="glucosaDespues" class="form-control" min="90" max="180" required>
             </div>
 
             <!-- Raciones de comida -->
             <div class="mb-3">
                 <label for="racionesComida" class="form-label">Raciones de comida que comiste</label>
-                <input type="number" id="racionesComida" name="racionesComida" class="form-control" required>
+                <input type="number" id="racionesComida" name="racionesComida" class="form-control" max="20" required>
             </div>
 
             <!-- Insulina suministrada -->
             <div class="mb-3">
                 <label for="insulina" class="form-label">Insulina suministrada (U)</label>
-                <input type="number" id="insulina" name="insulina" class="form-control" required>
+                <input type="number" id="insulina" name="insulina" class="form-control" min="1" max="50" required>
             </div>
 
             <!-- Botones para elegir hipoglucemia o hiperglucemia -->
@@ -148,11 +148,11 @@ if (isset($_POST['Enviar'])) {
             <div id="formularioHiper" style="display: none;">
                 <div class="mb-3">
                     <label for="glucosahiper" class="form-label">Glucosa</label>
-                    <input type="number" id="glucosahiper" name="glucosahiper" class="form-control">
+                    <input type="number" id="glucosahiper" name="glucosahiper" min="180" max="600" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="correccion" class="form-label">Correción</label>
-                    <input type="number" id="correccion" name="correccion" class="form-control">
+                    <input type="number" id="correccion" name="correccion" max ="50" class="form-control">
                 </div>
                 <div class="mb-3">               
                     <label for="hora">Selecciona la hora (formato 24 horas):</label>
@@ -164,7 +164,7 @@ if (isset($_POST['Enviar'])) {
             <div id="formularioHipo" style="display: none;">
                 <div class="mb-3">
                     <label for="glucosahipo" class="form-label">Glucosa</label>
-                    <input type="number" id="glucosahipo" name="glucosahipo" class="form-control">
+                    <input type="number" id="glucosahipo" name="glucosahipo" min="55" max="100" class="form-control">
                 </div>
                 <div class="mb-3">               
                     <label for="hora">Selecciona la hora (formato 24 horas):</label>
