@@ -19,6 +19,18 @@ if (isset($_POST['nombre']) && isset($_POST['apellidos']) &&  isset($_POST['fech
 
         // Verificar que las contraseñas coincidan
         if ($contra === $contraConfirm) {
+                
+            $fechaActual = date("Y-m-d");
+			if ($fecha_nacimiento > $fechaActual) {
+    			echo "La fecha de nacimiento no puede ser una fecha futura.";
+                ?>
+        		<form action="#" method="post">
+            		<button type="submit" class="btn btn-secondary w-100">Volver a Registrarse</button>
+        		</form>
+				<?php
+                    
+    		exit();
+			}
     
             // Comprobar si el usuario ya existe
             $consulta = "SELECT usuario FROM usuario WHERE usuario = '$nombreUsuario'";

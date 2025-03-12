@@ -32,7 +32,7 @@ if ($conn->connect_error) die("Fatal Error");
         <a href="../DeleteRegistro/MenuDelete.html" class="btn btn-secondary w-100 mb-3">Borrar Datos</a>
         <a href="../MostrarTablaDatos.php" class="btn btn-secondary w-100 mb-3">Ver Datos</a>
         <a href="../DatosEstadisticos.php" class="btn btn-secondary w-100 mb-3">Ver Estadísticas</a>
-        <a href="../RegistroUsuario/Formulario.html" class="btn btn-secondary w-100 mb-3">Salir</a>
+        <a href="../index.php" class="btn btn-secondary w-100 mb-3">Salir</a>
     </div>
 </body>
 </html>
