@@ -1,44 +1,42 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Persona;
-use App\Models\Imagen;
 use App\Models\Agenda;
+use App\Models\Imagen;
 
 class AgendaController extends Controller
 {
-    // Mostrar el formulario para crear una nueva entrada en la agenda
-    public function create()
+    // Mostrar el formulario de consulta
+    public function consultar()
     {
         $personas = Persona::all(); // Obtener todas las personas
-        $imagenes = Imagen::all(); // Obtener todas las imágenes
-
-        return view('agenda.create', compact('personas', 'imagenes'));
+        return view('agenda.consultar', compact('personas'));
     }
 
-    // Guardar la nueva entrada en la agenda
-    public function store(Request $request)
+    // Mostrar la agenda filtrada por fecha e idpersona
+    public function mostrar(Request $request)
     {
-        // Validar los datos del formulario
+        // Validación
         $request->validate([
             'fecha' => 'required|date',
-            'hora' => 'required',
-            'idpersona' => 'required|exists:personas,idpersona',  // Asegúrate que el ID es válido
-            'idimagen' => 'required|exists:imagenes,idimagen',  // Verifica que el ID de la imagen es válido
+            'idpersona' => 'required|exists:personas,idpersona',
         ]);
 
-        // Insertar los datos en la base de datos
-    // Insertar los datos en la base de datos
-    Agenda::create([
-        'fecha' => $request->fecha,
-        'hora' => $request->hora,
-        'idpersona' => $request->idpersona,
-        'idimagen' => $request->idimagen,
-    ]);
-        
-        
-        return redirect()->route('agenda.create')->with('success', 'Entrada añadida correctamente.');
+        // Consulta para obtener la agenda
+        $agenda = Agenda::select('imagenes.imagen', 'agenda.fecha', 'agenda.hora')
+            ->join('imagenes', 'imagenes.idimagen', '=', 'agenda.idimagen')
+            ->where('agenda.idpersona', $request->idpersona)
+            ->where('agenda.fecha', $request->fecha)
+            ->get();
+
+        return view('agenda.mostrar', compact('agenda', 'request'));
     }
+
+    public function buscar(){
+        
+        return view('agenda.buscar');
+}
+
 }
