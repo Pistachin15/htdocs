@@ -9,10 +9,9 @@ class Imagen extends Model
 {
     use HasFactory;
 
-    protected $table = 'imagenes';
+    protected $table = 'imagenes'; // Asegúrate de que esta es la tabla correcta en tu BD
+    protected $primaryKey = 'idpersona';
+    public $timestamps = false; // Si tu tabla no tiene created_at y updated_at
 
-    protected $primaryKey = 'idimagen';
-
-    protected $fillable = ['categoria', 'imagen', 'descripcion'];
+    protected $fillable = ['ruta', 'nombre']; // Asegúrate de incluir los campos correctos
 }
-?>
