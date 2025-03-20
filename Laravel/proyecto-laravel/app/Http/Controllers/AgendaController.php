@@ -34,6 +34,37 @@ class AgendaController extends Controller
         return view('agenda.mostrar', compact('agenda', 'request'));
     }
 
+    public function store(Request $request)
+{
+    // Validar los datos del formulario
+    $request->validate([
+        'fecha' => 'required|date',
+        'hora' => 'required',
+        'idpersona' => 'required|exists:personas,idpersona',
+        'idimagen' => 'required|exists:imagenes,idimagen',
+    ]);
+
+    // Crear un nuevo registro en la tabla agenda
+    Agenda::create([
+        'fecha' => $request->fecha,
+        'hora' => $request->hora,
+        'idpersona' => $request->idpersona,
+        'idimagen' => $request->idimagen,
+    ]);
+
+    return redirect()->route('agenda.create')->with('success', 'Entrada en la agenda añadida correctamente.');
+}
+
+    public function create()
+    {
+        $personas = Persona::all(); // Obtiene todas las personas
+        $imagenes = Imagen::all(); // Obtiene todas las imágenes
+    
+        return view('agenda.create', compact('personas', 'imagenes'));
+    }
+    
+
+
     public function buscar(){
         
         return view('agenda.buscar');
