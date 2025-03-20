@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,21 +8,21 @@ class Agenda extends Model
 {
     use HasFactory;
 
-    protected $table = 'agenda'; // Asegúrate de que esta es la tabla correcta en tu BD
-    protected $primaryKey = 'idpersona';
-    public $timestamps = false;
+    // Especifica el nombre de la tabla si es diferente del plural del nombre del modelo
+    protected $table = 'agenda';
 
-    protected $fillable = ['fecha', 'hora', 'idpersona', 'imagen_id'];
+    // Los campos que pueden ser llenados de manera masiva (en este caso, los campos del formulario)
+    protected $fillable = ['fecha', 'hora', 'idpersona', 'idimagen'];
 
-    // Relación con Persona
+    // Relación con el modelo Persona
     public function persona()
     {
         return $this->belongsTo(Persona::class, 'idpersona');
     }
 
-    // Relación con Imagen
+    // Relación con el modelo Imagen
     public function imagen()
     {
-        return $this->belongsTo(Imagen::class, 'imagen_id');
+        return $this->belongsTo(Imagen::class, 'idimagen');
     }
 }

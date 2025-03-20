@@ -25,18 +25,20 @@ class AgendaController extends Controller
         $request->validate([
             'fecha' => 'required|date',
             'hora' => 'required',
-            'idpersona' => 'required|exists:personas,id',
-            'imagen_id' => 'required|exists:imagenes,id',
+            'idpersona' => 'required|exists:personas,idpersona',  // Asegúrate que el ID es válido
+            'idimagen' => 'required|exists:imagenes,idimagen',  // Verifica que el ID de la imagen es válido
         ]);
 
         // Insertar los datos en la base de datos
-        Agenda::create([
-            'fecha' => $request->fecha,
-            'hora' => $request->hora,
-            'idpersona' => $request->idpersona,
-            'imagen_id' => $request->imagen_id,
-        ]);
-
+    // Insertar los datos en la base de datos
+    Agenda::create([
+        'fecha' => $request->fecha,
+        'hora' => $request->hora,
+        'idpersona' => $request->idpersona,
+        'idimagen' => $request->idimagen,
+    ]);
+        
+        
         return redirect()->route('agenda.create')->with('success', 'Entrada añadida correctamente.');
     }
 }
