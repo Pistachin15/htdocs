@@ -1,6 +1,6 @@
 <?php // login.php
  $hn = 'localhost';
- $db = 'level_up_video_';
+ $db = 'levelup_video';
  $un = 'root';
  $pw = '';
 ?>

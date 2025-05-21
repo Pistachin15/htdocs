@@ -8,10 +8,10 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nombre = $_POST['nombre'];
-    $apellidos = $_POST['apellidos'];
+    $nombre = htmlspecialchars($_POST['nombre']);
+    $apellidos = htmlspecialchars($_POST['apellidos']);
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $usuario = $_POST['usuario'];
+    $usuario = htmlspecialchars($_POST['usuario']);
     $contra = $_POST['password'];
     $contraConfirm = $_POST['confirm_password'];
     $hashContra = password_hash($contra, PASSWORD_DEFAULT);
@@ -27,27 +27,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Verificar si el usuario ya está registrado
-    $consulta = $conn->prepare("SELECT usuario FROM usuarios WHERE usuario = ?");
+    $consulta = $conn->prepare("SELECT username FROM usuarios WHERE username = ?");
     $consulta->bind_param("s", $usuario);
     $consulta->execute();
     $resultado = $consulta->get_result();
 
     if ($resultado->num_rows > 0) {
-        die("El usuario ya está registrado.");
+        die("El nombre de usuario ya está registrado.");
     } else {
-        // Insertar el nuevo usuario en la base de datos
-        $insert = $conn->prepare("INSERT INTO usuarios (nombre, apellidos, fecha_nacimiento, usuario, contraseña) VALUES (?, ?, ?, ?, ?)");
-        $insert->bind_param("sssss", $nombre, $apellidos, $fecha_nacimiento, $usuario, $hashContra);
+        // Insertar el nuevo usuario con rol 'cliente'
+        $rol = 'cliente';
+        $insert = $conn->prepare("INSERT INTO usuarios (nombre, apellidos, fecha_nacimiento, username, contra, rol) VALUES (?, ?, ?, ?, ?, ?)");
+        $insert->bind_param("ssssss", $nombre, $apellidos, $fecha_nacimiento, $usuario, $hashContra, $rol);
 
         if ($insert->execute()) {
             $_SESSION['nombreUsu'] = $usuario;
-            header("Location: registro.html");
+            header("Location: registro_exitoso.html"); // o la página que prefieras
+            exit();
         } else {
             die("Error al registrar el usuario: " . $conn->error);
         }
     }
+
+    $consulta->close();
+    $insert->close();
 }
 
-// Cerrar la conexión
 $conn->close();
 ?>
