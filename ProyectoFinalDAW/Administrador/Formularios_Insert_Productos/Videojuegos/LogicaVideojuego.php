@@ -1,52 +1,96 @@
 <?php
-require_once '../../../login.php'; // conexión: $hn, $un, $pw, $db
+require_once '../../../login.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
-    die("Error en la conexión.");
+    mostrarError("Error en la conexión a la base de datos.");
+    exit();
 }
 
-// Verificar que se haya enviado el formulario
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Recoger los datos del formulario
-    $titulo = $_POST['titulo'];
-    $tipo = 'videojuego'; // fijo
-    $descripcion = $_POST['descripcion'] ?? null;
-    $stock = intval($_POST['stock']);
-    $precio_compra = floatval($_POST['precio_compra']);
-    $precio_alquiler = floatval($_POST['precio_alquiler']);
+function mostrarError($mensaje) {
+    echo "
+    <!DOCTYPE html>
+    <html lang='es'>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Error</title>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+    </head>
+    <body class='bg-light'>
+        <div class='container mt-5'>
+            <div class='alert alert-danger'>$mensaje</div>
+            <a href='formularioInsertVideojuego.php' class='btn btn-secondary'>Volver</a>
+        </div>
+    </body>
+    </html>
+    ";
+}
 
-    // Procesar la imagen si se subió
-    $imagenRuta = null;
+// Recoger y validar datos
+$titulo = trim($_POST['titulo']);
+$descripcion = trim($_POST['descripcion']);
+$stock = intval($_POST['stock']);
+$precio_compra = floatval($_POST['precio_compra']);
+$precio_alquiler = floatval($_POST['precio_alquiler']);
+$tipo = 'videojuego';
 
-    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-        $nombreTmp = $_FILES['imagen']['tmp_name'];
-        $nombreArchivo = basename($_FILES['imagen']['name']);
-        $directorioDestino = 'imagenesVideojuegos'; // Asegúrate de que exista y tenga permisos
-        $rutaFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
+if ($stock < 0 || $precio_compra < 0 || $precio_alquiler < 0 || empty($titulo) || empty($descripcion)) {
+    mostrarError("Datos inválidos o campos vacíos.");
+    exit();
+}
 
-        // Mover archivo subido
-        if (move_uploaded_file($nombreTmp, $rutaFinal)) {
-            $imagenRuta = $rutaFinal;
-        } else {
-            die("Error al guardar la imagen.");
-        }
-    }
+// Verificar si el videojuego ya existe
+$stmt = $conn->prepare("SELECT id_producto FROM productos WHERE titulo = ? AND tipo = ?");
+$stmt->bind_param("ss", $titulo, $tipo);
+$stmt->execute();
+$stmt->store_result();
 
-    // Preparar inserción
-    $stmt = $conn->prepare("INSERT INTO productos (titulo, tipo, descripcion, stock, precio_compra, precio_alquiler, imagen)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssidds", $titulo, $tipo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenRuta);
-
-    if ($stmt->execute()) {
-        echo "<p>Videojuego agregado correctamente.</p>";
-        echo "<a href='formulario_videojuego.html'>Volver al formulario</a>";
-    } else {
-        die("Error al insertar: " . $stmt->error);
-    }
-
+if ($stmt->num_rows > 0) {
     $stmt->close();
+    mostrarError("El videojuego ya existe en la base de datos.");
+    exit();
+}
+$stmt->close();
+
+// Procesar imagen
+$imagenNombre = null;
+$carpetaDestino = "imagenesVideojuegos/";
+
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+    $extensiones_permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $extensiones_permitidas)) {
+        mostrarError("Formato de imagen no permitido. Usa jpg, jpeg, png, gif o webp.");
+        exit();
+    }
+
+    if (!is_dir($carpetaDestino)) {
+        mkdir($carpetaDestino, 0777, true);
+    }
+
+    $nombreSanitizado = preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME));
+    $imagenNombre = $carpetaDestino . uniqid() . "_" . $nombreSanitizado . "." . $ext;
+
+    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $imagenNombre)) {
+        mostrarError("Error al subir la imagen al servidor.");
+        exit();
+    }
+} else {
+    mostrarError("No se seleccionó ninguna imagen válida.");
+    exit();
 }
 
+// Insertar en la base de datos
+$stmt = $conn->prepare("INSERT INTO productos (titulo, tipo, descripcion, stock, precio_compra, precio_alquiler, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssidds", $titulo, $tipo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenNombre);
+
+if ($stmt->execute()) {
+    echo "<script>window.location.href='formularioInsertVideojuego.php?success=1';</script>";
+} else {
+    mostrarError("Error al insertar el videojuego en la base de datos.");
+}
+
+$stmt->close();
 $conn->close();
 ?>
