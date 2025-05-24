@@ -69,8 +69,10 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
         mkdir($carpetaDestino, 0777, true);
     }
 
-    $nombreSanitizado = preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME));
-    $imagenNombre = $carpetaDestino . uniqid() . "_" . $nombreSanitizado . "." . $ext;
+    $nombreOriginal = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+    $nombreSanitizado = preg_replace('/[^a-zA-Z0-9_-]/', '', strtolower($nombreOriginal));
+    $imagenNombre = $carpetaDestino . uniqid('', true) . "_" . $nombreSanitizado . "." . $ext;
+
 
     if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $imagenNombre)) {
         mostrarError("Error al subir la imagen al servidor.");
