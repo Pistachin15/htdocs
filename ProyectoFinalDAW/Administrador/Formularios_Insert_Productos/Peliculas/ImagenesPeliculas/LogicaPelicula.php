@@ -1,80 +1,97 @@
 <?php
-require_once '../../../login.php';
+require_once '../../../../login.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
-    die("Error en la conexión.");
+    mostrarError("Error en la conexión a la base de datos.");
+    exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $titulo = trim($_POST['titulo']);
-    $tipo = 'película';
-    $descripcion = trim($_POST['descripcion'] ?? '');
-    $stock = intval($_POST['stock']);
-    $precio_compra = floatval($_POST['precio_compra']);
-    $precio_alquiler = floatval($_POST['precio_alquiler']);
+function mostrarError($mensaje) {
+    echo "
+    <!DOCTYPE html>
+    <html lang='es'>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Error</title>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+    </head>
+    <body class='bg-light'>
+        <div class='container mt-5'>
+            <div class='alert alert-danger'>$mensaje</div>
+            <a href='formularioInsertPelicula.php' class='btn btn-secondary'>Volver</a>
+        </div>
+    </body>
+    </html>
+    ";
+}
 
-    if (empty($titulo) || $stock < 0 || $precio_compra < 0 || $precio_alquiler < 0) {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Datos inválidos, revisa los campos.") . "&tipo=error");
-        exit();
-    }
+// Recoger y validar datos
+$titulo = trim($_POST['titulo']);
+$descripcion = trim($_POST['descripcion']);
+$stock = intval($_POST['stock']);
+$precio_compra = floatval($_POST['precio_compra']);
+$precio_alquiler = floatval($_POST['precio_alquiler']);
+$tipo = 'película';
 
-    // Validar imagen obligatoria
-    if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Debes subir una imagen.") . "&tipo=error");
-        exit();
-    }
+if ($stock < 0 || $precio_compra < 0 || $precio_alquiler < 0 || empty($titulo) || empty($descripcion)) {
+    mostrarError("Datos inválidos o campos vacíos.");
+    exit();
+}
 
-    // Validar extensión de imagen
-    $nombreArchivo = basename($_FILES['imagen']['name']);
-    $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
-    $extensiones_validas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+// Verificar si la película ya existe
+$stmt = $conn->prepare("SELECT id_producto FROM productos WHERE titulo = ? AND tipo = ?");
+$stmt->bind_param("ss", $titulo, $tipo);
+$stmt->execute();
+$stmt->store_result();
 
-    if (!in_array($extension, $extensiones_validas)) {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Extensión de imagen no válida. Solo se permiten JPG, PNG, GIF, WEBP.") . "&tipo=error");
-        exit();
-    }
-
-    // Verificar duplicados
-    $check = $conn->prepare("SELECT COUNT(*) FROM productos WHERE titulo = ?");
-    $check->bind_param("s", $titulo);
-    $check->execute();
-    $check->bind_result($count);
-    $check->fetch();
-    $check->close();
-
-    if ($count > 0) {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Ya existe una película con ese título.") . "&tipo=error");
-        exit();
-    }
-
-    // Guardar imagen
-    $nombreTmp = $_FILES['imagen']['tmp_name'];
-    $directorioDestino = 'imagenesVideojuegos/';
-    if (!is_dir($directorioDestino)) {
-        mkdir($directorioDestino, 0755, true);
-    }
-    $rutaFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
-
-    if (move_uploaded_file($nombreTmp, $rutaFinal)) {
-        $imagenRuta = $rutaFinal;
-    } else {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Error al guardar la imagen.") . "&tipo=error");
-        exit();
-    }
-
-    // Insertar en la base de datos
-    $stmt = $conn->prepare("INSERT INTO productos (titulo, tipo, descripcion, stock, precio_compra, precio_alquiler, imagen)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssidds", $titulo, $tipo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenRuta);
-
-    if ($stmt->execute()) {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Película agregada correctamente.") . "&tipo=success");
-    } else {
-        header("Location: formularioInsertPelicula.php?mensaje=" . urlencode("Error al insertar: " . $stmt->error) . "&tipo=error");
-    }
-
+if ($stmt->num_rows > 0) {
     $stmt->close();
+    mostrarError("La película ya existe en la base de datos.");
+    exit();
+}
+$stmt->close();
+
+// Procesar imagen
+$imagenNombre = null;
+$carpetaDestino = "imagenesPeliculas/";
+
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+    $extensiones_permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $extensiones_permitidas)) {
+        mostrarError("Formato de imagen no permitido. Usa jpg, jpeg, png, gif o webp.");
+        exit();
+    }
+
+    if (!is_dir($carpetaDestino)) {
+        mkdir($carpetaDestino, 0777, true);
+    }
+
+    $nombreOriginal = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+    $nombreSanitizado = preg_replace('/[^a-zA-Z0-9_-]/', '', strtolower($nombreOriginal));
+    $imagenNombre = $carpetaDestino . uniqid('', true) . "_" . $nombreSanitizado . "." . $ext;
+
+    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $imagenNombre)) {
+        mostrarError("Error al subir la imagen al servidor.");
+        exit();
+    }
+} else {
+    mostrarError("No se seleccionó ninguna imagen válida.");
+    exit();
 }
 
+// Insertar en la base de datos
+$stmt = $conn->prepare("INSERT INTO productos (titulo, tipo, descripcion, stock, precio_compra, precio_alquiler, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssidds", $titulo, $tipo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenNombre);
+
+if ($stmt->execute()) {
+    echo "<script>window.location.href='formularioInsertPelicula.php?success=1';</script>";
+} else {
+    mostrarError("Error al insertar la película en la base de datos.");
+}
+
+$stmt->close();
 $conn->close();
+?>

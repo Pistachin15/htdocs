@@ -23,7 +23,7 @@
                     <a class="nav-link active" href="#">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Películas</a>
+                    <a class="nav-link" href="Catalogos/CatalogoPElicula/catalogo_peliculas.php">Películas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a>
