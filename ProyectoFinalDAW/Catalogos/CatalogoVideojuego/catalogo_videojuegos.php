@@ -40,11 +40,11 @@ $result = $conn->query($sql);
 
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <div class="card-footer d-flex justify-content-between">
-                            <form action="editar_videojuego.php" method="get">
+                            <form action="../../Administrador/Admin_Catalogo/EditarProductos/editar_producto.php" method="get">
                                 <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
                                 <button type="submit" class="btn btn-primary btn-sm">Editar</button>
                             </form>
-                            <form action="borrar_videojuego.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar este videojuego?');">
+                            <form action="../../Administrador/Admin_Catalogo/BorrarProductos/borrar_producto.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar este videojuego?');">
                                 <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                             </form>
