@@ -67,9 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
               <div class="mb-3">
                 <label for="username" class="form-label">Usuario:</label>
                 <input type="text" class="form-control" name="username" id="username"
-                       required pattern="^[a-zA-Z0-9_]{3,20}$"
-                       title="El usuario debe tener entre 3 y 20 caracteres (letras, números o guiones bajos)."
-                       value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>">
+                      required pattern="^[a-zA-Z0-9_]{3,20}$"
+                      title="El usuario debe tener entre 3 y 20 caracteres (letras, números o guiones bajos)."
+                      value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>">
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Contraseña:</label>
