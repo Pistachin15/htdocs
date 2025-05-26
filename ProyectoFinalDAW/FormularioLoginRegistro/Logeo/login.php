@@ -16,20 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['contra'])) {
-            $_SESSION['id_usu'] = $row['id_usuario'];
-            $_SESSION['nombreUsu'] = $username;
-            $_SESSION['rol'] = $row['rol'];
-            header('Location: ../../Index.php');
-            exit();
-        } else {
-            $error = "Contraseña incorrecta.";
-        }
-    } else {
-        $error = "Usuario no encontrado.";
+if ($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    if (password_verify($password, $row['contra'])) {
+        $_SESSION['id_usu'] = $row['id_usuario'];
+        $_SESSION['nombreUsu'] = $username;
+        $_SESSION['rol'] = $row['rol'];
+        header('Location: ../../Index.php');
+        exit();
     }
+}
+
+$error = "Usuario o contraseña incorrectos.";
 
     $stmt->close();
     $conn->close();
@@ -69,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
                 <input type="text" class="form-control" name="username" id="username"
                       required pattern="^[a-zA-Z0-9_]{3,20}$"
                       title="El usuario debe tener entre 3 y 20 caracteres (letras, números o guiones bajos)."
-                      value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>">
+                      value="<?= (empty($error) && isset($_POST['username'])) ? htmlspecialchars($_POST['username']) : '' ?>">
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Contraseña:</label>
