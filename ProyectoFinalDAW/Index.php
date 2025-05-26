@@ -36,6 +36,13 @@ session_start();
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
+                    <li>
+                        <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Ver Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
+                    </li>
+
+                    <li>
+                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Ver Cesta Alquiler (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
+                    </li>
 
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <li class="nav-item">

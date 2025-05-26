@@ -16,18 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
     $stmt->execute();
     $result = $stmt->get_result();
 
-if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-    if (password_verify($password, $row['contra'])) {
-        $_SESSION['id_usu'] = $row['id_usuario'];
-        $_SESSION['nombreUsu'] = $username;
-        $_SESSION['rol'] = $row['rol'];
-        header('Location: ../../Index.php');
-        exit();
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['contra'])) {
+            $_SESSION['id_usu'] = $row['id_usuario'];
+            $_SESSION['nombreUsu'] = $username;
+            $_SESSION['rol'] = $row['rol'];
+            header('Location: ../../Index.php');
+            exit();
+        }
     }
-}
 
-$error = "Usuario o contraseña incorrectos.";
+    $error = "Usuario o contraseña incorrectos.";
 
     $stmt->close();
     $conn->close();
@@ -53,14 +53,21 @@ $error = "Usuario o contraseña incorrectos.";
           <div class="card-body">
             <h4 class="card-title text-center mb-4">Level-Up Video</h4>
 
-            <!-- Mensaje de error en PHP -->
+            <!-- Mensaje si fue redirigido desde la cesta -->
+            <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'cesta'): ?>
+              <div class="alert alert-warning text-center" role="alert">
+                Debes iniciar sesión para añadir productos a la cesta.
+              </div>
+            <?php endif; ?>
+
+            <!-- Error de validación -->
             <?php if (!empty($error)): ?>
               <div class="alert alert-danger text-center" role="alert">
                 <?= htmlspecialchars($error) ?>
               </div>
             <?php endif; ?>
 
-            <!-- Formulario de Login -->
+            <!-- Formulario de login -->
             <form method="post" onsubmit="return validarFormulario()">
               <div class="mb-3">
                 <label for="username" class="form-label">Usuario:</label>
@@ -78,7 +85,7 @@ $error = "Usuario o contraseña incorrectos.";
 
             <hr class="my-3">
 
-            <!-- Botón de Registro -->
+            <!-- Registro -->
             <form action="../Registro/registro.php" method="get">
               <button type="submit" class="btn btn-outline-secondary w-100">Registrarse</button>
             </form>
@@ -92,13 +99,7 @@ $error = "Usuario o contraseña incorrectos.";
     function validarFormulario() {
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
-
-      if (username === '' || password === '') {
-        // No usar alert, puedes mostrar un mensaje personalizado aquí si quieres
-        return false;
-      }
-
-      return true;
+      return !(username === '' || password === '');
     }
   </script>
 

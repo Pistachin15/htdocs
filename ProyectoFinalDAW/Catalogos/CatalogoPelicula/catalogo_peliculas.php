@@ -7,8 +7,6 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Ya no redirigimos si no hay sesión iniciada
-
 $sql = "SELECT * FROM productos WHERE tipo = 'película'";
 $result = $conn->query($sql);
 ?>
@@ -28,31 +26,36 @@ $result = $conn->query($sql);
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <?php if (!empty($row['imagen'])): ?>
-                        <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/Peliculas/<?= htmlspecialchars($row['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['titulo']) ?>">
-                    <?php else: ?>
-                        <div class="card-img-top bg-secondary text-white text-center p-5">Sin imagen</div>
-                    <?php endif; ?>
+                <a href="../detalle_producto.php?id=<?= $row['id_producto'] ?>" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm">
+                        <?php if (!empty($row['imagen'])): ?>
+                            <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/Peliculas/<?= htmlspecialchars($row['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['titulo']) ?>">
+                        <?php else: ?>
+                            <div class="card-img-top bg-secondary text-white text-center p-5">Sin imagen</div>
+                        <?php endif; ?>
 
-                    <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($row['titulo']) ?></h5>
-                        <p class="card-text"><?= htmlspecialchars($row['descripcion']) ?></p>
-                    </div>
-
-                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <div class="card-footer d-flex justify-content-between">
-                            <form action="../../Administrador/Admin_Catalogo/EditarProductos/editar_producto.php" method="get">
-                                <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
-                                <button type="submit" class="btn btn-primary btn-sm">Editar</button>
-                            </form>
-                            <form action="../../Administrador/Admin_Catalogo/BorrarProductos/borrar_producto.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta película?');">
-                                <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
-                            </form>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($row['titulo']) ?></h5>
+                            <p class="card-text">
+                                <strong>Precio de compra:</strong> €<?= number_format($row['precio_compra'], 2) ?><br>
+                                <strong>Precio de alquiler:</strong> €<?= number_format($row['precio_alquiler'], 2) ?>
+                            </p>
                         </div>
-                    <?php endif; ?>
-                </div>
+
+                        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                            <div class="card-footer d-flex justify-content-between">
+                                <form action="../../Administrador/Admin_Catalogo/EditarProductos/editar_producto.php" method="get">
+                                    <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
+                                    <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                                </form>
+                                <form action="../../Administrador/Admin_Catalogo/BorrarProductos/borrar_producto.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta película?');">
+                                    <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                </form>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </a>
             </div>
         <?php endwhile; ?>
     </div>
