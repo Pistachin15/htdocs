@@ -2,6 +2,11 @@
 session_start();
 require_once '../login.php';
 
+$conn = new mysqli($hn, $un, $pw, $db);
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
     echo "No tienes permisos para realizar esta acción.";
     exit;
@@ -21,7 +26,9 @@ if (isset($_POST['id_alquiler'], $_POST['id_producto'])) {
     $stmt->bind_param("i", $id_producto);
     $stmt->execute();
 
-    echo "Alquiler finalizado correctamente. <a href='alquileres_activos.php'>Volver</a>";
+    // Redireccionar
+    header("Location: alquileres_activos.php");
+    exit;
 } else {
     echo "Faltan datos.";
 }

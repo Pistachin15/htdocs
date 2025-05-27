@@ -4,8 +4,8 @@ require_once '../login.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 
-if (!isset($_SESSION['id_usu'])) {
-    echo "Debes iniciar sesión.";
+if (!isset($_SESSION['nombreUsu'])) {
+    header("Location: ../FormularioLoginRegistro/Logeo/login.php?mensaje=cesta");
     exit;
 }
 
@@ -83,14 +83,14 @@ $rol = $_SESSION['rol'];
             FROM alquileres a
             JOIN productos p ON a.id_producto = p.id_producto
             JOIN usuarios u ON a.id_usuario = u.id_usuario
-            WHERE a.devuelto = 0 AND DATEDIFF(NOW(), a.fecha_alquiler) < 3
+            WHERE a.devuelto = 0
         ");
     } else {
         $stmt = $conn->prepare("
             SELECT a.*, p.titulo, p.imagen, p.tipo, DATEDIFF(NOW(), a.fecha_alquiler) AS dias_transcurridos
             FROM alquileres a
             JOIN productos p ON a.id_producto = p.id_producto
-            WHERE a.id_usuario = ? AND a.devuelto = 0 AND DATEDIFF(NOW(), a.fecha_alquiler) < 3
+            WHERE a.id_usuario = ? AND a.devuelto = 0
         ");
         $stmt->bind_param("i", $id_usuario);
     }

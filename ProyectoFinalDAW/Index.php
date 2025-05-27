@@ -37,15 +37,21 @@ session_start();
                         <a class="nav-link" href="AlquileresActivos/alquileres_activos.php">Alquileres Activos</a>
                     </li>
                     <li>
-                        <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Ver Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
+                        <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
                     </li>
 
                     <li>
-                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Ver Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
+                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
                     </li>
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <li class="nav-item">
                             <a class="nav-link btn btn-success text-white mx-2" href="Administrador/SeleccionProductoInsertar.html">Añadir Productos</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-success text-white mx-2" href="estadisticas.php">Estadísticas</a>
                         </li>
                     <?php endif; ?>
 
@@ -84,7 +90,7 @@ session_start();
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
         <div class="container text-center">
-            <p class="mb-0">&copy; 2023 Videoclub Online. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
             <div class="mt-2">
                 <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
                 <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>

@@ -45,9 +45,12 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
                 <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
+                <li class="nav-item">
+                        <a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a>
+                </li>
 
-                <li><a href="../CarritoCompra/ver_cesta.php" class="btn btn-outline-primary me-2">🛒 Compra (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
-                <li><a href="ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+                <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary me-2">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
+                <li><a href="ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <li class="nav-item me-2 d-flex align-items-center text-white">
                     Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']) ?>
