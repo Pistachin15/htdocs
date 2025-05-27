@@ -70,6 +70,7 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
             <a href="../catalogo/catalogo_peliculas.php" class="btn btn-secondary">← Seguir alquilando</a>
             <a href="vaciar_cesta_alquiler.php" class="btn btn-danger" onclick="return confirm('¿Vaciar la cesta de alquileres?');">Vaciar</a>
         </div>
+        <a href="../FormularioPago/formulario_pago.php?tipo=alquiler" class="btn btn-success mt-3">Finalizar Alquiler</a>
     <?php endif; ?>
 </div>
 </body>

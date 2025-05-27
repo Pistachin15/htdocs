@@ -34,7 +34,7 @@ session_start();
                         <a class="nav-link" href="Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
+                        <a class="nav-link" href="AlquileresActivos/alquileres_activos.php">Alquileres Activos</a>
                     </li>
                     <li>
                         <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Ver Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
@@ -43,7 +43,6 @@ session_start();
                     <li>
                         <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Ver Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
                     </li>
-
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <li class="nav-item">
                             <a class="nav-link btn btn-success text-white mx-2" href="Administrador/SeleccionProductoInsertar.html">Añadir Productos</a>
