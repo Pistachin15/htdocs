@@ -35,15 +35,26 @@ if (!isset($_SESSION['cesta_alquiler'])) {
     $_SESSION['cesta_alquiler'] = [];
 }
 
+$stock_disponible = $producto['stock'];
+
 if (isset($_SESSION['cesta_alquiler'][$id])) {
-    $_SESSION['cesta_alquiler'][$id]['cantidad']++;
+    if ($_SESSION['cesta_alquiler'][$id]['cantidad'] < $stock_disponible) {
+        $_SESSION['cesta_alquiler'][$id]['cantidad']++;
+    } else {
+        $_SESSION['error_stock_alquiler'] = "No hay suficiente stock para alquilar más unidades de '{$producto['titulo']}'.";
+    }
 } else {
-    $_SESSION['cesta_alquiler'][$id] = [
-        'titulo' => $producto['titulo'],
-        'precio' => $producto['precio_alquiler'],
-        'cantidad' => 1
-    ];
+    if ($stock_disponible > 0) {
+        $_SESSION['cesta_alquiler'][$id] = [
+            'titulo' => $producto['titulo'],
+            'precio' => $producto['precio_alquiler'],
+            'cantidad' => 1
+        ];
+    } else {
+        $_SESSION['error_stock_alquiler'] = "El producto '{$producto['titulo']}' no tiene stock disponible para alquilar.";
+    }
 }
+
 
 header('Location: ver_cesta_alquiler.php');
 exit;

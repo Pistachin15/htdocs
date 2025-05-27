@@ -9,6 +9,7 @@ if (!isset($_SESSION['nombreUsu'])) {
 
 $cesta = $_SESSION['cesta'] ?? [];
 $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php';
+var_dump($origen);
 ?>
 
 <!DOCTYPE html>
@@ -71,6 +72,10 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
             <a href="<?= htmlspecialchars($origen) ?>" class="btn btn-secondary">← Seguir comprando</a>
             <a href="vaciar_cesta.php" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas vaciar la cesta?');">Vaciar Cesta</a>
         </div>
+        <form action="procesar_compra.php" method="post">
+            <button type="submit">Comprar ahora</button>
+        </form>
+
     <?php endif; ?>
 </div>
 </body>

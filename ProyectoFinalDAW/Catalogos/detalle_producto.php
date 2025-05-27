@@ -93,7 +93,7 @@ $sin_stock = ($producto['stock'] <= 0);
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['nombreUsu'])): ?>
-                <form action="cesta/añadir_a_alquiler.php" method="get" class="d-inline">
+                <form action="../CarritoAlquiler/añadir_a_alquiler.php" method="get" class="d-inline">
                     <input type="hidden" name="id" value="<?= $producto['id_producto'] ?>">
                     <button type="submit" class="btn btn-warning" <?= $sin_stock ? 'disabled' : '' ?>>Alquilar</button>
                 </form>

@@ -40,15 +40,27 @@ if (!isset($_SESSION['cesta'])) {
 }
 
 // Añadir o actualizar producto en la cesta
+$stock_disponible = $producto['stock'];
+
 if (isset($_SESSION['cesta'][$id])) {
-    $_SESSION['cesta'][$id]['cantidad']++;
+    if ($_SESSION['cesta'][$id]['cantidad'] < $stock_disponible) {
+        $_SESSION['cesta'][$id]['cantidad']++;
+    } else {
+        // No se puede añadir más del stock disponible
+        $_SESSION['error_stock'] = "No hay suficiente stock para añadir más unidades de '{$producto['titulo']}'.";
+    }
 } else {
-    $_SESSION['cesta'][$id] = [
-        'titulo' => $producto['titulo'],
-        'precio' => $producto['precio_compra'],
-        'cantidad' => 1
-    ];
+    if ($stock_disponible > 0) {
+        $_SESSION['cesta'][$id] = [
+            'titulo' => $producto['titulo'],
+            'precio' => $producto['precio_compra'],
+            'cantidad' => 1
+        ];
+    } else {
+        $_SESSION['error_stock'] = "El producto '{$producto['titulo']}' no tiene stock disponible.";
+    }
 }
+
 
 // Guardar origen para "seguir comprando" desde ver_cesta
 if ($producto['tipo'] === 'videojuego') {

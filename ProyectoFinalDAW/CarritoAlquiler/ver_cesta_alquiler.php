@@ -23,7 +23,7 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
 
     <?php if (empty($cesta_alquiler)): ?>
         <div class="alert alert-info">No has añadido productos a alquilar todavía.</div>
-        <a href="../catalogo/catalogo_peliculas.php" class="btn btn-primary">Ir al catálogo</a>
+        <a href="../Index.php" class="btn btn-primary">Volver al Inicio</a>
     <?php else: ?>
         <table class="table table-bordered align-middle text-center">
             <thead class="table-dark">
