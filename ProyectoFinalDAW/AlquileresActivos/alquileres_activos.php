@@ -40,15 +40,16 @@ $rol = $_SESSION['rol'];
                 <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
-                <?php if ($rol === 'administrador'): ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Gestión
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="gestionDropdown">
-                            <li><a class="dropdown-item" href="../Administrador/SeleccionProductoInsertar.html">Añadir Productos</a></li>
-                        </ul>
-                    </li>
+                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-success text-white mx-2" href="../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a>
+                        </li>
+                    <?php endif; ?>
+
+                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-success text-white mx-2" href="../estadisticas.php">Estadísticas</a>
+                        </li>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['nombreUsu'])): ?>

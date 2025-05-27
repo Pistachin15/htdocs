@@ -45,7 +45,7 @@ session_start();
                     </li>
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="Administrador/SeleccionProductoInsertar.html">Añadir Productos</a>
+                            <a class="nav-link btn btn-success text-white mx-2" href="Administrador/SeleccionProductoInsertar.php">Añadir Productos</a>
                         </li>
                     <?php endif; ?>
 
