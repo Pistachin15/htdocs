@@ -127,9 +127,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="<?= htmlspecialchars($origen) ?>" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Seguir comprando
-            </a>
             <a href="vaciar_cesta.php" class="btn btn-danger" onclick="return confirm('¿Vaciar toda la cesta?');">
                 <i class="bi bi-trash3"></i> Vaciar Cesta
             </a>

@@ -126,9 +126,6 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
         </table>
 
         <div class="d-flex justify-content-between mt-3">
-            <a href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Seguir alquilando
-            </a>
             <a href="vaciar_cesta_alquiler.php" class="btn btn-danger" onclick="return confirm('¿Vaciar la cesta de alquileres?');">
                 <i class="bi bi-trash3"></i> Vaciar Cesta
             </a>
