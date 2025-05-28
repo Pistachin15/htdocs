@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">Videoclub Online</a>
+        <a class="navbar-brand" href="../../Index.php">Videoclub Online</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
                             <li><a class="dropdown-item" href="../estadisticas.php">Estadísticas</a></li>
-                            <li><a class="dropdown-item" href="#">Añadir Publicaciones</a></li>
+                            <li><a class="dropdown-item" href="nueva_publicacion.php">Añadir Publicaciones</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
