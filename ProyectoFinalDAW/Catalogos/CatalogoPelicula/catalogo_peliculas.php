@@ -54,36 +54,40 @@ $rol = $_SESSION['rol'] ?? null;
                 <li><a href="../../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="../../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a>
-                        </li>
-                    <?php endif; ?>
-                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="../../estadisticas.php">Estadísticas</a>
-                        </li>
+                    <!-- Desplegable para administrador -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Gestión
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
+                            <li><a class="dropdown-item" href="../../Administrador/Publicaciones/nueva_publicacion.php">Añadir Publicaciones</a></li>
+                            <li><a class="dropdown-item" href="../../Administrador/estadisticas.php">Estadísticas</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['nombreUsu'])): ?>
-                <li class="nav-item me-2 d-flex align-items-center text-white">
-                    Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']) ?>
-                </li>
-                <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="../../logout.php">Cerrar sesión</a></li>
+                    <li class="nav-item me-2 d-flex align-items-center text-white">
+                        Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']) ?>
+                    </li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="../../logout.php">Cerrar sesión</a></li>
                 <?php else: ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="../../FormularioLoginRegistro/Logeo/login.php">Iniciar sesión</a></li>
-                        <li><a class="dropdown-item" href="../../FormularioLoginRegistro/Registro/registro.php">Registrarse</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="../../FormularioLoginRegistro/Logeo/login.php">Iniciar sesión</a></li>
+                            <li><a class="dropdown-item" href="../../FormularioLoginRegistro/Registro/registro.php">Registrarse</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
     </div>
 </nav>
+
 
 <!-- Contenido -->
 <div class="container my-5">

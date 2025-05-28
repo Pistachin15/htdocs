@@ -48,24 +48,23 @@ $rol = $_SESSION['rol'] ?? null;
                 <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
 
-                <li class="nav-item">
-                        <a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a>
-                </li>
-
-                <li><a href="ver_cesta.php" class="btn btn-outline-primary me-2">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
+                <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary me-2">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a>
-                        </li>
-                    <?php endif; ?>
-
-                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="../estadisticas.php">Estadísticas</a>
-                        </li>
+                    <!-- Menú desplegable para administrador -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Gestión
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
+                            <li><a class="dropdown-item" href="estadisticas.php">Estadísticas</a></li>
+                            <li><a class="dropdown-item" href="../Administrador/Publicaciones/nueva_publicacion.php">Añadir Publicaciones</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
 
                 <li class="nav-item me-2 d-flex align-items-center text-white">
@@ -76,6 +75,7 @@ $rol = $_SESSION['rol'] ?? null;
         </div>
     </div>
 </nav>
+
 
 <!-- Contenido principal -->
 <div class="container py-5">

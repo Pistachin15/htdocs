@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'login.php';
+require_once '../login.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
@@ -70,67 +70,44 @@ $alquileresTotales = array_reverse(array_column($alquileresPorMes, 'total'));
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Videoclub Online</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="Index.php">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="AlquileresActivos/alquileres_activos.php">Alquileres Activos</a>
-                    </li>
-                    <li>
-                        <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
-                    </li>
+    <div class="container">
+        <a class="navbar-brand" href="#">Videoclub Online</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
 
-                    <li>
-                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
+                <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
+                <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
+
+                <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary me-2">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
+                <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+
+                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                    <!-- Menú desplegable para administrador -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Gestión
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
+                            <li><a class="dropdown-item" href="estadisticas.php">Estadísticas</a></li>
+                            <li><a class="dropdown-item" href="../Administrador/Publicaciones/nueva_publicacion.php">Añadir Publicaciones</a></li>
+                        </ul>
                     </li>
-                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="Administrador/SeleccionProductoInsertar.php">Añadir Productos</a>
-                        </li>
-                    <?php endif; ?>
+                <?php endif; ?>
 
-                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white mx-2" href="estadisticas.php">Estadísticas</a>
-                        </li>
-                    <?php endif; ?>
-
-                    <?php if (isset($_SESSION['nombreUsu'])): ?>
-                        <li class="nav-item me-2 d-flex align-items-center text-white">
-                            Bienvenido, <?php echo htmlspecialchars($_SESSION['nombreUsu']); ?>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-danger text-white" href="logout.php">Cerrar sesión</a>
-                        </li>
-                    <?php else: ?>
-                        <!-- Menú desplegable de usuario -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                <li><a class="dropdown-item" href="FormularioLoginRegistro/Logeo/login.php">Iniciar sesión</a></li>
-                                <li><a class="dropdown-item" href="FormularioLoginRegistro/Registro/registro.php">Registrarse</a></li>
-                            </ul>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+                <li class="nav-item me-2 d-flex align-items-center text-white">
+                    Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']) ?>
+                </li>
+                <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="../logout.php">Cerrar sesión</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
 <main class="container my-5">
     <h1 class="text-center mb-4">📊 Estadísticas del Videoclub</h1>

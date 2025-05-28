@@ -73,17 +73,21 @@ $rol = $_SESSION['rol'] ?? null;
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
-                <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
+                <li class="nav-item"><a class="nav-link active" href="CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
                 <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
-                <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+                <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
-                <?php if ($rol === 'administrador'): ?>
+                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                    <!-- Desplegable de administrador -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown">
-                            Gestión
+                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Gestión
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../SeleccionarTipo.php">Añadir Productos</a></li>
+                            <li><a class="dropdown-item" href="../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
+                            <li><a class="dropdown-item" href="../Administrador/Publicaciones/nueva_publicacion.php">Añadir Publicaciones</a></li>
+                            <li><a class="dropdown-item" href="../Administrador/estadisticas.php">Estadísticas</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -95,7 +99,7 @@ $rol = $_SESSION['rol'] ?? null;
                     <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="../logout.php">Cerrar sesión</a></li>
                 <?php else: ?>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
