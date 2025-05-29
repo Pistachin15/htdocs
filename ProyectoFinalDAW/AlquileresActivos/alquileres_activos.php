@@ -27,7 +27,7 @@ $rol = $_SESSION['rol'];
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">Videoclub Online</a>
+        <a class="navbar-brand" href="../Index.php">Level Up Video</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,7 +36,7 @@ $rol = $_SESSION['rol'];
                 <li class="nav-item"><a class="nav-link" href="../Index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
-                <li class="nav-item"><a class="nav-link active" href="AlquileresActivos">Alquileres Activos</a></li>
+                <li class="nav-item"><a class="nav-link active" href="alquileres_activos.php">Alquileres Activos</a></li>
 
                 <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>

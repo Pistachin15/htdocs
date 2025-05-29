@@ -40,14 +40,14 @@ $rol = $_SESSION['rol'] ?? null;
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">Videoclub Online</a>
+        <a class="navbar-brand" href="../../Index.php">Level Up Video</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="../../Index.php">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link active" href="catalogo_peliculas">Películas</a></li>
+                <li class="nav-item"><a class="nav-link active" href="catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
                 <li><a href="../../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>

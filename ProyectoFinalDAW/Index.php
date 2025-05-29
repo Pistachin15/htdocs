@@ -29,7 +29,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="Index.php">Videoclub Online</a>
+            <a class="navbar-brand" href="Index.php">Level Up Video</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -80,7 +80,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
         <div class="row">
             <!-- Contenido principal -->
             <div class="col-md-8">
-                <h1 class="text-center mb-4">Bienvenido al Videoclub Online</h1>
+                <h1 class="text-center mb-4">Bienvenido a Level Up Video</h1>
                 <?php if (!empty($productos)): ?>
                     <div id="carouselProductos" class="carousel slide mb-4" data-bs-ride="carousel">
                         <div class="carousel-inner">
