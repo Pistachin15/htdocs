@@ -43,7 +43,6 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                     <li><a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                        <!-- Desplegable de administrador -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown">
                                 Gestión
@@ -82,11 +81,14 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
             <div class="col-md-8">
                 <h1 class="text-center mb-4">Bienvenido a Level Up Video</h1>
                 <?php if (!empty($productos)): ?>
-                    <div id="carouselProductos" class="carousel slide mb-4" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                    <div id="carouselProductos" class="carousel slide mb-4" data-bs-ride="carousel" style="height: 500px; overflow: hidden;">
+                        <div class="carousel-inner h-100">
                             <?php foreach ($productos as $index => $producto): ?>
-                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                    <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/<?= $producto['tipo'] === 'videojuego' ? 'Videojuegos' : 'Peliculas' ?>/<?= htmlspecialchars($producto['imagen']) ?>" class="d-block w-100" alt="<?= htmlspecialchars($producto['titulo']) ?>" style="max-height: 500px; object-fit: cover;">
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?> h-100">
+                                    <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/<?= $producto['tipo'] === 'videojuego' ? 'Videojuegos' : 'Peliculas' ?>/<?= htmlspecialchars($producto['imagen']) ?>"
+                                         class="d-block w-100 h-100"
+                                         style="object-fit: cover;"
+                                         alt="<?= htmlspecialchars($producto['titulo']) ?>">
                                     <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
                                         <h5><?= htmlspecialchars($producto['titulo']) ?></h5>
                                         <p><?= ucfirst($producto['tipo']) ?></p>
