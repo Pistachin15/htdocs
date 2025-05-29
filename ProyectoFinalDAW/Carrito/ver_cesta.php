@@ -22,12 +22,35 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-        body {
+        /* Flexbox para footer fijo al fondo */
+        html, body {
+            height: 100%;
+            margin: 0;
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        body {
+            /* Para que el body tome toda la altura y permita que .cesta-container crezca */
+            flex: 1 0 auto;
         }
         .cesta-container {
             max-width: 900px;
             margin: 40px auto;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            flex: 1 0 auto; /* Crece para empujar footer */
+        }
+        footer {
+            flex-shrink: 0; /* No se reduce */
+            background-color: #212529; /* bg-dark */
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: auto;
+            width: 100%;
         }
     </style>
 </head>
@@ -36,14 +59,14 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="../Index.php">Level Up Video</a>
+        <a class="navbar-brand" href="../index.php">Level Up Video</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item"><a class="nav-link" href="../Index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
@@ -74,9 +97,8 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
     </div>
 </nav>
 
-
 <!-- Contenido -->
-<div class="container cesta-container bg-white p-4 rounded shadow-sm">
+<div class="container cesta-container">
     <h2 class="mb-4">🛒 Tu Cesta de Compra</h2>
 
     <?php if (empty($cesta)): ?>
@@ -141,7 +163,7 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white text-center py-3 mt-5">
+<footer>
     <div class="container">
         &copy; 2023 Videoclub Online. Todos los derechos reservados.
     </div>

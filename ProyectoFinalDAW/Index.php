@@ -7,44 +7,103 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Productos destacados con imagen
 $sql = "SELECT id_producto, titulo, imagen, tipo FROM productos WHERE imagen IS NOT NULL AND imagen != '' ORDER BY RAND() LIMIT 5";
 $resultado = $conn->query($sql);
 $productos = $resultado->fetch_all(MYSQLI_ASSOC);
 
-// Publicaciones recientes
 $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, fecha_publicacion FROM publicaciones ORDER BY fecha_publicacion DESC LIMIT 5");
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Videoclub Online - Películas y Juegos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+        }
+
+        /* Carousel: altura adaptativa */
+        #carouselProductos img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+        }
+        @media (max-width: 767.98px) { /* móviles */
+            #carouselProductos img {
+                max-height: 250px;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 991.98px) { /* tablets */
+            #carouselProductos img {
+                max-height: 350px;
+            }
+        }
+
+        /* Espaciado sidebar en móviles */
+        .sidebar-publicaciones {
+            margin-top: 2rem;
+        }
+
+        /* Navbar cart buttons spacing on small screens */
+        @media (max-width: 575.98px) {
+            .navbar-nav .btn {
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar-nav .nav-item {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegación principal">
         <div class="container">
-            <a class="navbar-brand" href="Index.php">Level Up Video</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="index.php">Level Up Video</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Alternar navegación"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="Index.php">Inicio</a></li>
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                     <li class="nav-item"><a class="nav-link" href="Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                     <li class="nav-item"><a class="nav-link" href="AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
-                    <li><a href="Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
-                    <li><a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+                    <li class="nav-item">
+                        <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary mx-1">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary mx-1">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
+                    </li>
 
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Gestión
                             </a>
                             <ul class="dropdown-menu">
@@ -62,7 +121,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                         <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="logout.php">Cerrar sesión</a></li>
                     <?php else: ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i></a>
+                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="FormularioLoginRegistro/Logeo/login.php">Iniciar sesión</a></li>
                                 <li><a class="dropdown-item" href="FormularioLoginRegistro/Registro/registro.php">Registrarse</a></li>
@@ -74,24 +133,23 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
         </div>
     </nav>
 
-    <!-- Contenido con sidebar -->
-    <div class="container my-5">
+    <main class="container my-5">
         <div class="row">
             <!-- Contenido principal -->
-            <div class="col-md-8">
+            <div class="col-12 col-md-8">
                 <h1 class="text-center mb-4">Bienvenido a Level Up Video</h1>
                 <?php if (!empty($productos)): ?>
-                    <div id="carouselProductos" class="carousel slide mb-4" data-bs-ride="carousel" style="height: 500px; overflow: hidden;">
-                        <div class="carousel-inner h-100">
+                    <div id="carouselProductos" class="carousel slide mb-4" data-bs-ride="carousel">
+                        <div class="carousel-inner">
                             <?php foreach ($productos as $index => $producto): ?>
-                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?> h-100">
-                                    <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/<?= $producto['tipo'] === 'videojuego' ? 'Videojuegos' : 'Peliculas' ?>/<?= htmlspecialchars($producto['imagen']) ?>"
-                                         class="d-block w-100 h-100"
-                                         style="object-fit: cover;"
-                                         alt="<?= htmlspecialchars($producto['titulo']) ?>">
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img
+                                        src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/<?= $producto['tipo'] === 'videojuego' ? 'Videojuegos' : 'Peliculas' ?>/<?= htmlspecialchars($producto['imagen']) ?>"
+                                        class="d-block w-100"
+                                        alt="<?= htmlspecialchars($producto['titulo']) ?>"
+                                    />
                                     <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
                                         <h5><?= htmlspecialchars($producto['titulo']) ?></h5>
-                                        <p><?= ucfirst($producto['tipo']) ?></p>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -110,8 +168,8 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                 <?php endif; ?>
             </div>
 
-            <!-- Sidebar de publicaciones -->
-            <div class="col-md-4">
+            <!-- Sidebar publicaciones -->
+            <div class="col-12 col-md-4 sidebar-publicaciones">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4>Publicaciones</h4>
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
@@ -124,7 +182,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title"><?= htmlspecialchars($pub['titulo']) ?></h5>
-                                <h6 class="card-subtitle text-muted mb-2">Por <?= htmlspecialchars($pub['autor']) ?> - <?= htmlspecialchars($pub['fecha_publicacion']) ?></h6>
+                                <h6 class="card-subtitle text-muted mb-2"><?= htmlspecialchars($pub['autor']) ?> - <?= htmlspecialchars($pub['fecha_publicacion']) ?></h6>
                                 <p class="card-text"><?= nl2br(htmlspecialchars($pub['contenido'])) ?></p>
                                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                                     <form method="POST" action="Administrador/Publicaciones/eliminar_publicacion.php" onsubmit="return confirm('¿Estás seguro de eliminar esta publicación?');">
@@ -140,10 +198,9 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                 <?php endif; ?>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
             <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
             <div class="mt-2">
@@ -154,7 +211,6 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
         </div>
     </footer>
 
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

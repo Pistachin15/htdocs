@@ -15,6 +15,25 @@ $rol = $_SESSION['rol'] ?? null;
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
   <style>
+    /* Flexbox para footer fijo al fondo */
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
+
+    body > .container, 
+    body > nav,
+    body > footer {
+      flex-shrink: 0;
+    }
+
+    .content-wrapper {
+      flex: 1 0 auto; /* Crece para ocupar espacio */
+    }
+
     .card-option {
       transition: transform 0.2s;
       cursor: pointer;
@@ -33,19 +52,25 @@ $rol = $_SESSION['rol'] ?? null;
       margin-bottom: 1rem;
       color: #0d6efd;
     }
+
+    footer {
+      flex-shrink: 0;
+      background-color: #212529; /* bg-dark */
+      color: white;
+    }
   </style>
 </head>
-<body class="bg-light">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="../Index.php">Level Up Video</a>
+        <a class="navbar-brand" href="../index.php">Level Up Video</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item"><a class="nav-link" href="../Index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
@@ -76,9 +101,7 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </nav>
 
-
-<!-- Contenido principal -->
-<div class="container py-5">
+<div class="content-wrapper container py-5">
   <h2 class="text-center mb-5">Selecciona qué tipo de producto deseas insertar</h2>
   <div class="row justify-content-center">
     <div class="col-12 col-md-4 mb-4">
@@ -104,9 +127,8 @@ $rol = $_SESSION['rol'] ?? null;
   </div>
 </div>
 
-<!-- Footer -->
-<footer class="bg-dark text-white py-4">
-  <div class="container text-center">
+<footer class="py-4 text-center">
+  <div class="container">
     <p class="mb-0">&copy; 2023 Videoclub Online. Todos los derechos reservados.</p>
     <div class="mt-2">
       <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>

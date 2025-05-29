@@ -18,33 +18,67 @@ $rol = $_SESSION['rol'];
 <head>
     <meta charset="UTF-8">
     <title>Alquileres Activos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- META importante para mobile -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        /* Opcional: evitar que el texto de la tabla se corte demasiado en móvil */
+        .table td, .table th {
+            white-space: nowrap;
+        }
+        @media (max-width: 576px) {
+            /* En móviles, permitir que el contenido de la tabla haga scroll horizontal */
+            .table-responsive {
+                overflow-x: auto;
+            }
+            /* Botones más grandes y con ancho completo para tocar más fácil */
+            .btn-sm {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                width: 100%;
+                margin-top: 0.3rem;
+            }
+            /* Centrar texto en celdas para mejor legibilidad */
+            .table td, .table th {
+                text-align: center;
+                white-space: normal;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="../Index.php">Level Up Video</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a class="navbar-brand" href="../index.php">Level Up Video</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="../Index.php">Inicio</a></li>
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link active" href="alquileres_activos.php">Alquileres Activos</a></li>
 
-                <li><a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
-                <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+                <li class="nav-item mx-2 mt-2 mt-lg-0">
+                    <a href="../Carrito/ver_cesta.php" class="btn btn-outline-primary">
+                        🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)
+                    </a>
+                </li>
+                <li class="nav-item mx-2 mt-2 mt-lg-0">
+                    <a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">
+                        🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)
+                    </a>
+                </li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Desplegable para Administrador -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item dropdown mx-2 mt-2 mt-lg-0">
+                        <a class="nav-link dropdown-toggle btn btn-success text-white" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
                         </a>
                         <ul class="dropdown-menu">
@@ -56,12 +90,12 @@ $rol = $_SESSION['rol'];
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['nombreUsu'])): ?>
-                    <li class="nav-item me-2 d-flex align-items-center text-white">
+                    <li class="nav-item me-2 d-flex align-items-center text-white mt-2 mt-lg-0">
                         Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']) ?>
                     </li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="../logout.php">Cerrar sesión</a></li>
+                    <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-danger text-white" href="../logout.php">Cerrar sesión</a></li>
                 <?php else: ?>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown mt-2 mt-lg-0">
                         <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i>
                         </a>
@@ -106,8 +140,8 @@ $rol = $_SESSION['rol'];
         echo "<div class='alert alert-info'>No hay alquileres activos.</div>";
     } else {
         echo "<div class='table-responsive'>
-                <table class='table table-bordered table-hover'>
-                    <thead class='table-dark'>
+                <table class='table table-bordered table-hover align-middle'>
+                    <thead class='table-dark text-center'>
                         <tr>
                             <th>Título</th>
                             <th>Tipo</th>
@@ -119,17 +153,17 @@ $rol = $_SESSION['rol'];
 
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
-                    <td>{$row['titulo']}</td>
-                    <td>{$row['tipo']}</td>
-                    <td>{$row['fecha_alquiler']}</td>";
+                    <td>" . htmlspecialchars($row['titulo']) . "</td>
+                    <td>" . htmlspecialchars($row['tipo']) . "</td>
+                    <td>" . htmlspecialchars($row['fecha_alquiler']) . "</td>";
 
             if ($rol === 'administrador') {
-                echo "<td>{$row['username']}</td>
-                    <td>{$row['dias_transcurridos']} días</td>
-                    <td>
+                echo "<td>" . htmlspecialchars($row['username']) . "</td>
+                    <td class='text-center'>" . intval($row['dias_transcurridos']) . " días</td>
+                    <td class='text-center'>
                         <form method='POST' action='finalizar_alquiler.php' class='d-inline'>
-                            <input type='hidden' name='id_alquiler' value='{$row['id_alquiler']}'>
-                            <input type='hidden' name='id_producto' value='{$row['id_producto']}'>
+                            <input type='hidden' name='id_alquiler' value='" . intval($row['id_alquiler']) . "'>
+                            <input type='hidden' name='id_producto' value='" . intval($row['id_producto']) . "'>
                             <button type='submit' class='btn btn-sm btn-danger'>Finalizar</button>
                         </form>
                     </td>";

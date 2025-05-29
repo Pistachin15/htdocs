@@ -33,15 +33,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Nueva Publicación</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap y Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+      /* Flexbox para footer fijo abajo */
+      html, body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa;
+      }
+
+      body > nav,
+      body > .content-wrapper,
+      body > footer {
+        flex-shrink: 0;
+      }
+
+      .content-wrapper {
+        flex: 1 0 auto; /* ocupar espacio disponible */
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      footer {
+        flex-shrink: 0;
+        background-color: #212529; /* bg-dark */
+        color: white;
+      }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="../../Index.php">Level Up Video</a>
+        <a class="navbar-brand" href="../../index.php">Level Up Video</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -57,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="../../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Menú desplegable para administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
@@ -79,37 +110,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </nav>
 
-    <!-- Formulario publicación -->
-    <div class="container">
-        <h2 class="mb-4 text-center">Crear nueva publicación</h2>
-        <form method="POST" class="mx-auto" style="max-width: 700px;">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
-                <input type="text" name="titulo" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="contenido" class="form-label">Contenido</label>
-                <textarea name="contenido" class="form-control" rows="6" required></textarea>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Publicar</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
-            <div class="mt-2">
-                <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
-            </div>
+<!-- Contenido principal envuelto -->
+<div class="content-wrapper container">
+    <h2 class="mb-4 text-center">Crear nueva publicación</h2>
+    <form method="POST" class="mx-auto" style="max-width: 700px;">
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" name="titulo" class="form-control" required>
         </div>
-    </footer>
+        <div class="mb-3">
+            <label for="contenido" class="form-label">Contenido</label>
+            <textarea name="contenido" class="form-control" rows="6" required></textarea>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+    </form>
+</div>
 
-    <!-- JS Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Footer -->
+<footer class="py-4 text-center">
+    <div class="container">
+        <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
+        <div class="mt-2">
+            <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- JS Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

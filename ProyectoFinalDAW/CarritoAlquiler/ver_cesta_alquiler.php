@@ -21,12 +21,30 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-        body {
+        html, body {
+            height: 100%;
+            margin: 0;
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
         }
         .cesta-container {
             max-width: 900px;
             margin: 40px auto;
+            flex: 1 0 auto; /* Crece y ocupa espacio disponible */
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.375rem; /* igual que rounded */
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        footer {
+            flex-shrink: 0; /* Evita que el footer se reduzca */
+            background-color: #212529; /* bg-dark */
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: auto;
+            width: 100%;
         }
     </style>
 </head>
@@ -35,14 +53,14 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="../Index.php">Videoclub Online</a>
+        <a class="navbar-brand" href="../index.php">Videoclub Online</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item"><a class="nav-link" href="../Index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoPelicula/catalogo_peliculas.php">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
@@ -73,9 +91,8 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
     </div>
 </nav>
 
-
 <!-- Contenido -->
-<div class="container cesta-container bg-white p-4 rounded shadow-sm">
+<div class="container cesta-container">
     <h2 class="mb-4">🎬 Tu Cesta de Alquiler</h2>
 
     <?php if (empty($cesta_alquiler)): ?>
@@ -140,7 +157,7 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white text-center py-3 mt-5">
+<footer>
     <div class="container">
         &copy; 2023 Videoclub Online. Todos los derechos reservados.
     </div>
