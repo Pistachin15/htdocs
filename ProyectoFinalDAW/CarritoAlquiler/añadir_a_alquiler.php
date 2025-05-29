@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// ✅ Requiere iniciar sesión
 if (!isset($_SESSION['nombreUsu'])) {
     header("Location: ../FormularioLoginRegistro/Logeo/login.php?mensaje=cesta");
     exit;
@@ -30,7 +29,6 @@ if (!$res || $res->num_rows === 0) {
 $producto = $res->fetch_assoc();
 $conn->close();
 
-// Inicializar cesta de alquiler si no existe
 if (!isset($_SESSION['cesta_alquiler'])) {
     $_SESSION['cesta_alquiler'] = [];
 }

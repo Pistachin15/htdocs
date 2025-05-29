@@ -10,12 +10,12 @@ $rol = $_SESSION['rol'] ?? null;
   <title>Seleccionar Opción</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Bootstrap y Bootstrap Icons -->
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
   <style>
-    /* Flexbox para footer fijo al fondo */
+    
     html, body {
       height: 100%;
       margin: 0;
@@ -31,7 +31,7 @@ $rol = $_SESSION['rol'] ?? null;
     }
 
     .content-wrapper {
-      flex: 1 0 auto; /* Crece para ocupar espacio */
+      flex: 1 0 auto;
     }
 
     .card-option {
@@ -55,7 +55,7 @@ $rol = $_SESSION['rol'] ?? null;
 
     footer {
       flex-shrink: 0;
-      background-color: #212529; /* bg-dark */
+      background-color: #212529; 
       color: white;
     }
   </style>
@@ -79,7 +79,6 @@ $rol = $_SESSION['rol'] ?? null;
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Menú desplegable para administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
@@ -138,7 +137,6 @@ $rol = $_SESSION['rol'] ?? null;
   </div>
 </footer>
 
-<!-- Scripts Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

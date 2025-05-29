@@ -66,7 +66,6 @@ if ($tipo === 'alquiler' && empty($_SESSION['cesta_alquiler'])) {
 </div>
 
 <script>
-    // Validación visual Bootstrap
     (() => {
         'use strict';
         const forms = document.querySelectorAll('.needs-validation');
@@ -81,7 +80,6 @@ if ($tipo === 'alquiler' && empty($_SESSION['cesta_alquiler'])) {
         });
     })();
 
-    // Autoformato MM/AA
     document.getElementById("caducidad").addEventListener("input", function (e) {
         let value = e.target.value.replace(/[^\d]/g, '');
         if (value.length >= 2 && !value.includes('/')) {

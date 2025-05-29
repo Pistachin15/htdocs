@@ -9,7 +9,6 @@
   <div class="container">
     <h2 class="mb-4">Insertar Nueva Película</h2>
 
-    <!-- Mensaje de éxito -->
     <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
       <div class="alert alert-success">¡Pelicula insertada correctamente!</div>
     <?php endif; ?>

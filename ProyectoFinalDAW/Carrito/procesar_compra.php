@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../login.php'; // Asegúrate de que aquí se define $conexion
+require_once '../login.php'; 
 
 if (!isset($_SESSION['nombreUsu'])) {
     header("Location: ../FormularioLoginRegistro/Logeo/login.php?mensaje=cesta");
@@ -9,7 +9,6 @@ if (!isset($_SESSION['nombreUsu'])) {
 
 $nombre_usuario = $_SESSION['nombreUsu'];
 
-// Verificar conexión
 if (!isset($conexion)) {
     die("No se estableció conexión con la base de datos.");
 }
@@ -53,12 +52,10 @@ try {
 
         $total = $producto['precio_compra'] * $cantidad;
 
-        // Insertar compra
         $stmt = $conexion->prepare("INSERT INTO compras (id_usuario, id_producto, cantidad, total) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiid", $id_usuario, $id_producto, $cantidad, $total);
         $stmt->execute();
 
-        // Actualizar stock
         $nuevo_stock = $producto['stock'] - $cantidad;
         $stmt = $conexion->prepare("UPDATE productos SET stock = ? WHERE id_producto = ?");
         $stmt->bind_param("ii", $nuevo_stock, $id_producto);

@@ -16,7 +16,6 @@
                     <h4>Formulario de Registro</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Contenedor de mensaje -->
                     <div id="mensaje" class="alert alert-danger d-none"></div>
 
                     <form action="logicaRegistro.php" method="post">
@@ -68,10 +67,8 @@
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Mostrar errores sin alert() -->
 <script>
     const params = new URLSearchParams(window.location.search);
     if (params.has('error')) {

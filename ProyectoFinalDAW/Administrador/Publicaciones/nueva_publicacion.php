@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $titulo = $_POST['titulo'];
     $contenido = $_POST['contenido'];
-    $autor = $_SESSION['username']; // suponiendo que guardas el nombre de usuario en sesión
+    $autor = $_SESSION['NombreUsu']; 
 
     $stmt = $conn->prepare("INSERT INTO publicaciones (titulo, contenido, autor) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $titulo, $contenido, $autor);
@@ -34,13 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Nueva Publicación</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap y Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-      /* Flexbox para footer fijo abajo */
       html, body {
         height: 100%;
         margin: 0;
@@ -56,21 +54,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       .content-wrapper {
-        flex: 1 0 auto; /* ocupar espacio disponible */
+        flex: 1 0 auto; 
         padding-top: 2rem;
         padding-bottom: 2rem;
       }
 
       footer {
         flex-shrink: 0;
-        background-color: #212529; /* bg-dark */
+        background-color: #212529; 
         color: white;
       }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../../index.php">Level Up Video</a>
@@ -110,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </nav>
 
-<!-- Contenido principal envuelto -->
 <div class="content-wrapper container">
     <h2 class="mb-4 text-center">Crear nueva publicación</h2>
     <form method="POST" class="mx-auto" style="max-width: 700px;">
@@ -140,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </footer>
 
-<!-- JS Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

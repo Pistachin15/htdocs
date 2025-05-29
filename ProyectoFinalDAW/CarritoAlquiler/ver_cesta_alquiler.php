@@ -31,15 +31,15 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
         .cesta-container {
             max-width: 900px;
             margin: 40px auto;
-            flex: 1 0 auto; /* Crece y ocupa espacio disponible */
+            flex: 1 0 auto; 
             background-color: white;
             padding: 1.5rem;
-            border-radius: 0.375rem; /* igual que rounded */
+            border-radius: 0.375rem; 
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
         footer {
-            flex-shrink: 0; /* Evita que el footer se reduzca */
-            background-color: #212529; /* bg-dark */
+            flex-shrink: 0; 
+            background-color: #212529; 
             color: white;
             text-align: center;
             padding: 1rem 0;
@@ -50,7 +50,6 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../index.php">Videoclub Online</a>
@@ -69,7 +68,6 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
                 <li><a href="ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Desplegable para Administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
@@ -91,7 +89,6 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
     </div>
 </nav>
 
-<!-- Contenido -->
 <div class="container cesta-container">
     <h2 class="mb-4">🎬 Tu Cesta de Alquiler</h2>
 
@@ -156,7 +153,6 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
     <?php endif; ?>
 </div>
 
-<!-- Footer -->
 <footer>
     <div class="container">
         &copy; 2023 Videoclub Online. Todos los derechos reservados.

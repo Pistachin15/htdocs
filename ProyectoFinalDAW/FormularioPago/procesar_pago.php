@@ -59,7 +59,6 @@ if ($conn->connect_error) {
 
 // Procesar productos
 foreach ($cesta as $id => $producto) {
-    // Verificar existencia y stock
     $res = $conn->query("SELECT stock FROM productos WHERE id_producto = $id");
     if (!$res || $res->num_rows === 0) continue;
 

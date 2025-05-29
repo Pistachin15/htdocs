@@ -17,12 +17,10 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
     <title>Tu Cesta</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap y Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-        /* Flexbox para footer fijo al fondo */
         html, body {
             height: 100%;
             margin: 0;
@@ -31,7 +29,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
             flex-direction: column;
         }
         body {
-            /* Para que el body tome toda la altura y permita que .cesta-container crezca */
             flex: 1 0 auto;
         }
         .cesta-container {
@@ -41,11 +38,11 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
             padding: 1.5rem;
             border-radius: 0.375rem;
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            flex: 1 0 auto; /* Crece para empujar footer */
+            flex: 1 0 auto; 
         }
         footer {
-            flex-shrink: 0; /* No se reduce */
-            background-color: #212529; /* bg-dark */
+            flex-shrink: 0; 
+            background-color: #212529; 
             color: white;
             text-align: center;
             padding: 1rem 0;
@@ -56,7 +53,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../index.php">Level Up Video</a>
@@ -75,7 +71,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Desplegable para Administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
@@ -97,7 +92,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
     </div>
 </nav>
 
-<!-- Contenido -->
 <div class="container cesta-container">
     <h2 class="mb-4">🛒 Tu Cesta de Compra</h2>
 
@@ -162,7 +156,6 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
     <?php endif; ?>
 </div>
 
-<!-- Footer -->
 <footer>
     <div class="container">
         &copy; 2023 Videoclub Online. Todos los derechos reservados.

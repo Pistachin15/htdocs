@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $contra = $_POST['password'];
     $contraConfirm = $_POST['confirm_password'];
 
-    // Validación básica
     if (empty($nombre) || empty($apellidos) || empty($fecha_nacimiento) || empty($usuario) || empty($contra) || empty($contraConfirm)) {
         header("Location: registro.php?error=" . urlencode("Todos los campos son obligatorios"));
         exit();
@@ -42,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    // Insertar usuario
     $hashContra = password_hash($contra, PASSWORD_DEFAULT);
     $rol = 'cliente';
 

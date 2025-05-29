@@ -37,29 +37,26 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
             flex: 1;
         }
 
-        /* Carousel: altura adaptativa */
         #carouselProductos img {
             width: 100%;
             max-height: 500px;
             object-fit: cover;
         }
-        @media (max-width: 767.98px) { /* móviles */
+        @media (max-width: 767.98px) { 
             #carouselProductos img {
                 max-height: 250px;
             }
         }
-        @media (min-width: 768px) and (max-width: 991.98px) { /* tablets */
+        @media (min-width: 768px) and (max-width: 991.98px) { 
             #carouselProductos img {
                 max-height: 350px;
             }
         }
 
-        /* Espaciado sidebar en móviles */
         .sidebar-publicaciones {
             margin-top: 2rem;
         }
 
-        /* Navbar cart buttons spacing on small screens */
         @media (max-width: 575.98px) {
             .navbar-nav .btn {
                 margin-top: 0.5rem;

@@ -26,7 +26,6 @@ function mostrarError($mensaje) {
     ";
 }
 
-// Recoger y validar datos
 $titulo = trim($_POST['titulo']);
 $descripcion = trim($_POST['descripcion']);
 $stock = intval($_POST['stock']);
@@ -52,7 +51,6 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// Procesar imagen
 $imagenNombre = null;
 $carpetaDestino = "imagenesVideojuegos/";
 

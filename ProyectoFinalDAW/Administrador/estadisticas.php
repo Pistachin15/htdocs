@@ -48,7 +48,6 @@ while ($row = $result->fetch_assoc()) {
     $alquileresPorMes[] = $row;
 }
 
-// Preparar datos para Chart.js
 $comprasMeses = array_reverse(array_column($comprasPorMes, 'mes'));
 $comprasTotales = array_reverse(array_column($comprasPorMes, 'total'));
 $alquileresMeses = array_reverse(array_column($alquileresPorMes, 'mes'));
@@ -61,11 +60,8 @@ $alquileresTotales = array_reverse(array_column($alquileresPorMes, 'total'));
     <title>Estadísticas del Videoclub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -87,7 +83,6 @@ $alquileresTotales = array_reverse(array_column($alquileresPorMes, 'total'));
                 <li><a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Menú desplegable para administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Gestión
@@ -151,7 +146,6 @@ $alquileresTotales = array_reverse(array_column($alquileresPorMes, 'total'));
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
@@ -163,7 +157,6 @@ $alquileresTotales = array_reverse(array_column($alquileresPorMes, 'total'));
     </div>
 </footer>
 
-<!-- Chart.js scripts -->
 <script>
 const comprasCtx = document.getElementById('comprasChart').getContext('2d');
 new Chart(comprasCtx, {
@@ -192,7 +185,6 @@ new Chart(alquileresCtx, {
 });
 </script>
 
-<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

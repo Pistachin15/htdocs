@@ -18,29 +18,25 @@ $rol = $_SESSION['rol'];
 <head>
     <meta charset="UTF-8">
     <title>Alquileres Activos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- META importante para mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-        /* Opcional: evitar que el texto de la tabla se corte demasiado en móvil */
         .table td, .table th {
             white-space: nowrap;
         }
         @media (max-width: 576px) {
-            /* En móviles, permitir que el contenido de la tabla haga scroll horizontal */
             .table-responsive {
                 overflow-x: auto;
             }
-            /* Botones más grandes y con ancho completo para tocar más fácil */
             .btn-sm {
                 padding: 0.5rem 1rem;
                 font-size: 1rem;
                 width: 100%;
                 margin-top: 0.3rem;
             }
-            /* Centrar texto en celdas para mejor legibilidad */
             .table td, .table th {
                 text-align: center;
                 white-space: normal;
@@ -110,7 +106,6 @@ $rol = $_SESSION['rol'];
     </div>
 </nav>
 
-<!-- Contenido principal -->
 <div class="container my-5">
     <h2 class="mb-4 text-center">Alquileres Activos</h2>
 
@@ -179,7 +174,6 @@ $rol = $_SESSION['rol'];
     ?>
 </div>
 
-<!-- Footer -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2023 Videoclub Online. Todos los derechos reservados.</p>
@@ -191,7 +185,6 @@ $rol = $_SESSION['rol'];
     </div>
 </footer>
 
-<!-- JS de Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

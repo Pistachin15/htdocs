@@ -53,21 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
           <div class="card-body">
             <h4 class="card-title text-center mb-4">Level-Up Video</h4>
 
-            <!-- Mensaje si fue redirigido desde la cesta -->
             <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'cesta'): ?>
               <div class="alert alert-warning text-center" role="alert">
                 Debes iniciar sesión para añadir productos a la cesta.
               </div>
             <?php endif; ?>
 
-            <!-- Error de validación -->
             <?php if (!empty($error)): ?>
               <div class="alert alert-danger text-center" role="alert">
                 <?= htmlspecialchars($error) ?>
               </div>
             <?php endif; ?>
 
-            <!-- Formulario de login -->
             <form method="post" onsubmit="return validarFormulario()">
               <div class="mb-3">
                 <label for="username" class="form-label">Usuario:</label>
@@ -85,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['p
 
             <hr class="my-3">
 
-            <!-- Registro -->
             <form action="../Registro/registro.php" method="get">
               <button type="submit" class="btn btn-outline-secondary w-100">Registrarse</button>
             </form>

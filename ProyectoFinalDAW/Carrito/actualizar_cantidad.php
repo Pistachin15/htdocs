@@ -38,7 +38,6 @@ switch ($accion) {
     case 'restar':
         $_SESSION['cesta'][$id]['cantidad']--;
 
-        // Si la cantidad llega a 0 o menos, eliminamos el producto de la cesta
         if ($_SESSION['cesta'][$id]['cantidad'] <= 0) {
             unset($_SESSION['cesta'][$id]);
         }

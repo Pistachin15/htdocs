@@ -23,7 +23,6 @@ if (empty($titulo) || empty($descripcion) || $stock < 0 || $precio_compra < 0 ||
     mostrarError("Datos inválidos.");
 }
 
-// Comprobar título duplicado
 $stmt = $conn->prepare("SELECT id_producto FROM productos WHERE titulo = ? AND tipo = ? AND id_producto != ?");
 $stmt->bind_param("ssi", $titulo, $tipo, $id);
 $stmt->execute();
@@ -35,7 +34,6 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// Procesar imagen
 $imagenNombre = null;
 if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
     $extensiones = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -56,7 +54,6 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
     }
 }
 
-// Actualizar producto
 if ($imagenNombre) {
     $stmt = $conn->prepare("UPDATE productos SET titulo=?, descripcion=?, stock=?, precio_compra=?, precio_alquiler=?, imagen=? WHERE id_producto=?");
     $stmt->bind_param("ssiddsi", $titulo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenNombre, $id);
