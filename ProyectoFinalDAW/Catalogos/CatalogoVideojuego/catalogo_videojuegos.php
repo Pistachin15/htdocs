@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../login.php'; // contiene $hn, $db, $un, $pw
+require_once '../../login.php'; 
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {

@@ -44,17 +44,35 @@ $rol = $_SESSION['rol'] ?? null;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
         .producto-detalle {
             max-width: 1000px;
             margin: 50px auto;
         }
+
         .producto-detalle img {
             width: 100%;
             height: auto;
             object-fit: cover;
             border-radius: 8px;
         }
-        .btns-acciones button, .btns-acciones a {
+
+        .btns-acciones button,
+        .btns-acciones a {
             margin-right: 10px;
         }
     </style>
