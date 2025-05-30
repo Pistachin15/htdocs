@@ -142,11 +142,20 @@ $rol = $_SESSION['rol'];
                             <th>Tipo</th>
                             <th>Fecha de alquiler</th>";
         if ($rol === 'administrador') {
-            echo "<th>Usuario</th><th>Días transcurridos</th><th>Acción</th>";
+            echo "<th>Usuario</th><th>Días transcurridos</th>";
+        }
+        echo "<th>Estado</th>";
+        if ($rol === 'administrador') {
+            echo "<th>Acción</th>";
         }
         echo "</tr></thead><tbody>";
 
         while ($row = $result->fetch_assoc()) {
+            $dias = intval($row['dias_transcurridos']);
+            $estado = $dias < 3 
+                ? "<span class='text-success fw-bold'>✔️</span>" 
+                : "<span class='text-danger fw-bold'>❌</span>";
+
             echo "<tr>
                     <td>" . htmlspecialchars($row['titulo']) . "</td>
                     <td>" . htmlspecialchars($row['tipo']) . "</td>
@@ -154,8 +163,13 @@ $rol = $_SESSION['rol'];
 
             if ($rol === 'administrador') {
                 echo "<td>" . htmlspecialchars($row['username']) . "</td>
-                    <td class='text-center'>" . intval($row['dias_transcurridos']) . " días</td>
-                    <td class='text-center'>
+                      <td class='text-center'>" . $dias . " días</td>";
+            }
+
+            echo "<td class='text-center'>" . $estado . "</td>";
+
+            if ($rol === 'administrador') {
+                echo "<td class='text-center'>
                         <form method='POST' action='finalizar_alquiler.php' class='d-inline'>
                             <input type='hidden' name='id_alquiler' value='" . intval($row['id_alquiler']) . "'>
                             <input type='hidden' name='id_producto' value='" . intval($row['id_producto']) . "'>
