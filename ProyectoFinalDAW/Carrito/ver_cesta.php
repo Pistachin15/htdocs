@@ -158,7 +158,7 @@ $origen = $_SESSION['origen_catalogo'] ?? '../Catalogos/CatalogoVideojuego/catal
 
 <footer>
     <div class="container">
-        &copy; 2023 Videoclub Online. Todos los derechos reservados.
+        &copy; 2025 Level Up Video. Todos los derechos reservados.
     </div>
 </footer>
 

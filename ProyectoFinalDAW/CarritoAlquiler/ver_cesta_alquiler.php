@@ -155,7 +155,7 @@ $cesta_alquiler = $_SESSION['cesta_alquiler'] ?? [];
 
 <footer>
     <div class="container">
-        &copy; 2023 Videoclub Online. Todos los derechos reservados.
+        &copy; 2025 Level Up Video. Todos los derechos reservados.
     </div>
 </footer>
 

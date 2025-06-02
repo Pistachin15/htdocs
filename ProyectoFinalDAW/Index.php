@@ -199,7 +199,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
 
     <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
-            <p class="mb-0">&copy; 2025 Videoclub Online. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>
             <div class="mt-2">
                 <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
                 <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>

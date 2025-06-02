@@ -24,6 +24,15 @@ $rol = $_SESSION['rol'];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .content-wrapper {
+            flex: 1;
+        }
         .table td, .table th {
             white-space: nowrap;
         }
@@ -106,91 +115,95 @@ $rol = $_SESSION['rol'];
     </div>
 </nav>
 
-<div class="container my-5">
-    <h2 class="mb-4 text-center">Alquileres Activos</h2>
+<!-- Contenido principal envuelto para sticky footer -->
+<div class="content-wrapper">
+    <div class="container my-5">
+        <h2 class="mb-4 text-center">Alquileres Activos</h2>
 
-    <?php
-    if ($rol === 'administrador') {
-        $stmt = $conn->prepare("
-            SELECT a.*, p.titulo, p.imagen, p.tipo, u.username, DATEDIFF(NOW(), a.fecha_alquiler) AS dias_transcurridos
-            FROM alquileres a
-            JOIN productos p ON a.id_producto = p.id_producto
-            JOIN usuarios u ON a.id_usuario = u.id_usuario
-            WHERE a.devuelto = 0
-        ");
-    } else {
-        $stmt = $conn->prepare("
-            SELECT a.*, p.titulo, p.imagen, p.tipo, DATEDIFF(NOW(), a.fecha_alquiler) AS dias_transcurridos
-            FROM alquileres a
-            JOIN productos p ON a.id_producto = p.id_producto
-            WHERE a.id_usuario = ? AND a.devuelto = 0
-        ");
-        $stmt->bind_param("i", $id_usuario);
-    }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-        echo "<div class='alert alert-info'>No hay alquileres activos.</div>";
-    } else {
-        echo "<div class='table-responsive'>
-                <table class='table table-bordered table-hover align-middle'>
-                    <thead class='table-dark text-center'>
-                        <tr>
-                            <th>Título</th>
-                            <th>Tipo</th>
-                            <th>Fecha de alquiler</th>";
+        <?php
         if ($rol === 'administrador') {
-            echo "<th>Usuario</th><th>Días transcurridos</th>";
+            $stmt = $conn->prepare("
+                SELECT a.*, p.titulo, p.imagen, p.tipo, u.username, DATEDIFF(NOW(), a.fecha_alquiler) AS dias_transcurridos
+                FROM alquileres a
+                JOIN productos p ON a.id_producto = p.id_producto
+                JOIN usuarios u ON a.id_usuario = u.id_usuario
+                WHERE a.devuelto = 0
+            ");
+        } else {
+            $stmt = $conn->prepare("
+                SELECT a.*, p.titulo, p.imagen, p.tipo, DATEDIFF(NOW(), a.fecha_alquiler) AS dias_transcurridos
+                FROM alquileres a
+                JOIN productos p ON a.id_producto = p.id_producto
+                WHERE a.id_usuario = ? AND a.devuelto = 0
+            ");
+            $stmt->bind_param("i", $id_usuario);
         }
-        echo "<th>Estado</th>";
-        if ($rol === 'administrador') {
-            echo "<th>Acción</th>";
-        }
-        echo "</tr></thead><tbody>";
 
-        while ($row = $result->fetch_assoc()) {
-            $dias = intval($row['dias_transcurridos']);
-            $estado = $dias < 3 
-                ? "<span class='text-success fw-bold'>✔️</span>" 
-                : "<span class='text-danger fw-bold'>❌</span>";
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            echo "<tr>
-                    <td>" . htmlspecialchars($row['titulo']) . "</td>
-                    <td>" . htmlspecialchars($row['tipo']) . "</td>
-                    <td>" . htmlspecialchars($row['fecha_alquiler']) . "</td>";
-
+        if ($result->num_rows === 0) {
+            echo "<div class='alert alert-info'>No hay alquileres activos.</div>";
+        } else {
+            echo "<div class='table-responsive'>
+                    <table class='table table-bordered table-hover align-middle'>
+                        <thead class='table-dark text-center'>
+                            <tr>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Fecha de alquiler</th>";
             if ($rol === 'administrador') {
-                echo "<td>" . htmlspecialchars($row['username']) . "</td>
-                      <td class='text-center'>" . $dias . " días</td>";
+                echo "<th>Usuario</th><th>Días transcurridos</th>";
+            }
+            echo "<th>Estado</th>";
+            if ($rol === 'administrador') {
+                echo "<th>Acción</th>";
+            }
+            echo "</tr></thead><tbody>";
+
+            while ($row = $result->fetch_assoc()) {
+                $dias = intval($row['dias_transcurridos']);
+                $estado = $dias < 3 
+                    ? "<span class='text-success fw-bold'>✔️</span>" 
+                    : "<span class='text-danger fw-bold'>❌</span>";
+
+                echo "<tr>
+                        <td>" . htmlspecialchars($row['titulo']) . "</td>
+                        <td>" . htmlspecialchars($row['tipo']) . "</td>
+                        <td>" . htmlspecialchars($row['fecha_alquiler']) . "</td>";
+
+                if ($rol === 'administrador') {
+                    echo "<td>" . htmlspecialchars($row['username']) . "</td>
+                          <td class='text-center'>" . $dias . " días</td>";
+                }
+
+                echo "<td class='text-center'>" . $estado . "</td>";
+
+                if ($rol === 'administrador') {
+                    echo "<td class='text-center'>
+                            <form method='POST' action='finalizar_alquiler.php' class='d-inline'>
+                                <input type='hidden' name='id_alquiler' value='" . intval($row['id_alquiler']) . "'>
+                                <input type='hidden' name='id_producto' value='" . intval($row['id_producto']) . "'>
+                                <button type='submit' class='btn btn-sm btn-danger'>Finalizar</button>
+                            </form>
+                        </td>";
+                }
+
+                echo "</tr>";
             }
 
-            echo "<td class='text-center'>" . $estado . "</td>";
-
-            if ($rol === 'administrador') {
-                echo "<td class='text-center'>
-                        <form method='POST' action='finalizar_alquiler.php' class='d-inline'>
-                            <input type='hidden' name='id_alquiler' value='" . intval($row['id_alquiler']) . "'>
-                            <input type='hidden' name='id_producto' value='" . intval($row['id_producto']) . "'>
-                            <button type='submit' class='btn btn-sm btn-danger'>Finalizar</button>
-                        </form>
-                    </td>";
-            }
-
-            echo "</tr>";
+            echo "</tbody></table></div>";
         }
 
-        echo "</tbody></table></div>";
-    }
-
-    $conn->close();
-    ?>
+        $conn->close();
+        ?>
+    </div>
 </div>
 
+<!-- Footer sticky -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
-        <p class="mb-0">&copy; 2023 Videoclub Online. Todos los derechos reservados.</p>
+        <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>
         <div class="mt-2">
             <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
             <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
