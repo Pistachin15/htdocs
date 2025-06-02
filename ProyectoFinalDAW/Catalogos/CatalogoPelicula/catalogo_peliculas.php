@@ -23,6 +23,17 @@ $rol = $_SESSION['rol'] ?? null;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
         .card:hover {
             transform: scale(1.02);
             transition: transform 0.2s;
@@ -84,53 +95,52 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </nav>
 
+<main>
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">Catálogo de Películas</h1>
 
-<!-- Contenido -->
-<div class="container my-5">
-    <h1 class="mb-4 text-center">Catálogo de Películas</h1>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <a href="../detalle_producto.php?id=<?= $row['id_producto'] ?>" class="text-decoration-none text-dark">
+                            <?php if (!empty($row['imagen'])): ?>
+                                <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/Peliculas/<?= htmlspecialchars($row['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['titulo']) ?>">
+                            <?php else: ?>
+                                <div class="card-img-top bg-secondary text-white text-center d-flex align-items-center justify-content-center" style="height: 300px;">
+                                    Sin imagen
+                                </div>
+                            <?php endif; ?>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <a href="../detalle_producto.php?id=<?= $row['id_producto'] ?>" class="text-decoration-none text-dark">
-                        <?php if (!empty($row['imagen'])): ?>
-                            <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/Peliculas/<?= htmlspecialchars($row['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['titulo']) ?>">
-                        <?php else: ?>
-                            <div class="card-img-top bg-secondary text-white text-center d-flex align-items-center justify-content-center" style="height: 300px;">
-                                Sin imagen
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($row['titulo']) ?></h5>
+                                <p class="card-text">
+                                    <strong>Precio de compra:</strong> €<?= number_format($row['precio_compra'], 2) ?><br>
+                                    <strong>Precio de alquiler:</strong> €<?= number_format($row['precio_alquiler'], 2) ?>
+                                </p>
+                            </div>
+                        </a>
+
+                        <?php if ($rol === 'administrador'): ?>
+                            <div class="card-footer d-flex justify-content-between">
+                                <form action="../../Administrador/Admin_Catalogo/EditarProductos/editar_producto.php" method="get">
+                                    <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
+                                    <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                                </form>
+                                <form action="../../Administrador/Admin_Catalogo/BorrarProductos/borrar_producto.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta película?');">
+                                    <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                </form>
                             </div>
                         <?php endif; ?>
-
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($row['titulo']) ?></h5>
-                            <p class="card-text">
-                                <strong>Precio de compra:</strong> €<?= number_format($row['precio_compra'], 2) ?><br>
-                                <strong>Precio de alquiler:</strong> €<?= number_format($row['precio_alquiler'], 2) ?>
-                            </p>
-                        </div>
-                    </a>
-
-                    <?php if ($rol === 'administrador'): ?>
-                        <div class="card-footer d-flex justify-content-between">
-                            <form action="../../Administrador/Admin_Catalogo/EditarProductos/editar_producto.php" method="get">
-                                <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
-                                <button type="submit" class="btn btn-primary btn-sm">Editar</button>
-                            </form>
-                            <form action="../../Administrador/Admin_Catalogo/BorrarProductos/borrar_producto.php" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta película?');">
-                                <input type="hidden" name="id" value="<?= $row['id_producto'] ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
-                            </form>
-                        </div>
-                    <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-        <?php endwhile; ?>
+            <?php endwhile; ?>
+        </div>
     </div>
-</div>
+</main>
 
-<!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="bg-dark text-white py-4 mt-auto">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>
         <div class="mt-2">

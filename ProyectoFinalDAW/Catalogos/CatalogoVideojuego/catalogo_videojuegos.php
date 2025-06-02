@@ -34,7 +34,7 @@ $rol = $_SESSION['rol'] ?? null;
         }
     </style>
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -54,7 +54,7 @@ $rol = $_SESSION['rol'] ?? null;
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Gestión
+                            Gestión
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
@@ -85,7 +85,7 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </nav>
 
-
+<!-- Contenido -->
 <div class="container my-5">
     <h1 class="mb-4 text-center">Catálogo de Videojuegos</h1>
 
@@ -129,7 +129,8 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </div>
 
-<footer class="bg-dark text-white py-4 mt-5">
+<!-- Footer fijo abajo -->
+<footer class="bg-dark text-white py-4 mt-auto">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>
         <div class="mt-2">
