@@ -55,7 +55,6 @@ $rol = $_SESSION['rol'];
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../index.php">Level Up Video</a>
@@ -77,7 +76,7 @@ $rol = $_SESSION['rol'];
                 </li>
                 <li class="nav-item mx-2 mt-2 mt-lg-0">
                     <a href="../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">
-                        🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)
+                        🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)
                     </a>
                 </li>
 

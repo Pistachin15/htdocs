@@ -26,49 +26,68 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
     />
     <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        main {
-            flex: 1;
-        }
+    html, body {
+        height: 100%;
+    }
 
-        #carouselProductos img {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+    }
+
+    /* Carousel: altura fija, con imágenes recortadas al encajar */
+    #carouselProductos {
+        max-width: 100%;
+    }
+
+    #carouselProductos .carousel-inner,
+    #carouselProductos .carousel-item {
+        height: 500px;
+    }
+
+    #carouselProductos img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 767.98px) {
+        #carouselProductos .carousel-inner,
+        #carouselProductos .carousel-item {
+            height: 250px;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        #carouselProductos .carousel-inner,
+        #carouselProductos .carousel-item {
+            height: 350px;
+        }
+    }
+
+    /* Espaciado sidebar en móviles */
+    .sidebar-publicaciones {
+        margin-top: 2rem;
+    }
+
+    /* Navbar cart buttons spacing on small screens */
+    @media (max-width: 575.98px) {
+        .navbar-nav .btn {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
             width: 100%;
-            max-height: 500px;
-            object-fit: cover;
+            text-align: center;
         }
-        @media (max-width: 767.98px) { 
-            #carouselProductos img {
-                max-height: 250px;
-            }
+        .navbar-nav .nav-item {
+            width: 100%;
         }
-        @media (min-width: 768px) and (max-width: 991.98px) { 
-            #carouselProductos img {
-                max-height: 350px;
-            }
-        }
+    }
+</style>
 
-        .sidebar-publicaciones {
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 575.98px) {
-            .navbar-nav .btn {
-                margin-top: 0.5rem;
-                margin-bottom: 0.5rem;
-                width: 100%;
-                text-align: center;
-            }
-            .navbar-nav .nav-item {
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegación principal">
@@ -95,7 +114,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
                         <a href="Carrito/ver_cesta.php" class="btn btn-outline-primary mx-1">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a>
                     </li>
                     <li class="nav-item">
-                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary mx-1">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
+                        <a href="CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary mx-1">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a>
                     </li>
 
                     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>

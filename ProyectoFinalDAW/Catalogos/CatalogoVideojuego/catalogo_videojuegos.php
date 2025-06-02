@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../login.php'; 
+require_once '../../login.php'; // contiene $hn, $db, $un, $pw
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
@@ -20,10 +20,22 @@ $rol = $_SESSION['rol'] ?? null;
     <title>Catálogo de Videojuegos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Bootstrap y Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+        main {
+            flex: 1;
+        }
         .card:hover {
             transform: scale(1.02);
             transition: transform 0.2s;
@@ -34,8 +46,9 @@ $rol = $_SESSION['rol'] ?? null;
         }
     </style>
 </head>
-<body class="bg-light d-flex flex-column min-vh-100">
+<body>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../../index.php">Level Up Video</a>
@@ -49,12 +62,13 @@ $rol = $_SESSION['rol'] ?? null;
                 <li class="nav-item"><a class="nav-link active" href="../../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php">Juegos</a></li>
                 <li class="nav-item"><a class="nav-link" href="../../AlquileresActivos/alquileres_activos.php">Alquileres Activos</a></li>
                 <li><a href="../../Carrito/ver_cesta.php" class="btn btn-outline-primary">🛒 Cesta (<?= count($_SESSION['cesta'] ?? []) ?>)</a></li>
-                <li><a href="../../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🛒 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
+                <li><a href="../../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
+                    <!-- Desplegable de administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Gestión
+                        Gestión
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../../Administrador/SeleccionProductoInsertar.php">Añadir Productos</a></li>
@@ -86,7 +100,7 @@ $rol = $_SESSION['rol'] ?? null;
 </nav>
 
 <!-- Contenido -->
-<div class="container my-5">
+<main class="container my-5">
     <h1 class="mb-4 text-center">Catálogo de Videojuegos</h1>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -127,10 +141,10 @@ $rol = $_SESSION['rol'] ?? null;
             </div>
         <?php endwhile; ?>
     </div>
-</div>
+</main>
 
-<!-- Footer fijo abajo -->
-<footer class="bg-dark text-white py-4 mt-auto">
+<!-- Footer -->
+<footer class="bg-dark text-white py-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>
         <div class="mt-2">
