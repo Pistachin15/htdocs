@@ -30,6 +30,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
+    if ($fecha_nacimiento > date("Y-m-d")) {
+        header("Location: registro.php?error=" . urlencode("La fecha de nacimiento no puede ser futura"));
+        exit();
+    }
+    if ($fecha_nacimiento < "1900-01-01") {
+    header("Location: registro.php?error=" . urlencode("La fecha de nacimiento no puede ser anterior a 1907"));
+    exit();
+    }
+
     // Comprobar si el usuario ya existe
     $consulta = $conn->prepare("SELECT username FROM usuarios WHERE username = ?");
     $consulta->bind_param("s", $usuario);
