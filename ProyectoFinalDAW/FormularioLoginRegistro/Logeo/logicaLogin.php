@@ -2,7 +2,7 @@
 session_start();
 require_once '../../login.php';
 
-$error = ''; // Variable para mostrar errores
+$error = ''; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['password'])) {
     $conn = new mysqli($hn, $un, $pw, $db);

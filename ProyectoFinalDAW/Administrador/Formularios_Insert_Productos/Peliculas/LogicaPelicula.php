@@ -50,7 +50,6 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// Procesar imagen
 $imagenNombre = null;
 $carpetaDestino = "imagenesPeliculas/";
 

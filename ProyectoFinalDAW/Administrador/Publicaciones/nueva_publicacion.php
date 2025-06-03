@@ -124,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 </div>
 
-<!-- Footer -->
 <footer class="py-4 text-center">
     <div class="container">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>

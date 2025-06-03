@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once "login.php"; // Conexión a la BD
-
+require_once "login.php"; 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
@@ -22,8 +21,8 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
     />
     <style>
     html, body {
@@ -39,7 +38,6 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
         flex: 1;
     }
 
-    /* Carousel: altura fija, con imágenes recortadas al encajar */
     #carouselProductos {
         max-width: 100%;
     }
@@ -69,12 +67,10 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
         }
     }
 
-    /* Espaciado sidebar en móviles */
     .sidebar-publicaciones {
         margin-top: 2rem;
     }
 
-    /* Navbar cart buttons spacing on small screens */
     @media (max-width: 575.98px) {
         .navbar-nav .btn {
             margin-top: 0.5rem;
@@ -132,7 +128,7 @@ $publicaciones = $conn->query("SELECT id_publicacion, titulo, contenido, autor, 
 
                     <?php if (isset($_SESSION['nombreUsu'])): ?>
                         <li class="nav-item me-2 d-flex align-items-center text-white">
-                            Bienvenido, <?= htmlspecialchars($_SESSION['nombreUsu']); ?>
+                            Bienvenid@, <?= htmlspecialchars($_SESSION['nombreUsu']); ?>
                         </li>
                         <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="logout.php">Cerrar sesión</a></li>
                     <?php else: ?>

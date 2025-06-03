@@ -96,7 +96,6 @@
     return true;
   }
 
-  // Validación visual con Bootstrap
   (() => {
     'use strict';
     const forms = document.querySelectorAll('.needs-validation');

@@ -2,14 +2,12 @@
 session_start();
 require_once '../login.php';
 
-// Recoger datos del formulario
 $tipo = $_POST['tipo'] ?? '';
 $nombre = trim($_POST['nombre'] ?? '');
 $tarjeta = trim($_POST['tarjeta'] ?? '');
 $caducidad = trim($_POST['caducidad'] ?? '');
 $cvv = trim($_POST['cvv'] ?? '');
 
-// Validación básica de formato
 if (!in_array($tipo, ['compra', 'alquiler']) ||
     empty($nombre) || !preg_match('/^[\p{L}\s]+$/u', $nombre) ||
     !preg_match('/^\d{16}$/', $tarjeta) ||
@@ -20,7 +18,6 @@ if (!in_array($tipo, ['compra', 'alquiler']) ||
     exit;
 }
 
-// Validar que la tarjeta no esté caducada
 list($mes, $anio) = explode('/', $caducidad);
 $mes = (int)$mes;
 $anio = (int)$anio;
@@ -33,7 +30,6 @@ if ($anio < $anio_actual || ($anio === $anio_actual && $mes < $mes_actual)) {
     exit;
 }
 
-// Obtener la cesta según el tipo
 $cesta = $tipo === 'compra' ? ($_SESSION['cesta'] ?? []) : ($_SESSION['cesta_alquiler'] ?? []);
 if (empty($cesta)) {
     $_SESSION['error_pago'] = "Tu cesta está vacía.";
@@ -41,7 +37,6 @@ if (empty($cesta)) {
     exit;
 }
 
-// Obtener ID del usuario
 $id_usuario = $_SESSION['id_usu'] ?? 0;
 if (!$id_usuario || !is_numeric($id_usuario)) {
     $_SESSION['error_pago'] = "Usuario no identificado.";
@@ -49,7 +44,6 @@ if (!$id_usuario || !is_numeric($id_usuario)) {
     exit;
 }
 
-// Conectar a la base de datos
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
     $_SESSION['error_pago'] = "Error de conexión con la base de datos.";
@@ -57,7 +51,6 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Procesar productos
 foreach ($cesta as $id => $producto) {
     $res = $conn->query("SELECT stock FROM productos WHERE id_producto = $id");
     if (!$res || $res->num_rows === 0) continue;
@@ -69,11 +62,9 @@ foreach ($cesta as $id => $producto) {
         exit;
     }
 
-    // Actualizar stock
     $nuevo_stock = $stock - $producto['cantidad'];
     $conn->query("UPDATE productos SET stock = $nuevo_stock WHERE id_producto = $id");
 
-    // Registrar la operación
     if ($tipo === 'compra') {
         $total = $producto['precio'] * $producto['cantidad'];
         $cantidad = $producto['cantidad'];
@@ -89,13 +80,11 @@ foreach ($cesta as $id => $producto) {
 
 $conn->close();
 
-// Vaciar la cesta correspondiente
 if ($tipo === 'compra') {
     unset($_SESSION['cesta']);
 } else {
     unset($_SESSION['cesta_alquiler']);
 }
 
-// Redirigir a mensaje de éxito
 header("Location: compra_exitosa.php?tipo=$tipo");
 exit;

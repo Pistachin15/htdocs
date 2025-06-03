@@ -121,7 +121,6 @@ $conn->close();
         stockInput.value = actual;
     }
 
-    // Validación de Bootstrap
     (() => {
         'use strict';
         const forms = document.querySelectorAll('.needs-validation');

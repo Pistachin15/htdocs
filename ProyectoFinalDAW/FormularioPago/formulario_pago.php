@@ -92,28 +92,54 @@ if ($tipo === 'alquiler' && empty($_SESSION['cesta_alquiler'])) {
 </div>
 
 <script>
-    // Validación visual Bootstrap
     (() => {
         'use strict';
         const forms = document.querySelectorAll('.needs-validation');
         Array.from(forms).forEach(form => {
             form.addEventListener('submit', event => {
+                const caducidadInput = document.getElementById("caducidad");
+                const caducidad = caducidadInput.value;
+                const [mes, año] = caducidad.split('/').map(x => parseInt(x, 10));
+
+                let esValida = true;
+
                 if (!form.checkValidity()) {
+                    esValida = false;
+                }
+
+                if (!isNaN(mes) && !isNaN(año)) {
+                    const ahora = new Date();
+                    const mesActual = ahora.getMonth() + 1;
+                    const añoActual = ahora.getFullYear() % 100;
+
+                    if (año < añoActual || (año === añoActual && mes < mesActual)) {
+                        esValida = false;
+                        caducidadInput.classList.remove("is-valid");
+                        caducidadInput.classList.add("is-invalid");
+                        caducidadInput.nextElementSibling.textContent = "La fecha de caducidad no puede ser anterior al mes actual.";
+                    } else {
+                        caducidadInput.classList.remove("is-invalid");
+                        caducidadInput.classList.add("is-valid");
+                    }
+                }
+
+                if (!esValida) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
+
                 form.classList.add('was-validated');
             }, false);
         });
     })();
 
-    // Autoformato MM/AA
     document.getElementById("caducidad").addEventListener("input", function (e) {
         let value = e.target.value.replace(/[^\d]/g, '');
-        if (value.length >= 2 && !value.includes('/')) {
-            e.target.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        if (value.length >= 2) {
+            e.target.value = value.slice(0, 2) + (value.length > 2 ? '/' + value.slice(2, 4) : '');
         }
     });
 </script>
+
 </body>
 </html>

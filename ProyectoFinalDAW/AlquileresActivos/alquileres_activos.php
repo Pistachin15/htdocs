@@ -114,7 +114,6 @@ $rol = $_SESSION['rol'];
     </div>
 </nav>
 
-<!-- Contenido principal envuelto para sticky footer -->
 <div class="content-wrapper">
     <div class="container my-5">
         <h2 class="mb-4 text-center">Alquileres Activos</h2>
@@ -199,7 +198,6 @@ $rol = $_SESSION['rol'];
     </div>
 </div>
 
-<!-- Footer sticky -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>

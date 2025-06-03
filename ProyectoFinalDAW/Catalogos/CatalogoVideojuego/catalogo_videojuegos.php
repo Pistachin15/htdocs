@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../login.php'; // contiene $hn, $db, $un, $pw
+require_once '../../login.php'; 
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
@@ -20,7 +20,6 @@ $rol = $_SESSION['rol'] ?? null;
     <title>Catálogo de Videojuegos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap y Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
@@ -48,7 +47,6 @@ $rol = $_SESSION['rol'] ?? null;
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="../../index.php">Level Up Video</a>
@@ -65,7 +63,6 @@ $rol = $_SESSION['rol'] ?? null;
                 <li><a href="../../CarritoAlquiler/ver_cesta_alquiler.php" class="btn btn-outline-primary">🎞 Cesta Alquiler (<?= count($_SESSION['cesta_alquiler'] ?? []) ?>)</a></li>
 
                 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador'): ?>
-                    <!-- Desplegable de administrador -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-success text-white mx-2" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Gestión
@@ -99,7 +96,6 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </nav>
 
-<!-- Contenido -->
 <main class="container my-5">
     <h1 class="mb-4 text-center">Catálogo de Videojuegos</h1>
 
@@ -143,7 +139,6 @@ $rol = $_SESSION['rol'] ?? null;
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2025 Level Up Video. Todos los derechos reservados.</p>

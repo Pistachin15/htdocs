@@ -35,7 +35,6 @@ while ($row = $result->fetch_assoc()) {
     $comprasPorMes[] = $row;
 }
 
-// Alquileres por mes
 $alquileresPorMes = [];
 $result = $conn->query("
     SELECT DATE_FORMAT(fecha_alquiler, '%Y-%m') AS mes, COUNT(*) AS total

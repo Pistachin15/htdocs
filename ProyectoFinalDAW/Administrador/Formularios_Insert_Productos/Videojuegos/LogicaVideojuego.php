@@ -38,7 +38,6 @@ if ($stock < 0 || $precio_compra < 0 || $precio_alquiler < 0 || empty($titulo) |
     exit();
 }
 
-// Verificar si el videojuego ya existe
 $stmt = $conn->prepare("SELECT id_producto FROM productos WHERE titulo = ? AND tipo = ?");
 $stmt->bind_param("ss", $titulo, $tipo);
 $stmt->execute();
@@ -81,7 +80,6 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
     exit();
 }
 
-// Insertar en la base de datos
 $stmt = $conn->prepare("INSERT INTO productos (titulo, tipo, descripcion, stock, precio_compra, precio_alquiler, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("sssidds", $titulo, $tipo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenNombre);
 
