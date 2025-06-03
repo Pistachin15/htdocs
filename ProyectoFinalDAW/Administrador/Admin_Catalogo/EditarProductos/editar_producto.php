@@ -79,14 +79,6 @@ $conn->close();
             <input type="number" class="form-control" name="precio_alquiler" step="0.01" min="0" required value="<?= $producto['precio_alquiler'] ?>">
         </div>
 
-        <div class="col-md-6">
-            <label for="imagen" class="form-label">Imagen (opcional)</label>
-            <input type="file" class="form-control" name="imagen" accept="image/*">
-            <?php if (!empty($producto['imagen'])): ?>
-                <p class="mt-2">Imagen actual: <img src="/ProyectoFinalDAW/Administrador/Formularios_Insert_Productos/<?= ucfirst($producto['tipo']) ?>s/<?= htmlspecialchars($producto['imagen']) ?>" width="100" alt="Imagen actual"></p>
-            <?php endif; ?>
-        </div>
-
         <div class="col-12 text-end">
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>

@@ -40,6 +40,9 @@
       </div>
       <input type="hidden" name="tipo" value="película">
       <button type="submit" class="btn btn-primary">Insertar</button>
+      <div class="mt-3">
+            <a href="../../../index.php" class="btn btn-secondary">Volver al Inicio</a>
+      </div>
     </form>
   </div>
 

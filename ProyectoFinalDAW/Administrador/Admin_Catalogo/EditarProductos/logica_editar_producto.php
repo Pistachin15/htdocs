@@ -34,40 +34,15 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-$imagenNombre = null;
-if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-    $extensiones = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-    $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
-
-    if (!in_array($ext, $extensiones)) {
-        mostrarError("Formato de imagen inválido.");
-    }
-
-    $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '', pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME));
-    $directorio = "Formularios_Insert_Productos/" . ucfirst($tipo) . "s/";
-    if (!is_dir($directorio)) mkdir($directorio, 0777, true);
-
-    $imagenNombre = $directorio . uniqid('', true) . "_" . $nombreLimpio . "." . $ext;
-
-    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], "../../" . $imagenNombre)) {
-        mostrarError("Error al subir la imagen.");
-    }
-}
-
-if ($imagenNombre) {
-    $stmt = $conn->prepare("UPDATE productos SET titulo=?, descripcion=?, stock=?, precio_compra=?, precio_alquiler=?, imagen=? WHERE id_producto=?");
-    $stmt->bind_param("ssiddsi", $titulo, $descripcion, $stock, $precio_compra, $precio_alquiler, $imagenNombre, $id);
-} else {
-    $stmt = $conn->prepare("UPDATE productos SET titulo=?, descripcion=?, stock=?, precio_compra=?, precio_alquiler=? WHERE id_producto=?");
-    $stmt->bind_param("ssiddi", $titulo, $descripcion, $stock, $precio_compra, $precio_alquiler, $id);
-}
+$stmt = $conn->prepare("UPDATE productos SET titulo=?, descripcion=?, stock=?, precio_compra=?, precio_alquiler=? WHERE id_producto=?");
+$stmt->bind_param("ssiddi", $titulo, $descripcion, $stock, $precio_compra, $precio_alquiler, $id);
 
 if ($stmt->execute()) {
-        if ($tipo === 'videojuego') {
-            header("Location: ../../../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php");
-        } elseif ($tipo === 'película') {
-            header("Location: ../../../Catalogos/CatalogoPelicula/catalogo_peliculas.php");
-        }
+    if ($tipo === 'videojuego') {
+        header("Location: ../../../Catalogos/CatalogoVideojuego/catalogo_videojuegos.php");
+    } elseif ($tipo === 'película') {
+        header("Location: ../../../Catalogos/CatalogoPelicula/catalogo_peliculas.php");
+    }
 } else {
     mostrarError("Error al actualizar el producto.");
 }
